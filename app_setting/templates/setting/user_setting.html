@@ -1,0 +1,103 @@
+<!doctype html>
+{% load static %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"rel="stylesheet"integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"crossorigin="anonymous"/>
+        <link href="{% static 'css/user_setting_style.css' %}"rel="stylesheet"type="text/css"/>
+        <title>ユーザー設定</title>
+    </head>
+    <body>      
+        <header>
+            <div class="user-name">
+                <p class="user-dept">{{ user.dept.dept }}</p>
+            <p>{{ user.last_name }} {{ user.fast_name }} 様</p>
+            </div>
+        </header>
+        <div class="wrapper">
+            <div class="title">
+                <h2>ユーザー設定</h2>
+            </div>
+            <div class="form-outer">
+                    <form method="post">
+                    {% csrf_token %}
+                        
+                    <div class="form-title">
+                        <img src="/media/images/settng.png" width="20px" height="20px"/>
+                        <h3>部署切替</h3>
+                    </div>
+                    <div class="form-inner border border-3 rounded-3 bg-white">
+                        <div class="form-group">
+                            <div class="form-group-content">
+                                <div class="form-group-content-block">
+                                    <div class="form-group-content-item">
+                                        <p>部署変更：</p>
+                                        <div class="card_list">
+                                            <select name="user_dept" class="form-control">
+                                                {% for Value in dept %}
+                                                <option value={{ Value.number }} {% if Value.dept == user.dept.dept %}selected{% endif %}>{{ Value.dept }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-content">
+                                <div class="form-group-content-block">
+                                    <div class="form-group-content-item">    
+                                        <p>エリア変更：</p>
+                                        <div class="card_list">
+                                            <select id="work_add_class" name="user_area" class="form-control">
+                                                {% for Value in area %}
+                                                <option value={{ Value.number }} {% if Value.area == user.area.area %}selected{% endif %}>{{ Value.area }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group-button">
+                                <button type="submit" class="btn btn-primary" name="user_save_button">保存</button>
+                            </div>    
+                        </div>
+                    </div>
+                </form>
+                </div>
+                
+                <div class="form-outer">
+                    <div class="form-title">
+                        <img src="/media/images/settng.png"width="20px" height="20px">
+                        <h3>ユーザー作業区分 編集</h3>
+                    </div>
+                    <div class="form-inner border border-3 rounded-3 bg-white">
+                        <div class="form-group">
+                            <div class="form-group-content">
+                                <div class="form-group-content-block">
+                                    <div class="form-group-content-item">
+                                        <p>作業区分 追加内容</p>
+                                        <div id="erorr_message"></div>
+                                        <input type="text" class="add_text"id="work_class_add"/>
+                                        <input type="hidden" value={% url "ajax_addworkclass" %} id="url_class_add" />
+                                        <input type="hidden" value={% url "ajax_delworkclass" %} id="url_class_del" />
+                                        <button type="button" id="work_class_add_button"class="select_add_button">追加</button>
+                                    </div>    
+                                </div>    
+                                <div class="form-group-content-select">
+                                    <select id="work_class_select" size ="10"class="card_list_select">
+                                        {% for Value in workclass %}
+                                        <option class="" value={{ Value.contents }}>{{ Value.contents }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <input type="button" id="work_class_del_button" class="select_del_button"value="削除" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <script src="{% static 'js/jQuery-3.6.0.min.js' %}"></script>
+        <script src="{% static 'js/mai.js' %}"></script>
+    </body>
+</html>

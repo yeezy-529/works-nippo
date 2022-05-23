@@ -232,6 +232,61 @@ def Get_data(request):
                         "PastUser":PastUser
                         })
 
+def Edit_data(request):
+    edit_date      =request.POST.get("edit_date")
+    edit_name      =request.POST.get("edit_name")
+    edit_dept      =request.POST.get("edit_dept")
+    edit_matter    =request.POST.get("edit_matter")
+    edit_class     =request.POST.get("edit_class")
+    edit_content   =request.POST.get("edit_content")
+    edit_start     =request.POST.get("edit_start")
+    edit_end       =request.POST.get("edit_end")
+    edit_total     =request.POST.get("edit_total")
+    backup_date    =request.POST.get("backup_date")
+    backup_name    =request.POST.get("backup_name")
+    backup_dept    =request.POST.get("backup_dept")
+    backup_matter  =request.POST.get("backup_matter")
+    backup_class   =request.POST.get("backup_class")
+    backup_content =request.POST.get("backup_content")
+    backup_start   =request.POST.get("backup_start")
+    backup_end     =request.POST.get("backup_end")
+    backup_total   =request.POST.get("backup_total")
+    print(edit_date)
+    print(edit_name)
+    print(edit_dept)
+    print(edit_matter)
+    print(edit_class)
+    print(edit_content)
+    print(edit_start)
+    print(edit_end)
+    print(edit_total)
+    print(backup_date)
+    print(backup_name)
+    print(backup_dept)
+    print(backup_matter)
+    print(backup_class)
+    print(backup_content)
+    print(backup_start)
+    print(backup_end)
+    print(backup_total)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    return JsonResponse({})
 
 
 

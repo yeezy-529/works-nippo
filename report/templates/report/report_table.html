@@ -26,10 +26,48 @@
             <div class="title">
                 <h2 class="title_h2">日報承認</h2>
             </div>
+
+
+            <!-- モーダールウィンドウ　編集画面 -->
+            <div class="modal-container">
+                <div class="modal-body">
+                    <!-- 閉じるボタン -->
+                    <div class="modal-close">×</div>
+                    <!-- モーダル内のコンテンツ -->
+                    <div class="modal-content">
+                        <h4>日報編集</h4>
+                        <div class="modal1">
+                            <input type="text" id="edit_date" value="" />
+                            <input type="text" id="edit_name" value="" />
+                            <input type="text" id="edit_dept" value="" />
+                            <input type="text" id="edit_matter" value="" />
+                            <input type="text" id="edit_class" value="" />
+                            <input type="text" id="edit_content" value="" />
+                            <input type="text" id="edit_start" value="" />
+                            <input type="text" id="edit_end" value="" />
+                            <input type="text" id="edit_total" value="" />
+
+                            <input type="hidden" id="backup_date" value="" />
+                            <input type="hidden" id="backup_name" value="" />
+                            <input type="hidden" id="backup_dept" value="" />
+                            <input type="hidden" id="backup_matter" value="" />
+                            <input type="hidden" id="backup_class" value="" />
+                            <input type="hidden" id="backup_content" value="" />
+                            <input type="hidden" id="backup_start" value="" />
+                            <input type="hidden" id="backup_end" value="" />
+                            <input type="hidden" id="backup_total" value="" />
+
+                            <button type="button" id="edit-submit">登録</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             {% comment %} <form method="get"> {% endcomment %}
                 {% csrf_token %}
                 <div id="past_user" class="Notification_banner border border-3 rounded-3">
-                    <p> <通知> </p>
+                    <p> -＜通知＞- </p>
                 </div>
                 <div class="top">
                     

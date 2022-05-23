@@ -28,7 +28,11 @@
             </div>
             {% comment %} <form method="get"> {% endcomment %}
                 {% csrf_token %}
+                <div id="past_user" class="Notification_banner border border-3 rounded-3">
+                    <p> <通知> </p>
+                </div>
                 <div class="top">
+                    
                     <div class="search-data-form border border-3 rounded-3">
                         <div class="checkbox_content checkbox-item-0">
                             <input class="calendar-contents date_contens " type="date"name="date_checkbox"id="today"/>

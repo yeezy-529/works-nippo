@@ -175,8 +175,8 @@ def Report_tableViews(request):
 
 
 def Get_data(request):
-    area =        request.POST.get("erea_val")
-    dept =  request.POST.get('dept_val')
+    area = request.POST.get("erea_val")
+    dept = request.POST.get('dept_val')
     day =  request.POST.get('day_val')
     if dept == "製造部":
         dept_number = 1
@@ -200,20 +200,37 @@ def Get_data(request):
                 "return_data_2":day,
                 }
     data = reports.objects.all().order_by('-Report_Row_date')
+    # 編集する
     if day != None and dept != None and area != None:
         data = reports.objects.filter(
             Report_User_dept = dept,
             Report_User_area = area,
-            Report_Row_date = day
+            Report_Row_date =  day
             ).order_by('-Report_Row_date')
+        
+        past_data = reports.objects.filter(
+            Report_Check_number = 1,
+            ).order_by('-Report_Row_date')
+        
+        data1 = [i for i in past_data if day != i.Report_Row_date]
+        
+        PastUser = [{"date":i.Report_Row_date,"name":i.Report_User_name} for i in data1]
+        # PastUser = data1[0].Report_Row_date
+        # print(PastUser)
     json_data = list(data.values())
 
     # 未提出者抽出
     ReportUser = list(set([i.Report_User_name for i in data]))
     ReturnUser = [i for i in users_lis if not i in ReportUser]
+    
+    # 過去に提出した人検出
 
-
-    return JsonResponse({"data":json_data,"GETparams":GETparams,"Noreport_user":ReturnUser})
+    return JsonResponse({
+                        "data":json_data,
+                        "GETparams":GETparams,
+                        "Noreport_user":ReturnUser,
+                        "PastUser":PastUser
+                        })
 
 
 
@@ -364,8 +381,8 @@ def db_save(code,number):
         pass
 # db工番取得
 def matter_code(kye = ""):
-    matterCode_choice_in_value = [i.matter_code for i in Matter_code.objects.filter(matter_displayinfo = 1).order_by(kye +'matter_code')]
-    matterCode_choice_in_label = [i.matter_code + " " + str(i.matter_name) for i in Matter_code.objects.filter(matter_displayinfo = 1).order_by(kye +'matter_code')]
+    matterCode_choice_in_value =  [i.matter_code for i in Matter_code.objects.filter(matter_displayinfo = 1).order_by(kye +'matter_code')]
+    matterCode_choice_in_label =  [i.matter_code + " " + str(i.matter_name) for i in Matter_code.objects.filter(matter_displayinfo = 1).order_by(kye +'matter_code')]
     matterCode_choice_out_value = [i.matter_code for i in Matter_code.objects.filter(matter_displayinfo = 0).order_by(kye +'matter_code')]
     matterCode_choice_out_label = [i.matter_code + " " + str(i.matter_name) for i in Matter_code.objects.filter(matter_displayinfo = 0).order_by(kye +'matter_code')]
     params = {"matteOutValue":matterCode_choice_out_value,"matteOutLabel":matterCode_choice_out_label,"matteInValue":matterCode_choice_in_value,"matteInLabel":matterCode_choice_in_label}

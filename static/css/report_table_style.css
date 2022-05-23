@@ -59,6 +59,14 @@ a {
   padding-bottom:  5px;   /* 余白指定 */
   margin-bottom: 15px;    /* 周りの余白指定 */
 }
+#past_user{
+  width: 30%;
+  height: 50px;
+  background-color: rgb(231, 231, 231);
+  margin-bottom: 10px;
+  padding: 10px;
+  display: flex;
+}
 .top{
   display: flex;
 }

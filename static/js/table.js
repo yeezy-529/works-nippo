@@ -57,6 +57,11 @@ $("#chengeinfo").click (function (e){
         $('#area_select').val(response.GETparams.return_data_0);
         $('#dept_select').val(response.GETparams.return_data_1);
         $("#today").val(response.GETparams.return_data_2)
+        var PastUser = response.PastUser
+        $("#p_id").remove();
+        $("#past_user").append($("<p id='p_id'>"+"過去に提出された日報があります: " + PastUser[0].date + "</p>"))
+        
+        
         var data = response.data
         var table = document.getElementById("id");
         while (table.rows.length > 1) table.deleteRow(1);
@@ -75,6 +80,7 @@ $("#chengeinfo").click (function (e){
                     .append($("<td></td>").text(data[i].Report_Rowend_time))
                     .append($("<td></td>").text(data[i].Report_Total_time))
                     .append($("<td></td>").text(l))
+                    .append($("<td></td>").append($('<img src="/media/images/3.png" alt="編集"width="20px" height="20px"></img>')))
                     // .append($("<th></th>").text(data[i].Report_Over_time))
                     // .append($("<th></th>").text(data[i].Report_User_area))
                     // .append($("<th></th>").text(data[i].Report_Night_time))

@@ -10,6 +10,10 @@ import pykintone
 from pykintone import model as pykintone_model
 from django.http import JsonResponse
 
+# DB更新filterの場合save()できない
+# save（）したいときはgetを使う又はfirst()
+
+
 time_h =(("","時"),("8","8"),("9","9"),("10","10"),
         ("11","11"),("12","12"),("13","13"),("14","14"),
         ("15","15"),("16","16"),("17","17"),("18","18"),
@@ -94,49 +98,6 @@ def ReportViews(request):
             params = {'form': form ,"record":record,"matter":matter_code(),"workclass":wark_class,"wark_content":wark_content}
     return render(request, 'report/index.html',params)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # 日報テーブルビュー
 @login_required
 def Report_tableViews(request):
@@ -215,15 +176,12 @@ def Get_data(request):
         data1 = [i for i in past_data if day != i.Report_Row_date]
         
         PastUser = [{"date":i.Report_Row_date,"name":i.Report_User_name} for i in data1]
-        # PastUser = data1[0].Report_Row_date
-        # print(PastUser)
     json_data = list(data.values())
 
     # 未提出者抽出
     ReportUser = list(set([i.Report_User_name for i in data]))
     ReturnUser = [i for i in users_lis if not i in ReportUser]
     
-    # 過去に提出した人検出
 
     return JsonResponse({
                         "data":json_data,
@@ -233,74 +191,26 @@ def Get_data(request):
                         })
 
 def Edit_data(request):
-    edit_date      =request.POST.get("edit_date")
-    edit_name      =request.POST.get("edit_name")
-    edit_dept      =request.POST.get("edit_dept")
-    edit_matter    =request.POST.get("edit_matter")
-    edit_class     =request.POST.get("edit_class")
-    edit_content   =request.POST.get("edit_content")
-    edit_start     =request.POST.get("edit_start")
-    edit_end       =request.POST.get("edit_end")
-    edit_total     =request.POST.get("edit_total")
-    backup_date    =request.POST.get("backup_date")
-    backup_name    =request.POST.get("backup_name")
-    backup_dept    =request.POST.get("backup_dept")
-    backup_matter  =request.POST.get("backup_matter")
-    backup_class   =request.POST.get("backup_class")
-    backup_content =request.POST.get("backup_content")
-    backup_start   =request.POST.get("backup_start")
-    backup_end     =request.POST.get("backup_end")
-    backup_total   =request.POST.get("backup_total")
-    print(edit_date)
-    print(edit_name)
-    print(edit_dept)
-    print(edit_matter)
-    print(edit_class)
-    print(edit_content)
-    print(edit_start)
-    print(edit_end)
-    print(edit_total)
-    print(backup_date)
-    print(backup_name)
-    print(backup_dept)
-    print(backup_matter)
-    print(backup_class)
-    print(backup_content)
-    print(backup_start)
-    print(backup_end)
-    print(backup_total)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    edit_report = reports.objects.filter(
+        Report_Row_date = request.POST.get("backup_date"),
+        Report_User_name = request.POST.get("backup_name"),
+        Report_User_dept = request.POST.get("backup_dept"),
+        Report_Work_class = request.POST.get("backup_class"),
+        Report_Work_contents = request.POST.get("backup_content"),
+        Report_Rowstart_time = request.POST.get("backup_start"),
+        Report_Total_time = request.POST.get("backup_total"),
+        ).first()
+    edit_report.Report_User_dept = request.POST.get("edit_dept")
+    edit_report.Report_Row_date = request.POST.get("edit_date")
+    edit_report.Report_Matter_code = request.POST.get("edit_matter")
+    edit_report.Report_Work_class=request.POST.get("edit_class")
+    edit_report.Report_Work_contents=request.POST.get("edit_content")
+    edit_report.Report_Rowstart_time=request.POST.get("edit_start")
+    edit_report.Report_Rowend_time=request.POST.get("edit_end")
+    edit_report.Report_Total_time= request.POST.get("edit_total")
+    edit_report.save()
 
     return JsonResponse({})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     # params = {'data':data.values(),"GETparams":GETparams}
@@ -314,54 +224,6 @@ def Edit_data(request):
     # else:
     #     data = reports.objects.all().order_by('-Report_Row_date')
     # DATA_1 = {"data1":data}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # 日報登録
 class register(pykintone_model.kintoneModel):

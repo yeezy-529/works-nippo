@@ -15,6 +15,45 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'signup/index.html', {'form': form})
 
+def usersettingViews(request):
+    """ユーザー設定画面"""
+    if request.method == 'POST':
+        # 部署、エリア変更
+        if 'user_save_button' in request.POST:
+            user_obj = CustomUser.objects.get(username = request.user)
+            user_obj.area_id = request.POST.get("user_area")
+            user_obj.dept_id = request.POST.get("user_dept")
+            user_obj.save()
+        return redirect("user_setting")
+    elif request.method == 'GET':
+        dept = User_Dept.objects.all()
+        area = User_Area.objects.all()
+        workclass = UserWorkclass.objects.filter(user = request.user)
+        params = {
+            "dept":dept,
+            "area":area,
+            "workclass":workclass
+            }
+        return render(request, 'setting/user_setting.html',params)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def ajax_warkClass_add(request):
     """ユーザー作業区分 追加"""
     js_workclass = request.POST.get("work_class")

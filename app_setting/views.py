@@ -83,7 +83,12 @@ def app_settingsViews(request):
         update_mode = int(setting_obj.matter_update_number)
         auto_number = int(setting_obj.automation_update_mode)
         today = datetime.date.today()
-        params = {"auto_number":auto_number,"update_mode":update_mode}
+        
+        params = {
+            "auto_number":auto_number,
+            "update_mode":update_mode
+            }
+
         for i in obj:
             deadline = i.matter_deadline
             para = i.matter_code
@@ -135,10 +140,10 @@ def app_settingsViews(request):
         """kintoneAPI取得"""
         obj = kintone_setting_model.objects.get(pk=1)
         item = {
-            "kintone_input_API":obj.kintone_input_API,
-            "kintone_output_API":obj.kintone_output_API,
-            "kintone_domain":obj.kintone_domain,
-            "kintone_input_appID":obj.kintone_input_appID,
+            "kintone_input_API":   obj.kintone_input_API,
+            "kintone_output_API":  obj.kintone_output_API,
+            "kintone_domain":      obj.kintone_domain,
+            "kintone_input_appID": obj.kintone_input_appID,
             "kintone_output_appID":obj.kintone_output_appID,
         }
         form = kintone_setting_form(initial=item)            
@@ -154,31 +159,16 @@ def app_settingsViews(request):
             "Dept":Dept,
             })
 
-def usersettingViews(request):
-    """ユーザー設定画面"""
-    if request.method == 'POST':
-        # if 'user_save_button' in request.POST:
-        #     area = request.POST.get("user_area")
-        #     dept = request.POST.get("user_dept")
-        #     # うまくクエリセットを取得できない
-        #     i0 = CustomUser.objects.all()
-        #     i1 = UserWorkclass.objects.all()
-        #     # print(i0.pk)
-        #     print(i0[0].pk)
-            # print(i1)
-            # i = i0.values()
-            # print(i)
-            # i.area = area
-            # i.dept = dept
-            # i.save()
-            # return
-        return render(request, 'setting/user_setting.html')
 
     elif request.method == 'GET':
         dept = User_Dept.objects.all()
         area = User_Area.objects.all()
         workclass = UserWorkclass.objects.filter(user = request.user)
-        params = {"dept":dept,"area":area,"workclass":workclass}
+        params = {
+            "dept":dept,
+            "area":area,
+            "workclass":workclass
+            }
         return render(request, 'setting/user_setting.html',params)
 
 def ajax_addDefaulWorkContent(request):
@@ -198,20 +188,33 @@ def ajax_addDefaulWorkContent(request):
         ):
 
         obj = User_Dept.objects.get(dept = js_dept)
-        obj = DefaulWorkContent(dept = obj, contents = js_value, number = js_number)
+        obj = DefaulWorkContent(
+            dept = obj,
+            contents = js_value, 
+            number = js_number
+            )
         obj.save()
         add_obj = DefaulWorkContent.objects.filter(dept__dept = js_dept)
         obj_list = [i.contents for i in add_obj]
         obj_list_number = [int(i.number) for i in add_obj]
 
-        return JsonResponse({"obj_list":obj_list,"dept_number":obj_list_number})
+        return JsonResponse({
+            "obj_list":obj_list,
+            "dept_number":obj_list_number
+            })
     else:
-        return JsonResponse({"obj_list":obj_list,"dept_number":obj_list_number})
+        return JsonResponse({
+            "obj_list":obj_list,
+            "dept_number":obj_list_number
+            })
 
 def ajax_delDefaulWorkContent(request):
     js_value = request.POST.get("value")
     js_dept = request.POST.get("dept")
-    obj = DefaulWorkContent.objects.filter(dept__dept = js_dept, contents = js_value)
+    obj = DefaulWorkContent.objects.filter(
+        dept__dept = js_dept, 
+        contents = js_value
+        )
     obj.delete()
     add_obj = DefaulWorkContent.objects.filter(dept__dept = js_dept)
     obj_list = [i.contents for i in add_obj]

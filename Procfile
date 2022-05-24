@@ -1,1 +1,1 @@
-web: gunicorn works-fukushin.wsgi --log-file -
+web: gunicorn works_fukushin.wsgi --log-file -

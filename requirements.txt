@@ -4,3 +4,4 @@ dj-static
 python-decouple
 gunicorn
 psycopg2
+django-crispy-forms

@@ -3,4 +3,4 @@ dj-database-url
 dj-static
 python-decouple
 gunicorn
-psycpg2
+psycopg2

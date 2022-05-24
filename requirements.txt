@@ -5,3 +5,4 @@ python-decouple
 gunicorn
 psycopg2
 django-crispy-forms
+django-widget-tweaks

@@ -8,6 +8,10 @@ h1{
 input{
     height: 50px;
 }
+.form-content{
+    width: 370px;
+    margin: 0 auto;
+}
 .login-error{
     color: red;
 }
@@ -16,10 +20,12 @@ input{
     margin:  auto;
 }
 .form-account{
-    max-width: 300px;
+    max-width: 370px;
     margin: 25px auto;
 }
-
+.form-item{
+    font-size: 20px;
+}
 @media screen and (max-width: 1000px){
     .form-accounts{
         width: 95%;

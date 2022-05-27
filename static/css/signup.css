@@ -5,6 +5,11 @@ body{
 h1{
     padding: 20px;
 }
+button{
+    width: 160px;
+    height: 40px;
+    margin: 0 auto;
+}
 .form-accounts{
     width: 40%;
     margin:  auto;
@@ -12,6 +17,8 @@ h1{
 .form-content{
     width: 270px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .form-account input{

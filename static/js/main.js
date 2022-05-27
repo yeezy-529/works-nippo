@@ -105,11 +105,6 @@ function func(idtime){
         var nightshift_time = time_5_00 - start_time
         $("#id_night_time_" + id_number).val(nightshift_time/60/1000 + i)
     }else{$("#id_night_time_" + id_number).val(0)}
-
-
-
-
-
     }
     // 下の行へコピー
     if ((e_h) && (e_m)){
@@ -564,9 +559,36 @@ $('#ajax_addworkclass').on('#work_class_add_button', function(e) {
     });
 });
 
-
-$('#button1').click (function() {
-    console.log(1)
-    alert("クリックされました");
+$('form').submit(function() {
+    console.log($('input[name="Reportdate_0"]').val())
+    console.log($("#Row_date").val())
+    if ($('input[name="Reportdate_0"]').val() == $("#Row_date").val()){
+        if($("#submit-stock").val() == 1){
+            return true
+        }
+        modal_open()
+        return false
+    }else{
+        return true
+    }
 });
 
+$('#edit-submit').on('click',function(){
+    $("#submit-stock").val(1)
+    console.log(400)
+    $('#report-form').submit();
+});
+
+
+
+
+var open = $('.modal-open'),
+    close = $('.modal-close'),
+    container = $('.modal-container');
+function modal_open(){
+    container.addClass('active');
+}
+close.on('click',function(){	
+    container.removeClass('active');
+});
+// return false

@@ -70,19 +70,17 @@ p {
     font-weight: 400;
 }
 .form-inner {
-    width: 98%;
+    width: 96%;
     margin: 0 auto;
     margin-bottom: 20px;
-    /* padding: 10px;
-    width: 940px; */
 }
 .card_item_section_inner_button{
     text-align: right;
     width: 100%;
-    
 }
 .form-group{
     width: 940px;
+    /* margin-top: 10px; */
     margin: 10px;
 }
 .form-group-button{
@@ -98,7 +96,6 @@ p {
     display: flex;
     align-items: center;
     width: 100%;
-    
 }
 .form-group-content{
     width: 700px;
@@ -107,12 +104,13 @@ p {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    height: 70px;
+    height: 40px;
+    margin-top: 10px;
 }
 .form-group-content-item{
     display: flex;
     align-items: center;
-    height: 70px;
+    height: 100%;
     /* width: 350px; */
     
 }

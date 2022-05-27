@@ -125,24 +125,17 @@ p {
     vertical-align: top;
 }
 .top-item-button{
-    padding: 8px 60px;
+    width: 140px;
+    height: 40px;
     border-radius: 15px;
     font-weight: 600;
     opacity:0.8;
+    border: none;
+    color: #fff;
+    background-color: #21a6a2;
 }
-.top-item-button0{
-    background-color: #00b7ee;
-}
-.top-item-button1{
-    background-color: #eb6100;
-}
-.top-item-button2{
-    background-color: #eb6877;
-}
-.top-item-button3{
-    background-color: #2ca559;
-}
-.top-item-button0:hover{
+
+/* .top-item-button0:hover{
     transition: 0.3s ease-in-out;
     background: #008fee;
     filter: drop-shadow(6px 5px 12px rgba(82,203,246,0.6));
@@ -169,7 +162,7 @@ p {
     filter: drop-shadow(6px 5px 12px rgba(82,203,246,0.6));
     border-radius: 3px;
     border-radius: 15px;
-}
+} */
 .icon-item{
     padding: 5px 5px;
     font-weight: bold;
@@ -213,7 +206,7 @@ p {
 .form_item{
     margin: 5px 0px;
     height: 45px;
-    color: #75757588;
+    /* color: #75757588; */
 }
 .timerow{
     display: flex;
@@ -375,6 +368,61 @@ p {
         background-color: #006fbe;
     }
 
+}
+
+.modal-container{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	background: rgba(0,0,0,50%);
+	padding: 40px 20px;
+	overflow: auto;
+	opacity: 0;
+	visibility: hidden;
+	transition: .3s;
+    box-sizing: border-box;
+}
+/*モーダル本体の擬似要素の指定*/
+.modal-container:before{
+	content: "";
+	display: inline-block;
+	vertical-align: middle;
+	height: 100%;
+}
+/*モーダル本体に「active」クラス付与した時のスタイル*/
+.modal-container.active{
+	opacity: 1;
+	visibility: visible;
+}
+/*モーダル枠の指定*/
+.modal-body{
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	max-width: 500px;
+	width: 90%;
+}
+/*モーダルを閉じるボタンの指定*/
+.modal-close{
+	position: absolute;
+	display: flex;
+    align-items: center;
+    justify-content: center;
+	top: -40px;
+	right: -40px;
+	width: 40px;
+	height: 40px;
+	font-size: 40px;
+	color: #fff;
+	cursor: pointer;
+}
+.modal1{
+  /* display: flex; */
+    width: 500px;
+    height: 300px;
 }
 @media screen and (max-width: 1140px) {
     .rows_contens{

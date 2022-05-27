@@ -1,8 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-# from django.contrib.auth import get_user_model
 from .models import CustomUser,User_Dept,User_Area
-# User = get_user_model()
 
 class SignUpForm(UserCreationForm):
     username = forms.CharField(
@@ -42,7 +40,6 @@ class SignUpForm(UserCreationForm):
         widget=forms.PasswordInput(attrs={'placeholder':'  パスワードの確認入力'})
     )
     class Meta:
-        # model = User
         model = CustomUser
         fields = (
             'username', 
@@ -55,18 +52,6 @@ class SignUpForm(UserCreationForm):
             )
 
 
-
-    # class Meta:
-    #     model = App_setting
-    #     fields = (
-    #         "kintone_input_API",
-    #         "kintone_output_API",
-    #         "kintone_input_domain",
-    #         "kintone_output_domain",
-    #         "kintone_input_appID",
-    #         "kintone_output_appID",
-    #     )
-    #     edit_only=True,
 
 
 

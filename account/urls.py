@@ -9,8 +9,6 @@ urlpatterns = [
     path('logout/' , auth_views.LogoutView.as_view(template_name='signup/logout.html'),name='logout'),
     path('ajax_addworkclass/', views.ajax_warkClass_add, name='ajax_addworkclass'),
     path('ajax_delworkclass/', views.ajax_warkClass_del, name='ajax_delworkclass'),
-    # path('ajax_addDefaulWorkContent/', views.ajax_addDefaulWorkContent, name='ajax_addDefaulWorkContent'),
-    # path('ajax_delDefaulWorkContent/', views.ajax_addDefaulWorkContent, name='ajax_delDefaulWorkContent'),
 ]
 
 

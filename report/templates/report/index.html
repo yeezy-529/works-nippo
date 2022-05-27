@@ -33,15 +33,14 @@
     {{ erorr }}
     <div class="wrapper">
       <div class="top-item">
-        <input type="date"class="top-item-date"name="Reportdate_0"id="today"form='form1'/>
+        <input type="date"class="top-item-date"name="Reportdate_0"id="today"form='report-form'/>
         <div class="top-item-box">
           <input type="button"value="1日"class="top-item-button top-item-button0" onclick="oneClickbutton()"/>
-          {% comment %} <input type="button"value="ボタン1"class="top-item-button top-item-button1"/> {% endcomment %}
           <input type="button"value="休憩"id="change_breakMode"class="top-item-button top-item-button2"/>
           <input type="button"value="日付"id="change_dateMode"class="top-item-button top-item-button3"/>
         </div>
       </div>
-      <form method="post"id="form1"class="form-report border border-3 rounded-3 bg-white">
+      <form method="post"id="report-form"class="form-report border border-3 rounded-3 bg-white">
       {% csrf_token %}
         <div id="constr-add_row"class="get_class">
           <input type="hidden" id="id_start_time_0" name="start_time_0"class="select_get_class"/>
@@ -51,7 +50,24 @@
           <input type="hidden" id="break_status"name="break_status" value="0"/>
           <input type="hidden" id="date_status"name="date_status" value="0"/>
           <input type="hidden" id="area" value={{ user.area.number }} />
+          <input type="hidden" id="Row_date" value={{ record_date.Report_Row_date }} />
         </div>
+        <!-- モーダールウィンドウ　編集画面 -->
+        <div class="modal-container">
+          <div class="modal-body">
+            <!-- 閉じるボタン -->
+            <div class="modal-close">×</div>
+            <!-- モーダル内のコンテンツ -->
+            <div class="modal-content">
+              <input type="hidden" id="submit-stock" value />
+              <h4>日報編集</h4>
+              <div class="modal1">
+                <button type="button" id="edit-submit">登録</button>
+              </div>
+            </div>
+          </div>
+        </div>
+          
           <div class="form_contents">
             <div class="wapper">
               <div id="rows_wrapper">
@@ -188,7 +204,7 @@
                       分
                     </div>
                   </div>
-                  <button type="submit" class="button-register">登録</button>
+                  <button type="submit" id="form-submit" class="button-register">登録</button>
                 </div>
               </div>
             </div>
@@ -196,7 +212,7 @@
       </form>
       <div class="hisory-record-contents border border-info rounded">
         <div class="hisory-record-contents-top">
-          <p class="hisory-item1">Last Record:{{ record_date.Report_Row_date }}</p>
+          <p  class="hisory-item1">Last Record:{{ record_date.Report_Row_date }}</p>
           <button type="button"onclick="get_text()"id="copy-btn"class="hisory-item2 btn btn-outline-info copy-btn">コピー</button>
         </div>
         <div id="past-report" class="hisory-record-contents-main">
@@ -219,7 +235,6 @@
         </div>
       </div>
     </div>
-    <input type="button" id ="button1"/>
     <script src="{% static 'js/jQuery-3.6.0.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
   </body>

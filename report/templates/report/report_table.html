@@ -1,172 +1,158 @@
-<!doctype html>
+{% extends "base.html" %}
 {% load static %}
-{% load crispy_forms_tags %}
 {% load widget_tweaks %}
-<html lang="ja">
-    <head>
-        <meta charset="UTF-8"/>
-        <!-- Bootstrap CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
-            crossorigin="anonymous"/>
-        <link href="{% static 'css/report_table_style.css' %}"
-            rel="stylesheet"
-            type="text/css"/>
-        <title>日報登録</title>
-    </head>
-    <body class="text-cente ">
-        <header>
-            <div class="user-name">
-                <p class="user-dept">{{ user.dept.dept }}</p>
-            <p>{{ user.last_name }} {{ user.fast_name }} 様</p>
-            </div>
-        </header>
-        <div class="wrapper">
-            <div class="title">
-                <h2 class="title_h2">日報承認</h2>
-            </div>
-            <!-- モーダールウィンドウ　編集画面 -->
-            <div class="modal-container">
-                <div class="modal-body">
-                    <!-- 閉じるボタン -->
-                    <div class="modal-close">×</div>
-                    <!-- モーダル内のコンテンツ -->
-                    <div class="modal-content">
-                        <h4>日報編集</h4>
-                        <div class="modal1">
-                            <input type="text" id="edit_date" value="" />
-                            <input type="text" id="edit_name" value="" />
-                            <input type="text" id="edit_dept" value="" />
-                            <input type="text" id="edit_matter" value="" />
-                            <input type="text" id="edit_class" value="" />
-                            <input type="text" id="edit_content" value="" />
-                            <input type="text" id="edit_start" value="" />
-                            <input type="text" id="edit_end" value="" />
-                            <input type="text" id="edit_total" value="" />
+{% block js %}{% static 'js/table.js' %}{% endblock %}
+{% block css %}{% static 'css/report_table_style.css' %}{% endblock %}
+{% block css2 %}{% static 'css/header.css' %}{% endblock %}
 
-                            <input type="hidden" id="backup_date" value="" />
-                            <input type="hidden" id="backup_name" value="" />
-                            <input type="hidden" id="backup_dept" value="" />
-                            <input type="hidden" id="backup_matter" value="" />
-                            <input type="hidden" id="backup_class" value="" />
-                            <input type="hidden" id="backup_content" value="" />
-                            <input type="hidden" id="backup_start" value="" />
-                            <input type="hidden" id="backup_end" value="" />
-                            <input type="hidden" id="backup_total" value="" />
+{% block content %}
+{% include 'include.html' %}
+<div class="wrapper">
+    <div class="title">
+        <h2 class="title_h2">日報承認</h2>
+    </div>
+    <!-- モーダールウィンドウ　編集画面 -->
+    <div class="modal-container">
+        <div class="modal-body">
+            <!-- 閉じるボタン -->
+            <div class="modal-close">×</div>
+            <!-- モーダル内のコンテンツ -->
+            <div class="modal-content">
+                <h4>日報編集</h4>
+                <div class="modal1">
+                    <input type="text" id="edit_date" value="" />
+                    <input type="text" id="edit_name" value="" />
+                    <input type="text" id="edit_dept" value="" />
+                    <input type="text" id="edit_matter" value="" />
+                    <input type="text" id="edit_class" value="" />
+                    <input type="text" id="edit_content" value="" />
+                    <input type="text" id="edit_start" value="" />
+                    <input type="text" id="edit_end" value="" />
+                    <input type="text" id="edit_total" value="" />
 
-                            <button type="button" id="edit-submit">登録</button>
-                        </div>
-                    </div>
+                    <input type="hidden" id="backup_date" value="" />
+                    <input type="hidden" id="backup_name" value="" />
+                    <input type="hidden" id="backup_dept" value="" />
+                    <input type="hidden" id="backup_matter" value="" />
+                    <input type="hidden" id="backup_class" value="" />
+                    <input type="hidden" id="backup_content" value="" />
+                    <input type="hidden" id="backup_start" value="" />
+                    <input type="hidden" id="backup_end" value="" />
+                    <input type="hidden" id="backup_total" value="" />
+
+                    <button type="button" id="edit-submit">登録</button>
                 </div>
             </div>
-                {% csrf_token %}
-                <div id="past_user" class="Notification_banner border border-3 rounded-3">
-                    <p> -＜通知＞- </p>
-                </div>
-                <div class="top">
-                    
-                    <div class="search-data-form border border-3 rounded-3">
-                        <div class="checkbox_content checkbox-item-0">
-                            <input class="calendar-contents date_contens " type="date"name="date_checkbox"id="today"/>
-                            <label><input type="checkbox" name="date_check" value="0"/>OFF</label>
-                        </div>
-                        <div class="checkbox_content checkbox-item-1">
-                            <select id="area_select">
-                                <option value="本社工場">本社工場</option>
-                                <option value="関東工場">関東工場</option>
-                            </select>
-                            {% comment %} <label class="dept-checkbox"><input type="radio" name="plant_checkbox"{% if GETparams.return_data_0 == "本社工場" %}checked{% elif GETparams.radio_0 == None %}checked{% endif %} value="本社工場"/>本社工場</label>
-                            <label class="dept-checkbox"><input type="radio" name="plant_checkbox"{% if GETparams.return_data_0 == "関東工場" %}checked{% endif %} value="関東工場"/>関東工場</label> {% endcomment %}
-                        </div>
-                        <div class="checkbox_content checkbox-item-2">
-                            <select id="dept_select">
-                                <option value="製造部">製造部</option>
-                                <option value="営業部">営業部</option>
-                                <option value="総務部">総務部</option>
-                                <option value="調達部">調達部</option>
-                                <option value="設計部">設計部</option>
-                            </select>
-                                {% comment %} <label class="dept-checkbox"><input type="radio" name="dept_checkbox" {% if GETparams.return_data_2 == "製造部" %}checked{% elif GETparams.radio_2 == None %}checked{% endif %} value="製造部"/>製造部 </label>
-                            <label class="dept-checkbox"><input type="radio" name="dept_checkbox" {% if GETparams.return_data_2 == "営業部" %}checked{% endif %} value="営業部"/>営業部 </label>
-                            <label class="dept-checkbox"><input type="radio" name="dept_checkbox" {% if GETparams.return_data_2 == "総務部" %}checked{% endif %} value="総務部"/>総務部 </label>
-                            <label class="dept-checkbox"><input type="radio" name="dept_checkbox" {% if GETparams.return_data_2 == "調達部" %}checked{% endif %} value="調達部"/>調達部 </label>
-                            <label class="dept-checkbox"><input type="radio" name="dept_checkbox" {% if GETparams.return_data_2 == "設計部" %}checked{% endif %} value="設計部"/>設計部 </label> {% endcomment %}
-                        </div>
-                        <div class="checkbox_content checkbox-item-3">
-                            <label><input type="checkbox" name="not-check" value="0"/>未チェックのみ</label>
-                        </div>
-                        <div class="checkbox_content checkbox-item-4">
-                            <input type="submit"id="chengeinfo" name="button" value="検索"/>
-                        </div>
-
-                        
-                    </div>
-                    <div class="form-nocheck-user">
-                        <table border="1" id="noreport_user_table">
-                            <tr>
-                                <th>名前</th>
-                            </tr>
-                            {% for user in users %}
-                            <tr>
-                                <td>{{ user.no_report_date }}</td>
-                                <td>{{ user.no_report_USER }}</td>
-                            </tr>
-                            {% endfor %}
-                        </table>
-                    </div>
-
-                </div>
-            <form method="post">
-            {% csrf_token %}
-                <div class="table-contents">
-                    <table border="1" id="id">
-                        <tr>
-                            <th>日付</th>
-                            <th>名前</th>
-                            <th>部署</th>
-                            <th>工番</th>
-                            <th>作業区分</th>
-                            <th>作業内容</th>
-                            <th>開始時間</th>
-                            <th>終了時間</th>
-                            <th>所要時間</th>
-                            {% comment %} <th>合計時間</th> {% endcomment %}
-                            <th>チェック</th>
-                        </tr>
-                        {% for member in data %}
-                            <tr>
-                                <td class="table-date">{{ member.Report_Row_date }}</td>
-                                <td class="table-user">{{ member.Report_User_name }}</td>
-                                <td class="table-dept">{{ member.Report_User_dept }}</td>
-                                
-                                <td class="table-number">{{ member.Report_Matter_code }}</td>
-                                <td class="table-workclass">{{ member.Report_Work_class }}</td>
-                                <td class="table-workcontents">{{ member.Report_Work_contents }}</td>
-                                <td class="table-start">{{ member.Report_Rowstart_time }}</td>
-                                <td class="table-end">{{ member.Report_Rowend_time }}</td>
-                                <td class="table-required">{{ member.Report_Total_time }}</td>
-                                
-                                {% if member.Report_Check_number == 1 %}
-                                    <td class="table-check">×</td>
-                                {% elif member.Report_Check_number == 0 %}
-                                    <td class="table-check">〇</td>
-                                {% else %}
-                                    <td class="table-check">×</td>
-                                {% endif %}
-                            </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-            </form>    
-            <button onclick="()" type="submit" class="btn btn-primary btn-lg btn-input">登録</button>
         </div>
-        <script src="{% static 'js/jQuery-3.6.0.min.js' %}"></script>
+    </div>
+        {% csrf_token %}
+        <div id="past_user" class="Notification_banner border border-3 rounded-3">
+            <p> -＜通知＞- </p>
+        </div>
+        <div class="top">
+            
+            <div class="search-data-form border border-3 rounded-3">
+                <div class="checkbox_content checkbox-item-0">
+                    <input class="calendar-contents date_contens " type="date"name="date_checkbox"id="today"/>
+                    <label><input type="checkbox" name="date_check" value="0"/>OFF</label>
+                </div>
+                <div class="checkbox_content checkbox-item-1">
+                    <select id="area_select">
+                        <option value="本社工場">本社工場</option>
+                        <option value="関東工場">関東工場</option>
+                    </select>
+                    {% comment %} <label class="dept-checkbox"><input type="radio" name="plant_checkbox"{% if GETparams.return_data_0 == "本社工場" %}checked{% elif GETparams.radio_0 == None %}checked{% endif %} value="本社工場"/>本社工場</label>
+                    <label class="dept-checkbox"><input type="radio" name="plant_checkbox"{% if GETparams.return_data_0 == "関東工場" %}checked{% endif %} value="関東工場"/>関東工場</label> {% endcomment %}
+                </div>
+                <div class="checkbox_content checkbox-item-2">
+                    <select id="dept_select">
+                        <option value="製造部">製造部</option>
+                        <option value="営業部">営業部</option>
+                        <option value="総務部">総務部</option>
+                        <option value="調達部">調達部</option>
+                        <option value="設計部">設計部</option>
+                    </select>
+                        {% comment %} <label class="dept-checkbox"><input type="radio" name="dept_checkbox" {% if GETparams.return_data_2 == "製造部" %}checked{% elif GETparams.radio_2 == None %}checked{% endif %} value="製造部"/>製造部 </label>
+                    <label class="dept-checkbox"><input type="radio" name="dept_checkbox" {% if GETparams.return_data_2 == "営業部" %}checked{% endif %} value="営業部"/>営業部 </label>
+                    <label class="dept-checkbox"><input type="radio" name="dept_checkbox" {% if GETparams.return_data_2 == "総務部" %}checked{% endif %} value="総務部"/>総務部 </label>
+                    <label class="dept-checkbox"><input type="radio" name="dept_checkbox" {% if GETparams.return_data_2 == "調達部" %}checked{% endif %} value="調達部"/>調達部 </label>
+                    <label class="dept-checkbox"><input type="radio" name="dept_checkbox" {% if GETparams.return_data_2 == "設計部" %}checked{% endif %} value="設計部"/>設計部 </label> {% endcomment %}
+                </div>
+                <div class="checkbox_content checkbox-item-3">
+                    <label><input type="checkbox" name="not-check" value="0"/>未チェックのみ</label>
+                </div>
+                <div class="checkbox_content checkbox-item-4">
+                    <input type="submit"id="chengeinfo" name="button" value="検索"/>
+                </div>
+
+                
+            </div>
+            <div class="form-nocheck-user">
+                <table border="1" id="noreport_user_table">
+                    <tr>
+                        <th>名前</th>
+                    </tr>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.no_report_date }}</td>
+                        <td>{{ user.no_report_USER }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+        </div>
+    <form method="post">
+    {% csrf_token %}
+        <div class="table-contents">
+            <table border="1" id="id">
+                <tr>
+                    <th>日付</th>
+                    <th>名前</th>
+                    <th>部署</th>
+                    <th>工番</th>
+                    <th>作業区分</th>
+                    <th>作業内容</th>
+                    <th>開始時間</th>
+                    <th>終了時間</th>
+                    <th>所要時間</th>
+                    {% comment %} <th>合計時間</th> {% endcomment %}
+                    <th>チェック</th>
+                </tr>
+                {% for member in data %}
+                    <tr>
+                        <td class="table-date">{{ member.Report_Row_date }}</td>
+                        <td class="table-user">{{ member.Report_User_name }}</td>
+                        <td class="table-dept">{{ member.Report_User_dept }}</td>
+                        
+                        <td class="table-number">{{ member.Report_Matter_code }}</td>
+                        <td class="table-workclass">{{ member.Report_Work_class }}</td>
+                        <td class="table-workcontents">{{ member.Report_Work_contents }}</td>
+                        <td class="table-start">{{ member.Report_Rowstart_time }}</td>
+                        <td class="table-end">{{ member.Report_Rowend_time }}</td>
+                        <td class="table-required">{{ member.Report_Total_time }}</td>
+                        
+                        {% if member.Report_Check_number == 1 %}
+                            <td class="table-check">×</td>
+                        {% elif member.Report_Check_number == 0 %}
+                            <td class="table-check">〇</td>
+                        {% else %}
+                            <td class="table-check">×</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </form>    
+    <button onclick="()" type="submit" class="btn btn-primary btn-lg btn-input">登録</button>
+</div>
+{% endblock %}  
+        {% comment %} <script src="{% static 'js/jQuery-3.6.0.min.js' %}"></script>
         <script src="{% static 'js/table.js' %}"></script>
     </body>
 </html>    
     
-    
+     {% endcomment %}
     
     
 

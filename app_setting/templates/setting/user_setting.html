@@ -4,7 +4,9 @@
 {% block title %}ユーザー設定{% endblock %}
 {% block js %}{% static 'js/user_setting.js' %}{% endblock %}
 {% block css %}{% static 'css/user_setting_style.css' %}{% endblock %}
+{% block css2 %}{% static 'css/header.css' %}{% endblock %}
 
+{% comment %} <link href="{% static 'css/header.css' %}"rel="stylesheet"type="text/css"/> {% endcomment %}
 {% block content %}
 {% include 'include.html' %}
 <div class="wrapper">
@@ -25,7 +27,6 @@
                             <div class="form-group-content-item">
                                 <p>部署変更：</p>
                                 <p>現在の部署-{{ user.dept }}</p>
-
                                 <div class="card_list">
                                     <select name="user_dept" class="form-control">
                                         {% for Value in dept %}

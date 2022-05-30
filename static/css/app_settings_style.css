@@ -1,7 +1,7 @@
 body{
     background-color: #C3D1FF;
 }
-header{
+/* header{
     display: flex;
     height: 68px;
     width: 100%;
@@ -9,9 +9,9 @@ header{
     align-items: center;
     background-color: #1577BD;
     color: #FFFFFF;
-}
+} */
 
-p{margin: 0;}
+/* p{margin: 0;} */
 
 h1 {
     margin: 0 0 20px;
@@ -20,16 +20,16 @@ h1 {
     font-size: 40px;
     color: var(--body-quiet-color);
 }
-h3 h4{margin: 0;}
+/* h3 h4{margin: 0;} */
 
-ul {
+/* ul {
     display: flex;
     list-style: none;
-}
-a {
+} */
+/* a {
     color: #FFFFFF;
     text-decoration: none;
-}
+} */
 .wrapper{
     width: 90%;
     height: 90%;

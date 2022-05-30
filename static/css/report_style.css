@@ -1,67 +1,59 @@
 body{
     background-color: #E7F9FF;
 }
-header{
-    display: flex;
-    height: 68px;
-    width: 100%;
-    font-size: 30px;
-    align-items: center;
-    background-color: #1577BD;
-    color: #FFFFFF;
-}
 
-table{
+
+/* table{
     width: 50%;
     /* margin:auto; */
-    border-collapse: collapse;
-    border-spacing: 0;
-}
+    /* border-collapse: collapse; */
+    /* border-spacing: 0; */
+/* } */ 
     
-    table th,table td{
+    /* table th,table td{
     padding: 0px 5px;
     text-align: center;
     font-size:12px;
-}
+} */
     
-    table tr:nth-child(odd){
+    /* table tr:nth-child(odd){
     background-color: #fff;
-}
+} */
 .hisory-record-contents{
     padding-top: 10px;
 }
 
-h1{
+/* h1{
     padding: 10px 70px 0 0;
-}
-ul {
+} */
+/* ul {
     display: flex;
     list-style: none;
-}
-a {
+} */
+/* a {
     color: #FFFFFF;
     text-decoration: none;
-}
-p {
+} */
+/* p {
     margin: 0;
-}
-.user-name{
+} */
+/* .user-name{
     padding: 0px 0 0 45px;
     width: 40%;
     z-index: 2;
-}
-.user-dept{
+} */
+/* .user-dept{
     margin: 0 0 0 0;
     font-size: 14px;
-}
-.nav-bar{
+} */
+/* .nav-bar{
     height: 100%;
     width: 100%;
     /* margin: 0 0 0 auto; */
-}
-.menu-nav-bar{
+/* } */ 
+/* .menu-nav-bar{ */
     /* メニューを縦に */
-    position: fixed;
+    /* position: fixed;
     right: -70%;
     width: 70%;
     height: 100vh;
@@ -70,17 +62,17 @@ p {
     background-color: rgba(58, 123, 167, 0.563);
     transition: .3s; 
     z-index: 1;
-    padding: 68px 0 0 0;
-}
-.nav-bar-tag{
-    display: block;
+    padding: 68px 0 0 0; */
+/* } */
+/* .nav-bar-tag{ */
+    /* display: block;
     width: 100%;
     height: 68px;
     font-size: 20px;
-    line-height: 68px;
+    line-height: 68px; */
     /* padding-top: 68px; */
-    text-align: center;
-    background-color: #006fbe;
+    /* text-align: center;
+    background-color: #006fbe; */
 
     /* width: 100%;
     height: 100%; */
@@ -88,15 +80,15 @@ p {
     /* display: flex;
     justify-content: center;
     align-items: center; */
-}
-.nav-bar-tag:hover{
-    transition: 0.2s;
+/* } */
+/* .nav-bar-tag:hover{ */
+    /* transition: 0.2s;
     background-color: #5d91b6;
-    color: #FFFFFF;
-}
-.open {
-    right: 0;
-}
+    color: #FFFFFF; */
+/* } */
+/* .open { */
+    /* right: 0; */
+/* } */
 .butonbi{
     position: fixed;
 	top: 32px;
@@ -340,34 +332,6 @@ p {
 .hisory-record-p{
     display: flex;
     justify-content: space-around;
-}
-
-
-@media (min-width: 990px) {
-    #button-nav-var-jp{
-        display: none;
-    }
-    .menu-nav-bar {
-		display: flex;
-		flex-direction: row;
-		position: fixed;
-        justify-content: flex-end;
-		top: 0;
-        right: 0;
-        height: 68px;
-        background-color: #1577bd00;
-        padding: 0 0 0 0;
-	}
-    .nav-bar-tag{
-        display: block;
-        width: 240px;
-        height: 68px;
-        font-size: 20px;
-        line-height: 68px;
-        text-align: center;
-        background-color: #006fbe;
-    }
-
 }
 
 .modal-container{

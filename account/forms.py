@@ -49,6 +49,7 @@ class SignUpForm(UserCreationForm):
             'area', 
             'password1', 
             'password2',
+            'is_staff',
             )
 
 

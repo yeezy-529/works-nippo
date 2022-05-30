@@ -2,10 +2,16 @@ from .forms import SignUpForm
 from .models import *
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
+    # https://teratail.com/questions/35233
+@login_required
 def signup(request):
     """サインアップビュー"""
-    # https://teratail.com/questions/35233
+    if not request.user.is_staff:
+        return redirect('login-home')
+        # return redirect('login-home/?next=%s' % request.path)
+
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -14,7 +20,7 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'signup/index.html', {'form': form})
-
+@login_required
 def usersettingViews(request):
     """ユーザー設定画面"""
     if request.method == 'POST':
@@ -35,24 +41,6 @@ def usersettingViews(request):
             "workclass":workclass
             }
         return render(request, 'setting/user_setting.html',params)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 def ajax_warkClass_add(request):
     """ユーザー作業区分 追加"""

@@ -1,0 +1,29 @@
+<header>
+    <div class="user-name">
+        <p class="user-dept">{{ user.dept.dept }}</p>
+        <p>{{ user.last_name }} {{ user.fast_name }} 様</p>
+    </div>
+    <nav class="nav-bar">
+        <ul class="menu-nav-bar">
+            <button id="button-nav-var-jp" class="open js-btn butonbi"></button>
+            {% if  request.path != "/report/" %}
+                <li><a class="nav-bar-tag" href="{% url "report" %}">日報登録</a></li>
+            {% endif %} 
+            {% if user.is_staff %}
+                {% if  request.path != "/report_table/" %}
+                    <li><a class="nav-bar-tag" href="{% url "report_table" %}">日報承認</a></li>
+                {% endif %} 
+                {% if request.path != "/account/" %}
+                    <li><a class="nav-bar-tag" href="{% url "account" %}">ユーザー登録</a></li>
+                {% endif %} 
+                {% if request.path != "/app_settings/" %}
+                    <li><a class="nav-bar-tag" href="{% url "app_settings" %}">アプリ設定</a></li>
+                {% endif %} 
+            {% endif %} 
+            {% if request.path != "/user_setting/" %}
+                <li><a class="nav-bar-tag" href="{% url "user_setting" %}">ユーザー設定</a></li>
+            {% endif %} 
+            <li><a class="nav-bar-tag" href="{% url 'logout' %}">ログアウト</a></li>
+        </ul>
+    </nav>
+</header>

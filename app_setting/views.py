@@ -2,14 +2,17 @@ from .forms import *
 from .models import *
 from account.models import *
 from django.shortcuts import render,redirect
+from django.contrib.auth.decorators import login_required
 import datetime
 import re
 import pykintone
 from django.http import JsonResponse
-
 # 工場設定画面
 # https://yura2.hateblo.jp/entry/2015/04/04/Django%E3%81%A7%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E5%86%85%E3%81%A7%E3%82%AF%E3%83%AA%E3%83%83%E3%82%AF%E3%81%95%E3%82%8C%E3%81%9F%E3%83%9C%E3%82%BF%E3%83%B3%E3%81%AB%E3%82%88%E3%81%A3%E3%81%A6%E7%95%B0
+@login_required
 def app_settingsViews(request):
+    if not request.user.is_staff:
+        return redirect('login-home')
     if request.method == 'POST':
         # 0の時表示
         if 'matter_in' in request.POST:

@@ -2,37 +2,45 @@
 {% load widget_tweaks %}
 {% load static %}
 {% block css %}{% static 'css/signup.css' %}{% endblock %}
+{% block css2 %}{% static 'css/header.css' %}{% endblock %}
 {% block title %}サインアップ{% endblock %}
 
 {% block content %}
+{% include 'include.html' %}
   <form method="post" class="border rounded bg-white form-accounts ">
     {% csrf_token %}
     <div class="form-content">
       <h1>ユーザー登録</h1>
-      <div class=" form-group  mb-3 pt-1">
+      <div class=" mb-3 pt-1">
         <div class=" form-account ">
           {{ form.username|add_class:'form-control rounded-pill' }}
         </div>
       </div>
       <div class="form-account row justify-content-center mb-3 ">
-        <div class="form-item form-group">
+        <div class="form-item">
             {{ form.last_name|add_class:'form-control rounded-pill' }}
         </div>
-        <div class="form-item form-group">
+        <div class="form-item">
             {{ form.fast_name|add_class:'form-control rounded-pill' }}
         </div>
       </div>
-      <div class=" form-account form-group mb-3">
+      <div class=" form-account mb-3">
           {{ form.dept|add_class:'form-control rounded-pill' }}
       </div>
-      <div class=" form-account form-group mb-3">
+      <div class=" form-account mb-3">
           {{ form.area|add_class:'form-control rounded-pill' }}
       </div>
-      <div class="form-account form-group mb-3">
+      <div class="form-account mb-3">
           {{ form.password1|add_class:'form-control rounded-pill' }}
       </div>
-      <div class="form-account form-group mb-3">
+      <div class="form-account mb-3">
           {{ form.password2|add_class:'form-control rounded-pill' }}
+      </div>
+      <div class=" mb-3 staff_user">
+        <label class="staff_user">
+          {{ form.is_staff }}
+          <p>上長ユーザー</p>
+        </label>
       </div>
       {{form.errors}}
       <button type="submit" class="btn btn-primary rounded-pill px-5 my-4">登録</button>

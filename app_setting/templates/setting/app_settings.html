@@ -6,6 +6,7 @@
 {% block css %}{% static 'css/app_settings_style.css' %}{% endblock %}
 
 {% block content %}
+{% include 'include.html' %}
 <div class="wrapper">
     <form method="post">
     {% csrf_token %}

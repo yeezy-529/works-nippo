@@ -1,6 +1,7 @@
-{% extends "signup\base.html" %}
+{% extends "base.html" %}
 {% load widget_tweaks %}
-
+{% load static %}
+{% block css %}{% static 'css/signup.css' %}{% endblock %}
 {% block title %}サインアップ{% endblock %}
 
 {% block content %}

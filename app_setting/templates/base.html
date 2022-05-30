@@ -11,12 +11,6 @@
     </title>
     </head>
     <body>
-        <header>
-            <div class="user-name">
-                <p class="user-dept">{{ user.dept.dept }}</p>
-                <p>{{ user.last_name }} {{ user.fast_name }} 様</p>
-            </div>
-        </header>
         {% block content %}{% endblock content %}
         <script src="{% static 'js/jQuery-3.6.0.min.js' %}"></script>
         <script src="{% block js %}{% endblock js %}"></script>

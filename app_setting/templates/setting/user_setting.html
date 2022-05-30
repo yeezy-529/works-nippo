@@ -1,5 +1,4 @@
-<!doctype html>
-{% extends "setting\base.html" %}
+{% extends "base.html" %}
 {% load static %}
 {% load widget_tweaks %}
 {% block title %}ユーザー設定{% endblock %}
@@ -7,6 +6,7 @@
 {% block css %}{% static 'css/user_setting_style.css' %}{% endblock %}
 
 {% block content %}
+{% include 'include.html' %}
 <div class="wrapper">
     <div class="title">
         <h2>ユーザー設定</h2>

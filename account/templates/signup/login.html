@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load widget_tweaks %}
-
+{% load static %}
+{% block css %}{% static 'css/login_style.css' %}{% endblock %}
 {% block title %}ログイン{% endblock %}
 
 {% block content %}   

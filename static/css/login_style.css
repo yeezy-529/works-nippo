@@ -8,19 +8,19 @@ h1{
 input{
     height: 50px;
 }
+.form-accounts{
+    width: 50%;
+    margin:  auto;
+}
 .form-content{
-    width: 370px;
+    width: 50%;
     margin: 0 auto;
 }
 .login-error{
     color: red;
 }
-.form-accounts{
-    width: 40%;
-    margin:  auto;
-}
 .form-account{
-    max-width: 370px;
+    width: 100%;
     margin: 25px auto;
 }
 .form-item{
@@ -30,6 +30,9 @@ input{
     .form-accounts{
         width: 95%;
         margin: auto;
+    }
+    .form-content{
+        width: 90%;
     }
 }
 

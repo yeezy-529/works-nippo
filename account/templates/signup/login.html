@@ -6,19 +6,23 @@
 
 {% block content %}   
 <form method="POST" class="border rounded bg-white form-accounts text-center">
-  <div class="form-content">  
-    <h1>ログイン</h1>
-    {% if form.errors  %}
-    <p class="login-error">ユーザーID, パスワードが一致しません．</p>
-    {% endif %}
-    {% csrf_token %}
-    <div class="form-account my-3">
-      {{ form.username|add_class:'form-control rounded-pill pt-1' }}
+  <div class="login">
+    <div class="new-login">
+      <div class="form-content">  
+        <h1>ログイン</h1>
+        {% if form.errors  %}
+        <p class="login-error">ユーザーID, パスワードが一致しません．</p>
+        {% endif %}
+        {% csrf_token %}
+        <div class="form-account my-3">
+          {{ form.username|add_class:'form-control pt-1' }}
+        </div>
+        <div class="form-account my-3">
+          {{ form.password|add_class:'form-control pt-1' }}
+        </div>
+        <button type="submit" class="btn btn-primary rounded-pill px-5 my-4">ログイン</button>
+      </div>
     </div>
-    <div class="form-account my-3">
-      {{ form.password|add_class:'form-control rounded-pill pt-1' }}
-    </div>
-    <button type="submit" class="btn btn-primary rounded-pill px-5 my-4">ログイン</button>
   </div>
 </form>
 {% endblock %}

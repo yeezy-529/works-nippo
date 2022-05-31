@@ -15,10 +15,10 @@
         {% endif %}
         {% csrf_token %}
         <div class="form-account my-3">
-          {{ form.username|add_class:'form-control pt-1' }}
+          {{ form.username|add_class:'form-control pt-1 form-item' }}
         </div>
         <div class="form-account my-3">
-          {{ form.password|add_class:'form-control pt-1' }}
+          {{ form.password|add_class:'form-control pt-1 form-item' }}
         </div>
         <button type="submit" class="btn btn-primary rounded-pill px-5 my-4">ログイン</button>
       </div>

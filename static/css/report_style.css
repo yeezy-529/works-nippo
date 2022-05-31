@@ -89,14 +89,7 @@ body{
 /* .open { */
     /* right: 0; */
 /* } */
-.butonbi{
-    position: fixed;
-	top: 32px;
-	right: 16px;
-    width: 20px;
-    height: 20px;
-    z-index: 2;
-}
+
 .wrapper{
     width: 90%;
     height: 90%; 

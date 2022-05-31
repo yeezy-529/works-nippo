@@ -478,11 +478,7 @@ $("#change_dateMode").click(function(){
     }
     // func("id_rowend_time_m_0")
 })
-$(function () {
-    $('#button-nav-var-jp').on('click', function () {        // js-btnクラスをクリックすると、
-        $('.menu-nav-bar').toggleClass('open'); // メニューとバーガーの線にopenクラスをつけ外しする
-    })
-});
+
 function  userArea_timeChange(){
     if ($("#area").val() == "1"){
         $('#id_rowfarst_time_h_0').val("8").change();

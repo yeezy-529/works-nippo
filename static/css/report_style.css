@@ -246,6 +246,7 @@ label{
 .form-summary-content{
     margin-top: 20px;
     border-radius:30px;
+
 }
 .form-summary{
     display: flex;
@@ -260,8 +261,12 @@ label{
     align-items: center;
 }
 .all-total-content{
+    display: flex;
     margin: 0 15px;
     font-weight: bold;
+    flex-direction: row;
+    align-items: center;
+
 }
 .button-register{
     height: 60px;
@@ -323,6 +328,7 @@ label{
     width: 40%;
     margin: 10px 0 0 0;
     padding: 5px;
+    margin-bottom: 20px;
 }
 .hisory-record-contents-top{
     display: flex;
@@ -401,21 +407,21 @@ label{
     width: 500px;
     height: 300px;
 }
-@media screen and (max-width: 1140px) {
+@media screen and (max-width: 1180px) {
     .rows_contens{
         width: 95%;
         display: grid;
         grid-template-columns: 50% auto;
         grid-column-gap: 10px;
-        border-bottom: solid 10px #ff7d6e;
+        padding: 20px 0;
+        border-bottom: 3px dashed #000;
+        margin: 0 auto;
     }
-
     .wrapper{
         width: 98%;
         }
     .iphone_class{
         display: inline-block;
-        
     }
     .form_item{
     font-size: 20px;
@@ -423,18 +429,36 @@ label{
     }
     .top-item-button{
         width: 100px;
-        
-        
-
+    }
+    .button-register{
+        width: 100%;
+        margin-top: 10px;
+    }
+    .form-summary-content{
+        display: flex;
+    }
+    .all-total-content{
+    flex-direction: column;
+    }
+    .form-summary{
+        flex-direction: column;
+        width: 100%;
+    }
+    .all_total_contens{
+        display: flex;
+        width: 100%;
+        height: 100px;
+        justify-content: space-around;
+    }
+    .hisory-record-contents{
+        width: 100%;
+    }
+    .time_contents{
+        width: 50%;
     }
 }
 @media (max-width: 870px) {
-    .all_total_contens{
-        display: flex;
-        flex-direction: column;
-        justify-content: normal;
-        width: 200px;
-        height: 100px;
+        
     }
     
     }

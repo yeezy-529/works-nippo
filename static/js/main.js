@@ -9,20 +9,25 @@ var time_23_59 = new Date(today_data + " " + 23 + ":" + 59 + ":00")
 var time_5_00 = new Date(today_data + " " + 5 + ":" + 00 + ":00")
 var totalManageElement = document.querySelector("#id_rows");
 var currentChoiceCount = parseInt(totalManageElement.value);
-
-function func(idtime){
-    var data = $(idtime).val()
+$(document).on("click", "select[id^=id_rowend_time],select[id^=id_rowstart_time],select[id^=id_break_time]", function () {
+        var id = $(this).attr('id');
+        Time_calculation(id)
+    })
+    
+function Time_calculation(This_ID){
+    var data = $(This_ID).val()
     var area_number = $("#area").val()
-    if (idtime in obj){
-        if (obj[idtime] != data && data){
+
+    if (This_ID in obj){
+        if (obj[This_ID] != data && data){
             data = Number(data);
-            obj[idtime] = data;
+            obj[This_ID] = data;
             }
-        else{obj[idtime] = '';}
+        else{obj[This_ID] = '';}
     }else{
         if (!data){
             data = Number(data);
-            obj[idtime] = data;}
+            obj[This_ID] = data;}
         }
     if (area_number == "1"){
         var morning_break = new Date(today_data + " " + 10 + ":" + 10 + ":00")
@@ -39,10 +44,10 @@ function func(idtime){
         var work_break3 = 60
         var work_break4 = 15
     }
-    var id_len = idtime.length
-    var id_number = idtime.substring(id_len-1,id_len)
-    var f_h = $("#id_rowfarst_time_h_"+ id_number).val()
-    var f_m = $("#id_rowfarst_time_m_" + id_number).val()
+    var id_len = This_ID.length
+    var id_number = This_ID.substring(id_len-1,id_len)
+    var f_h = $("#id_rowstart_time_h_"+ id_number).val()
+    var f_m = $("#id_rowstart_time_m_" + id_number).val()
     var e_h = $("#id_rowend_time_h_" + id_number).val()
     var e_m = $("#id_rowend_time_m_" + id_number).val()
     var e_h_index = $("#id_rowend_time_h_" + id_number).prop("selectedIndex")
@@ -109,52 +114,15 @@ function func(idtime){
     // 下の行へコピー
     if ((e_h) && (e_m)){
         try{
-        end_h = document.getElementById("id_rowfarst_time_h_" + (Number(id_number) + 1))
-        end_m = document.getElementById("id_rowfarst_time_m_" + (Number(id_number) + 1))
+        end_h = document.getElementById("id_rowstart_time_h_" + (Number(id_number) + 1))
+        end_m = document.getElementById("id_rowstart_time_m_" + (Number(id_number) + 1))
         end_h.options[e_h_index].selected = true;
         end_m.options[e_m_index].selected = true;
         }catch(e){}
     }
     totalTime()
-
     // console.log();
-    // console.log();
-    // console.log();
-    // console.log();
-    // console.log();
-    // console.log();
-    // console.log();
-    // console.log();
-    // console.log();
-    // console.log();
-    // console.log();
-    // console.log();
-    // console.log();
-    // console.log();
-    // console.log();
-    // console.log();
-    // console.log();
-    // console.log();
-    // console.log();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-};
+    }
 // 合計時間、残業時間
 function totalTime(){
     var timeList = []
@@ -200,180 +168,156 @@ function TodayDate() {
 
     return todaydata
 };
-function get_id(className) {
-    var cs=document.getElementsByClassName(className);
-    // idd
-    var idd= new Array();
-    var id= new Array();
-    // var o= new Array();
-    for (var i=0; i< cs.length;i++){ 
-        idd[i]=cs[i].getAttribute("id");
-    }
-    for (i=0; i< idd.length;i++){ 
-        id[i]=idd[i];
-        l = id[i].lastIndexOf('_',);
-        if (isNaN(Number(idd[i].substr(l+1,l+5)))){
-            id[i] = id[i]
-        }else{
-            id[i] = id[i].substr(3,l)
-            l = id[i].lastIndexOf('_',);
-            id[i] = id[i].substr(0,l) + "_0"
-        }
-    }
-    id.filter(function (x, i, self) {
-        return self.indexOf(x) === i;
-    });
-    var set = new Set(id);
-    let setToArr = [...set];
-    return setToArr
-};
-function makeTag(makeID,makeClass,OutID){
-    var time_tags = {id:makeID,class:makeClass}
-            var time_make_tags = $("<div>",time_tags)
-            $("#"+ OutID).append(time_make_tags);
-};
+
 function row_add(){
-    var id_list = get_id("select_get_class")
-    
-    if ( currentChoiceCount == 100 ) { return; }
+    if (currentChoiceCount == 100) { return; }
+    var ChildrenClass
+    var ChildrenID
+    var ChildrenName
+    var ChildrenType
+    var ClassName
+    var IDName
+    var LabelText
+    var ChildrenElement
+    var element
+    var Row =  $("#rows_0")[0]
+    var Row_ID = "rows_" + currentChoiceCount
 
-        var rowsid = 'rows_' + currentChoiceCount
-        var div = $('<div id='+ rowsid +'></div>');
-        $("#rows_wrapper").append(div);
-        $("#"+rowsid).addClass($("#rows_0").attr("class"));
-    
-        for(var i = 0; i < id_list.length; i++) {
-        var str_len = id_list[i].length
-        var id_name = id_list[i].substring(0, str_len-1)
-        //id,name変更
-        var id_content = "id_" + id_list[i]
-        var nameElement_name = id_name + currentChoiceCount
-        var nameElement_id = "id_"+ id_name + currentChoiceCount
+    $("#rows_wrapper").append(
+        $("<div>",{
+            id:Row_ID,
+            class:Row.classList,
+        }))
+
+    var RowInfoChild = $("#rows_0").children()
+    for(var l = 0; l < RowInfoChild.length; l++){
+        ClassName = RowInfoChild[l].className
+        IDName = RowInfoChild[l].id.substring(0, RowInfoChild[l].id.length-1)+currentChoiceCount
+        LabelText = RowInfoChild[l].children[0].innerText
+        ChildrenElement = RowInfoChild[l].children[1]
+        // console.log(RowInfoChild[l].children);
+
+        element = ChildrenElement.nodeName
         
-        var select = $("#"+id_content);
+        $("#"+Row_ID).append(
+            $("<div>",{
+                id:IDName,
+                class:ClassName,
+            }))
+        //ラベル追加 
+        $("#"+IDName).append(
+            $("<label>",{
+                text:LabelText,
+                class:"iphone_class"
+            }))
+        if (element == "INPUT"){
+            ChildrenType = ChildrenElement.type
+            ChildrenID = ChildrenElement.id.substring(0, ChildrenElement.id.length-1) + currentChoiceCount
+            ChildrenName = ChildrenElement.name.substring(0, ChildrenElement.name.length-1) + currentChoiceCount
+            ChildrenClass = ChildrenElement.classList
 
-        //クラス取得
-        var class_all =select.attr("class");
-        //タグ取得
-        var tag_name = select.prop("tagName") ;
-        //タイプ取得
-        var tag_type = select.attr("type");
-        //属性取得
-        if (tag_name == "SELECT"){
-            //select生成 id,name,関数含む
-            var tags = {id:nameElement_id,name:nameElement_name}
+            $("#"+IDName).append(
+                $("<input>",{
+                    type:ChildrenType,
+                    id:ChildrenID,
+                    name:ChildrenName,
+                    class:ChildrenClass,
+                }))
 
-            if (nameElement_name.includes('farst_time_h')||
-                nameElement_name.includes('farst_time_m')||
-                nameElement_name.includes('end_time_h')||
-                nameElement_name.includes('end_time_m')){
+        }else if (element == "SELECT"){
 
-                var class0 =  $("start_time_item_0").attr("class")
-                var class1 =  $("#start_time_itemchild_0").attr("class")
-                var class2 =  $("#end_time_itemGrandchild_h_0").attr("class")
+            ChildrenClass = ChildrenElement.classList
+            ChildrenID = ChildrenElement.id.substring(0, ChildrenElement.id.length-1) + currentChoiceCount
+            ChildrenName = ChildrenElement.name.substring(0, ChildrenElement.name.length-1) + currentChoiceCount
+            ChildrenType = ChildrenElement.type
+            var childrenOption = ChildrenElement.children
 
-                var startID_0 = "start_time_item_"+currentChoiceCount
-                var startID_1 = "start_time_itemchild_" + currentChoiceCount
-                var startID_2 = "start_time_itemGrandchild_h_" + currentChoiceCount
-                var startID_3 = "start_time_itemGrandchild_m_" + currentChoiceCount
-                
-                var endID_0 = "end_time_item_"+currentChoiceCount
-                var endID_1 = "end_time_itemchild_" + currentChoiceCount
-                var endID_2 = "end_time_itemGrandchild_h_" + currentChoiceCount
-                var endID_3 = "end_time_itemGrandchild_m_" + currentChoiceCount
-
-                if (! $("#"+startID_0)[0]){
-                    makeTag(startID_0,class0,rowsid)
-                    makeTag(startID_1,class1,startID_0)
-                    makeTag(startID_2,class2,startID_1)
-                    makeTag(startID_3,class2,startID_1)
-                    
-                    makeTag(endID_0,class0,rowsid)
-                    makeTag(endID_1,class1,endID_0)
-                    makeTag(endID_2,class2,endID_1)
-                    makeTag(endID_3,class2,endID_1)
-                    }
-                if (nameElement_name.includes('farst_time_h')){
-                    tags.onclick = "func('"+ nameElement_id +"')";
-                    make_tag = $('<SELECT>',tags);
-                    make_tag.attr('required', true);
-                    $("#"+startID_2).append(make_tag)
-
-                }else if (nameElement_name.includes('farst_time_m')){
-                    tags.onclick = "func('"+ nameElement_id +"')";
-                    make_tag = $('<SELECT>',tags);
-                    make_tag.attr('required', true);
-                    $("#"+startID_3).append(make_tag);
-
-                }else if (nameElement_name.includes('end_time_h')){
-                    tags.onclick = "func('"+ nameElement_id +"')";
-                    make_tag = $('<SELECT>',tags);
-                    make_tag.attr('required', true);
-                    $("#"+endID_2).append(make_tag);
-
-                }else if (nameElement_name.includes('end_time_m')){
-                    tags.onclick = "func('"+ nameElement_id +"')";
-                    make_tag = $('<SELECT>',tags);
-                    make_tag.attr('required', true);
-                    $("#"+endID_3).append(make_tag);
+            $("#"+IDName).append(
+                $("<select>",{
+                    type:ChildrenType,
+                    id:ChildrenID,
+                    name:ChildrenName,
+                    class:ChildrenClass,
+                }))
+                // オプション追加
+                for (var t = 0; t < childrenOption.length; t++ ){
+                $("#"+ChildrenID).append(
+                    $("<option>").val(childrenOption[t].value).text(childrenOption[t].label)
+                    )
                 }
-                
-            }else{
-                var make_tag = $('<SELECT>',tags);
-                // make_tag.required = true;
-                if (nameElement_name.includes('break_time')){
-                    $(make_tag).attr({'onclick':"func('"+ nameElement_name +"')"});
-                    if ($("#break_status").val() == 0){
-                        make_tag.prop("disabled", true);
-                        make_tag.attr("disabled","disabled");
-                    }
-                }
-                //select追加
-                $("#"+rowsid).append(make_tag);
-                }
-            //オプション追加
-            var selectOptions = $("#"+nameElement_id);
-            options = $('select[id='+id_content+']').children('option')
-            for(var l = 0; l < options.length; l++) {
-                option = {value: options[l].value, text:options[l].text};
-                option = $("<OPTION>",option)
-                selectOptions.append(option);
-                }
-        }else if (tag_name == "INPUT"){
-            var tags={id:nameElement_id ,name:nameElement_name}
-            var make_tag = $('<INPUT>',tags);
 
-            if (tag_type == "hidden"){
-                make_tag.attr("type","hidden");
-            }else if(tag_type == "date"){
-                if ($("#date_status").val() == 0){
-                    make_tag.prop("disabled", true);
-                    make_tag.attr("disabled","disabled");
+        }else if (element == "DIV"){
+            ChildrenClass = ChildrenElement.classList
+            ChildrenID = ChildrenElement.id.substring(0, ChildrenElement.id.length-1) + currentChoiceCount
+            // 親クラス追加
+            $("#"+IDName).append(
+                $("<div>",{
+                    id:ChildrenID,
+                    class:ChildrenClass,
+                }))
+            // 子クラス追加
+            var time_row_h = $("#"+ChildrenElement.id).children()[0]
+            var time_ChildrenID = time_row_h.id.substring(0, time_row_h.id.length-1) + currentChoiceCount
+            var time_ChildrenClass = time_row_h.classList
+            $("#"+ChildrenID).append(
+                $("<div>",{
+                    id:time_ChildrenID,
+                    class:time_ChildrenClass,
+                }))
+            // 孫セレクト追加
+            var time_select = $("#"+time_row_h.id).children()[0]
+            var time_Select_id = time_select.id.substring(0, time_select.id.length-1) + currentChoiceCount
+            var time_SelectClass = time_select.classList
+            $("#"+time_ChildrenID).append(
+                $("<select>",{
+                    id:time_Select_id,
+                    class:time_SelectClass,
+                }))
+            // オプション追加
+            for (var t = 0; t < $("#"+time_row_h.id).children()[0].length; t++ ){
+                $("#"+time_Select_id).append(
+                    $("<option>").val(time_select[t].value).text(time_select[t].label)
+                    )
                 }
-                make_tag.attr("type","date");
+            // 子クラス追加
+            var time_row_m = $("#"+ChildrenElement.id).children()[1]
+            time_ChildrenID = time_row_m.id.substring(0, time_row_m.id.length-1) + currentChoiceCount
+            time_ChildrenClass = time_row_m.classList
+            $("#"+ChildrenID).append(
+                $("<div>",{
+                    id:time_ChildrenID,
+                    class:time_ChildrenClass,
+                }))
+            // 孫セレクト追加
+            var time_select = $("#"+time_row_m.id).children()[0]
+            var time_Select_id = time_select.id.substring(0, time_select.id.length-1) + currentChoiceCount
+            var time_SelectClass = time_select.classList
+            $("#"+time_ChildrenID).append(
+                $("<select>",{
+                    id:time_Select_id,
+                    class:time_SelectClass,
+                }))
+            // オプション追加
+            for (var t = 0; t < $("#"+time_row_m.id).children()[0].length; t++ ){
+                $("#"+time_Select_id).append(
+                    $("<option>").val(time_select[t].value).text(time_select[t].label)
+                    )
+                }
             }
-                if (nameElement_name.includes('total_time')){
-                    make_tag.readonly = true;
-                    make_tag.attr("readonly","readonly");
-            }else if (nameElement_name.includes('anydate') && $("#date_status").val() == 0){
-                make_tag.prop("disabled", true);
-                make_tag.attr("disabled","disabled");
-            }
-            $("#"+rowsid).append(make_tag);
         }
-        //クラス追加
-        $("#"+nameElement_id).addClass(class_all);
-    }
+
     currentChoiceCount += 1;
     totalManageElement.setAttribute('value', currentChoiceCount);
     sessionStorage.setItem("rows",currentChoiceCount);
 };
+
 function del(){
     if ( currentChoiceCount == 1 ) { return; }
     $("#rows_"+ (currentChoiceCount-1)).empty()
     $("#rows_"+ (currentChoiceCount-1)).remove();
     currentChoiceCount -= 1;
-    func('id_rowend_time_m_0')
+    
+    Time_calculation('id_rowend_time_m_0')
     totalManageElement.setAttribute('value', currentChoiceCount);
     sessionStorage.setItem("rows",currentChoiceCount);
 };
@@ -398,7 +342,8 @@ function oneClickbutton(){
     select_m.options[4].selected = true;
     select_h.style.color = select_m.style.color = 'black';
     // select_m.style.color = 'black';
-    func("id_rowend_time_m_0")
+    // 
+    Time_calculation("id_rowend_time_m_0")
 };
 function selectChangeColor(val){
     val.style.color = 'black';
@@ -463,7 +408,8 @@ $("#change_breakMode").click(function(){
         $("#break_status").val(0)
         }
     }
-    func("id_rowend_time_m_0")
+    
+    Time_calculation("id_rowend_time_m_0")
 })
 $("#change_dateMode").click(function(){
     if($("#date_status").val() == 0){
@@ -476,17 +422,18 @@ $("#change_dateMode").click(function(){
         $("#today").prop("disabled", false);
         }
     }
-    // func("id_rowend_time_m_0")
+    // 
+    Time_calculation("id_rowend_time_m_0")
 })
 
 function  userArea_timeChange(){
     if ($("#area").val() == "1"){
-        $('#id_rowfarst_time_h_0').val("8").change();
-        $('#id_rowfarst_time_m_0').val("10").change();
+        $('#id_rowstart_time_h_0').val("8").change();
+        $('#id_rowstart_time_m_0').val("10").change();
 
     }else if ($("#area").val() == "2"){
-        $('#id_rowfarst_time_h_0').val("8").change();
-        $('#id_rowfarst_time_m_0').val("00").change();
+        $('#id_rowstart_time_h_0').val("8").change();
+        $('#id_rowstart_time_m_0').val("00").change();
         // $("#id_rowfarst_time_m_0").val(00)
     
     }

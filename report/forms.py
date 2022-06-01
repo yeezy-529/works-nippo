@@ -21,33 +21,33 @@ time_m = (
     )
 
 class  report_form(forms.ModelForm):
-    rowfarst_time_h_0 = forms.ChoiceField(
+    rowstart_time_h_0 = forms.ChoiceField(
         required=True,
         choices = time_h,
-        widget= forms.Select(attrs = {
-        'onclick' : "func('id_farst_time_h_0'); selectChangeColor(this);",}),
+        # widget= forms.Select(attrs = {
+        # 'onclick' : "func('id_farst_time_h_0'); selectChangeColor(this);",}),
     )
 
-    rowfarst_time_m_0 = forms.ChoiceField(
+    rowstart_time_m_0 = forms.ChoiceField(
         required=True,
         choices = time_m,
-        widget= forms.Select(attrs = {
-        'onclick' : "func('id_farst_time_m_0'); selectChangeColor(this);",}),
+        # widget= forms.Select(attrs = {
+        # 'onclick' : "func('id_farst_time_m_0'); selectChangeColor(this);",}),
     )
 
     rowend_time_h_0 = forms.ChoiceField(
         required=True,
         choices = time_h,
-        widget= forms.Select(attrs = {
-        'onclick' : "func('id_end_time_h_0'); selectChangeColor(this);",}),
+        # widget= forms.Select(attrs = {
+        # 'onclick' : "func('id_end_time_h_0'); selectChangeColor(this);",}),
     )
 
     rowend_time_m_0 = forms.ChoiceField(
         required=True,
         choices = time_m,
-        widget= forms.Select(attrs = {
-        'onclick' : "func('id_end_time_m_0'); selectChangeColor(this);",
-        }),
+        # widget= forms.Select(attrs = {
+        # 'onclick' : "func('id_end_time_m_0'); selectChangeColor(this);",
+        
     )
 
     class Meta:

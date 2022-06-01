@@ -1,7 +1,14 @@
 body{
     background-color: #E7F9FF;
 }
-
+.iphone_class{
+    /* position: absolute; */
+    /* overflow:hidden; */
+    /* height: 0; */
+    /* width: 0; */
+    display: none;
+    /* font-size: 30px; */
+}
 
 /* table{
     width: 50%;
@@ -168,8 +175,9 @@ body{
     display: grid;
     grid-template-columns: 12% 12% 15% 20% 10% 10% 9% 6.5%;
     grid-column-gap: 10px;
-    }
+    border: 0;
 
+    }
 .form-account select{
     height: 45px;
     max-width: 390px;
@@ -234,7 +242,7 @@ body{
 }
 .all_total_contens{
     width: 550px;
-    height: 50px;
+    height: 60px;
     border-radius: 10px 10px 10px 10px;
     display: flex;
     align-items: center;
@@ -244,12 +252,13 @@ body{
     font-weight: bold;
 }
 .button-register{
+    height: 60px;
     border: none;
     padding: 0 70px;
     border-radius: 20px 20px 20px 20px;
     background-color: #53afec;
     color: #ffffff;
-    font-size: 50px;
+    font-size: 40px;
     font-weight: 500;
     /* margin: 0 5% 0 30%; */
 }
@@ -385,12 +394,20 @@ body{
     .rows_contens{
         width: 95%;
         display: grid;
-        grid-template-columns: 25% 25% 25% 25%;
+        /* grid-template-columns: 25% 25% 25% 25%; */
+        grid-template-columns: 30% auto;
+        /* grid-template-columns: 33% 33% 33%; */
+        /* grid-template-columns: repeat(12, minmax(0, 1fr)); */
         grid-column-gap: 10px;
+        border-bottom: solid 10px #ff7d6e;
     }
+
     .wrapper{
         width: 98%;
         }
+    .iphone_class{
+        display: inline-block;
+    }
 }
 @media (max-width: 870px) {
     .all_total_contens{

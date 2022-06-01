@@ -119,6 +119,8 @@ label{
     width: 160px;
     border-radius: 15px;
     vertical-align: top;
+    background-color: #fff;
+    color: #000;
 }
 .top-item-box{
     display: flex;

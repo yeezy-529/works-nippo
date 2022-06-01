@@ -1,6 +1,9 @@
 body{
     background-color: #E7F9FF;
 }
+label{
+    font-size: 25px;
+}
 .iphone_class{
     /* position: absolute; */
     /* overflow:hidden; */
@@ -408,10 +411,11 @@ body{
         }
     .iphone_class{
         display: inline-block;
+        
     }
     .form_item{
     font-size: 30px;
-    height: 60px;
+    height: 80px;
     }
 }
 @media (max-width: 870px) {

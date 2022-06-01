@@ -108,5 +108,15 @@ p {
         /* background-color: #006fbe; */
         background-color: rgba(86, 150, 240, 0.563);
     }
+    
 
+}
+@media screen and (max-width: 1140px) {
+    header{
+        font-size: 25px;
+    }
+    .user-name{
+        width: 80%;
+        padding-left: 10px;
+    }
 }

@@ -119,9 +119,15 @@ label{
     border-radius: 15px;
     vertical-align: top;
 }
+.top-item-box{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
 .top-item-button{
     width: 140px;
     height: 40px;
+    margin: 2px;
     border-radius: 15px;
     font-weight: 600;
     opacity:0.8;
@@ -390,7 +396,6 @@ label{
 	cursor: pointer;
 }
 .modal1{
-  /* display: flex; */
     width: 500px;
     height: 300px;
 }
@@ -398,10 +403,7 @@ label{
     .rows_contens{
         width: 95%;
         display: grid;
-        /* grid-template-columns: 25% 25% 25% 25%; */
-        grid-template-columns: 30% auto;
-        /* grid-template-columns: 33% 33% 33%; */
-        /* grid-template-columns: repeat(12, minmax(0, 1fr)); */
+        grid-template-columns: 50% auto;
         grid-column-gap: 10px;
         border-bottom: solid 10px #ff7d6e;
     }
@@ -414,8 +416,14 @@ label{
         
     }
     .form_item{
-    font-size: 30px;
-    height: 80px;
+    font-size: 20px;
+    height: 60px;
+    }
+    .top-item-button{
+        width: 100px;
+        
+        
+
     }
 }
 @media (max-width: 870px) {

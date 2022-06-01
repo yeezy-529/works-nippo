@@ -107,15 +107,16 @@ label{
 }
 .top-item{
     display: flex;
-    height: 60px;
+    height: auto;
     width: 100%;
-    margin: 15px 0;
+    margin: 10px 0;
     align-items: center;
     justify-content: space-between; 
 }
 .top-item-date{
     padding: 5px 10px;
     height: 45px;
+    width: 160px;
     border-radius: 15px;
     vertical-align: top;
 }
@@ -123,6 +124,7 @@ label{
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
+    width: 60%;
 }
 .top-item-button{
     width: 140px;

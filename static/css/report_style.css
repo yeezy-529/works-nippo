@@ -198,7 +198,8 @@ body{
 }
 .form_item{
     margin: 5px 0px;
-    height: 45px;
+    height: 40px;
+    font-size: 16px;
     /* color: #75757588; */
 }
 .timerow{
@@ -407,6 +408,10 @@ body{
         }
     .iphone_class{
         display: inline-block;
+    }
+    .form_item{
+    font-size: 30px;
+    height: 60px;
     }
 }
 @media (max-width: 870px) {

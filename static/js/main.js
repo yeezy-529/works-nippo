@@ -9,7 +9,7 @@ var time_23_59 = new Date(today_data + " " + 23 + ":" + 59 + ":00")
 var time_5_00 = new Date(today_data + " " + 5 + ":" + 00 + ":00")
 var totalManageElement = document.querySelector("#id_rows");
 var Row_Count = parseInt(totalManageElement.value);
-$(document).on("click", "select[id^=id_rowend_time],select[id^=id_rowstart_time],select[id^=id_break_time]", function () {
+$("body").on("click", "select[id^=id_rowend_time],select[id^=id_rowstart_time],select[id^=id_break_time]", function () {
         var id = $(this).attr('id');
         Time_calculation(id)
     })

@@ -8,7 +8,7 @@ var time_0_00 = new Date(today_data + " " + 00 + ":" + 00 + ":00")
 var time_23_59 = new Date(today_data + " " + 23 + ":" + 59 + ":00")
 var time_5_00 = new Date(today_data + " " + 5 + ":" + 00 + ":00")
 var totalManageElement = document.querySelector("#id_rows");
-var currentChoiceCount = parseInt(totalManageElement.value);
+var Row_Count = parseInt(totalManageElement.value);
 $(document).on("click", "select[id^=id_rowend_time],select[id^=id_rowstart_time],select[id^=id_break_time]", function () {
         var id = $(this).attr('id');
         Time_calculation(id)
@@ -127,7 +127,7 @@ function Time_calculation(This_ID){
 function totalTime(){
     var timeList = []
     var night_timeList = []
-    var count = currentChoiceCount;
+    var count = Row_Count;
     for (var i = 0; i < count; i++){
         var time = Number($("#id_total_time_"+i).val());
         var night_time = Number($("#id_night_time_"+i).val());
@@ -170,7 +170,7 @@ function TodayDate() {
 };
 
 function row_add(){
-    if (currentChoiceCount == 100) { return; }
+    if (Row_Count == 100) { return; }
     var ChildrenClass
     var ChildrenID
     var ChildrenName
@@ -181,7 +181,7 @@ function row_add(){
     var ChildrenElement
     var element
     var Row =  $("#rows_0")[0]
-    var Row_ID = "rows_" + currentChoiceCount
+    var Row_ID = "rows_" + Row_Count
 
     $("#rows_wrapper").append(
         $("<div>",{
@@ -192,29 +192,41 @@ function row_add(){
     var RowInfoChild = $("#rows_0").children()
     for(var l = 0; l < RowInfoChild.length; l++){
         ClassName = RowInfoChild[l].className
-        IDName = RowInfoChild[l].id.substring(0, RowInfoChild[l].id.length-1)+currentChoiceCount
+        IDName = RowInfoChild[l].id.substring(0, RowInfoChild[l].id.length-1)+Row_Count
         LabelText = RowInfoChild[l].children[0].innerText
         ChildrenElement = RowInfoChild[l].children[1]
-        // console.log(RowInfoChild[l].children);
 
-        element = ChildrenElement.nodeName
+            
         
+        // 親クラス作成
         $("#"+Row_ID).append(
             $("<div>",{
                 id:IDName,
                 class:ClassName,
             }))
-        //ラベル追加 
-        $("#"+IDName).append(
-            $("<label>",{
-                text:LabelText,
-                class:"iphone_class"
-            }))
+
+
+        if (! ChildrenElement){
+            ChildrenElement = RowInfoChild[l].children[0]
+        }else{
+            //ラベル追加 
+            $("#"+IDName).append(
+                $("<label>",{
+                    text:LabelText,
+                    class:"iphone_class"
+                }))
+        }
+
+        element = ChildrenElement.nodeName
+        
+        
+        
         if (element == "INPUT"){
             ChildrenType = ChildrenElement.type
-            ChildrenID = ChildrenElement.id.substring(0, ChildrenElement.id.length-1) + currentChoiceCount
-            ChildrenName = ChildrenElement.name.substring(0, ChildrenElement.name.length-1) + currentChoiceCount
+            ChildrenID = ChildrenElement.id.substring(0, ChildrenElement.id.length-1) + Row_Count
+            ChildrenName = ChildrenElement.name.substring(0, ChildrenElement.name.length-1) + Row_Count
             ChildrenClass = ChildrenElement.classList
+            
 
             $("#"+IDName).append(
                 $("<input>",{
@@ -223,13 +235,16 @@ function row_add(){
                     name:ChildrenName,
                     class:ChildrenClass,
                 }))
+            if ($('#'+ChildrenElement.id).prop('disabled')){$("#"+ChildrenID).prop('disabled', true);}
+            if ($('#'+ChildrenElement.id).prop('readonly')){$("#"+ChildrenID).prop('readonly', true);}
 
         }else if (element == "SELECT"){
 
             ChildrenClass = ChildrenElement.classList
-            ChildrenID = ChildrenElement.id.substring(0, ChildrenElement.id.length-1) + currentChoiceCount
-            ChildrenName = ChildrenElement.name.substring(0, ChildrenElement.name.length-1) + currentChoiceCount
+            ChildrenID = ChildrenElement.id.substring(0, ChildrenElement.id.length-1) + Row_Count
+            ChildrenName = ChildrenElement.name.substring(0, ChildrenElement.name.length-1) + Row_Count
             ChildrenType = ChildrenElement.type
+
             var childrenOption = ChildrenElement.children
 
             $("#"+IDName).append(
@@ -240,15 +255,17 @@ function row_add(){
                     class:ChildrenClass,
                 }))
                 // オプション追加
-                for (var t = 0; t < childrenOption.length; t++ ){
-                $("#"+ChildrenID).append(
-                    $("<option>").val(childrenOption[t].value).text(childrenOption[t].label)
-                    )
-                }
+            for (var t = 0; t < childrenOption.length; t++ ){
+            $("#"+ChildrenID).append(
+                $("<option>").val(childrenOption[t].value).text(childrenOption[t].label)
+                )
+            }
+            if ($('#'+ChildrenElement.id).prop('disabled')){$("#"+ChildrenID).prop('disabled', true);}
+            if ($('#'+ChildrenElement.id).prop('readonly')){$("#"+ChildrenID).prop('readonly', true);}
 
         }else if (element == "DIV"){
             ChildrenClass = ChildrenElement.classList
-            ChildrenID = ChildrenElement.id.substring(0, ChildrenElement.id.length-1) + currentChoiceCount
+            ChildrenID = ChildrenElement.id.substring(0, ChildrenElement.id.length-1) + Row_Count
             // 親クラス追加
             $("#"+IDName).append(
                 $("<div>",{
@@ -257,7 +274,7 @@ function row_add(){
                 }))
             // 子クラス追加
             var time_row_h = $("#"+ChildrenElement.id).children()[0]
-            var time_ChildrenID = time_row_h.id.substring(0, time_row_h.id.length-1) + currentChoiceCount
+            var time_ChildrenID = time_row_h.id.substring(0, time_row_h.id.length-1) + Row_Count
             var time_ChildrenClass = time_row_h.classList
             $("#"+ChildrenID).append(
                 $("<div>",{
@@ -266,7 +283,7 @@ function row_add(){
                 }))
             // 孫セレクト追加
             var time_select = $("#"+time_row_h.id).children()[0]
-            var time_Select_id = time_select.id.substring(0, time_select.id.length-1) + currentChoiceCount
+            var time_Select_id = time_select.id.substring(0, time_select.id.length-1) + Row_Count
             var time_SelectClass = time_select.classList
             $("#"+time_ChildrenID).append(
                 $("<select>",{
@@ -281,7 +298,7 @@ function row_add(){
                 }
             // 子クラス追加
             var time_row_m = $("#"+ChildrenElement.id).children()[1]
-            time_ChildrenID = time_row_m.id.substring(0, time_row_m.id.length-1) + currentChoiceCount
+            time_ChildrenID = time_row_m.id.substring(0, time_row_m.id.length-1) + Row_Count
             time_ChildrenClass = time_row_m.classList
             $("#"+ChildrenID).append(
                 $("<div>",{
@@ -290,7 +307,7 @@ function row_add(){
                 }))
             // 孫セレクト追加
             var time_select = $("#"+time_row_m.id).children()[0]
-            var time_Select_id = time_select.id.substring(0, time_select.id.length-1) + currentChoiceCount
+            var time_Select_id = time_select.id.substring(0, time_select.id.length-1) + Row_Count
             var time_SelectClass = time_select.classList
             $("#"+time_ChildrenID).append(
                 $("<select>",{
@@ -301,25 +318,37 @@ function row_add(){
             for (var t = 0; t < $("#"+time_row_m.id).children()[0].length; t++ ){
                 $("#"+time_Select_id).append(
                     $("<option>").val(time_select[t].value).text(time_select[t].label)
-                    )
-                }
+                )
             }
-        }
+        }else if (element == "P"){
+            ChildrenType = ChildrenElement.type
+            ChildrenID = ChildrenElement.id.substring(0, ChildrenElement.id.length-1) + Row_Count
+            ChildrenClass = ChildrenElement.classList
 
-    currentChoiceCount += 1;
-    totalManageElement.setAttribute('value', currentChoiceCount);
-    sessionStorage.setItem("rows",currentChoiceCount);
+            $("#"+IDName).append(
+                $("<p>",{
+                    type:ChildrenType,
+                    id:ChildrenID,
+                    class:ChildrenClass,
+                    text:Row_Count+1
+                }))
+        }
+    }
+
+    Row_Count += 1;
+    totalManageElement.setAttribute('value', Row_Count);
+    sessionStorage.setItem("rows",Row_Count);
 };
 
 function del(){
-    if ( currentChoiceCount == 1 ) { return; }
-    $("#rows_"+ (currentChoiceCount-1)).empty()
-    $("#rows_"+ (currentChoiceCount-1)).remove();
-    currentChoiceCount -= 1;
+    if ( Row_Count == 1 ) { return; }
+    $("#rows_"+ (Row_Count-1)).empty()
+    $("#rows_"+ (Row_Count-1)).remove();
+    Row_Count -= 1;
     
     Time_calculation('id_rowend_time_m_0')
-    totalManageElement.setAttribute('value', currentChoiceCount);
-    sessionStorage.setItem("rows",currentChoiceCount);
+    totalManageElement.setAttribute('value', Row_Count);
+    sessionStorage.setItem("rows",Row_Count);
 };
 function loadFunc(){
     var row = sessionStorage.getItem('rows');
@@ -357,7 +386,7 @@ function selectChangeColor(val){
 function get_text() {
     var tagElement = $(".hisory-record-p");
     var tagLen = tagElement.length;
-    while (tagLen > currentChoiceCount) {row_add()}
+    while (tagLen > Row_Count) {row_add()}
     for(var i = 0; i < tagLen; i++){
         var table= tagElement[i].children;
         name1("id_constr_number_" + i,table[1].outerText)
@@ -381,7 +410,7 @@ function getRowCol(){
     // var tabelElement = $("#past-report");
     var tabelElement = table = document.getElementById('past-report');
     var copyRows = tabelElement.childElementCount -1
-    while (copyRows > currentChoiceCount) {
+    while (copyRows > Row_Count) {
         row_add()
     }
     var tag = document.getElementsByClassName('hisory-record-p');

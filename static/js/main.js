@@ -32,17 +32,17 @@ function Time_calculation(This_ID){
     if (area_number == "1"){
         var morning_break = new Date(today_data + " " + 10 + ":" + 10 + ":00")
         var afternoon_break = new Date(today_data + " " + 15 + ":" + 10 + ":00")
-        var work_break1 = 80
-        var work_break2 = 70
-        var work_break3 = 60
-        var work_break4 = 10
+        var work_break1_80or90 = 80
+        var work_break2_70or75 = 70
+        var work_break3_60 = 60
+        var work_break4_10or15 = 10
     }else if (area_number == "2"){
         var morning_break = new Date(today_data + " " + 10 + ":" + 15 + ":00")
         var afternoon_break = new Date(today_data + " " + 15 + ":" + 15 + ":00")
-        var work_break1 = 90
-        var work_break2 = 75
-        var work_break3 = 60
-        var work_break4 = 15
+        var work_break1_80or90 = 90
+        var work_break2_70or75 = 75
+        var work_break3_60 = 60
+        var work_break4_10or15 = 15
     }
     var id_len = This_ID.length
     var id_number = This_ID.substring(id_len-1,id_len)
@@ -63,31 +63,43 @@ function Time_calculation(This_ID){
         end_time = time_23_59
         var t = 1
     }
-    // 12 14 -60
-    // 
+    // 8:10-13:00 220
+    // 13:00-17:30 270 - 10
     var total = end_time - start_time
     total = ((total/60)/1000)
     if ($("#break_status").val() == 0){
         if (morning_break > start_time){
             if (afternoon_break <= end_time){
-            total -= work_break1
+                total -= work_break1_80or90
             }else if (break_13_00 <= end_time){
-            total -= work_break2
+                total -= work_break2_70or75
             }else if (morning_break <= end_time){
-            total -= work_break4
+                total -= work_break4_10or15
             }
+            // 1010-1200
+            // 1510< -70
+            // 13<  >1510-0
         }else if (break_13_00 > start_time){
             if (afternoon_break <= end_time){
-                total -= work_break2
+                total -= work_break2_70or75
             }else if (afternoon_break > end_time){
-                // 12 14 60
-                total -= work_break3
-        }else if (break_13_00 <= end_time &&  afternoon_break >= end_time){
-                total -= work_break3
+                if (break_13_00 > end_time && afternoon_break > end_time){
+                    total -= 0
+                }else{
+                    total -= work_break3_60
+                }
+            }else if (break_13_00 <= end_time &&  afternoon_break >= end_time){
+                    total -= work_break3_60
+            }else if (afternoon_break > start_time){
+                if (afternoon_break < end_time){
+                    total -= work_break4_10or15
+                }
+            }
         }else if (afternoon_break > start_time){
-            if (afternoon_break < end_time){total -= work_break4}
+            if (afternoon_break < end_time){
+                total -= work_break4_10or15
+            }
         }
-    }
     }else if ($("#break_status").val() == 1){
         var break_value = $("#id_break_time_" + id_number).val()
         if (break_value === undefined){break_value = 0}

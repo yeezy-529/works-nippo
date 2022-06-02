@@ -5,101 +5,12 @@ label{
     font-size: 22px;
 }
 .iphone_class{
-    /* position: absolute; */
-    /* overflow:hidden; */
-    /* height: 0; */
-    /* width: 0; */
     display: none;
-    /* font-size: 30px; */
 }
 
-/* table{
-    width: 50%;
-    /* margin:auto; */
-    /* border-collapse: collapse; */
-    /* border-spacing: 0; */
-/* } */ 
-    
-    /* table th,table td{
-    padding: 0px 5px;
-    text-align: center;
-    font-size:12px;
-} */
-    
-    /* table tr:nth-child(odd){
-    background-color: #fff;
-} */
 .hisory-record-contents{
     padding-top: 10px;
 }
-
-/* h1{
-    padding: 10px 70px 0 0;
-} */
-/* ul {
-    display: flex;
-    list-style: none;
-} */
-/* a {
-    color: #FFFFFF;
-    text-decoration: none;
-} */
-/* p {
-    margin: 0;
-} */
-/* .user-name{
-    padding: 0px 0 0 45px;
-    width: 40%;
-    z-index: 2;
-} */
-/* .user-dept{
-    margin: 0 0 0 0;
-    font-size: 14px;
-} */
-/* .nav-bar{
-    height: 100%;
-    width: 100%;
-    /* margin: 0 0 0 auto; */
-/* } */ 
-/* .menu-nav-bar{ */
-    /* メニューを縦に */
-    /* position: fixed;
-    right: -70%;
-    width: 70%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background-color: rgba(58, 123, 167, 0.563);
-    transition: .3s; 
-    z-index: 1;
-    padding: 68px 0 0 0; */
-/* } */
-/* .nav-bar-tag{ */
-    /* display: block;
-    width: 100%;
-    height: 68px;
-    font-size: 20px;
-    line-height: 68px; */
-    /* padding-top: 68px; */
-    /* text-align: center;
-    background-color: #006fbe; */
-
-    /* width: 100%;
-    height: 100%; */
-    /* メニューテキスト位置をリスト内中心に */
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
-/* } */
-/* .nav-bar-tag:hover{ */
-    /* transition: 0.2s;
-    background-color: #5d91b6;
-    color: #FFFFFF; */
-/* } */
-/* .open { */
-    /* right: 0; */
-/* } */
-
 .wrapper{
     width: 90%;
     height: 90%; 
@@ -176,18 +87,15 @@ label{
     border: solid 6px #C0C0C0;/*線*/
     border-radius: 12px;/*角の丸み*/
 }
-/* @media (min-width: 1140px) { */
-    .wapper{
-        width: 100%;
-        
-        text-align: center;
-        margin: auto;
-    }
+.wapper{
+    width: 100%;
+    
+    text-align: center;
+    margin: auto;
+}
 
-/* } */
 .rows_contens{
     display: grid;
-    /* grid-template-rows: 10% 90%; */
     grid-template-columns: 12% 12% 15% 20% 10% 10% 9% 6.4%;
     grid-column-gap: 10px;
     border: 0;
@@ -195,12 +103,6 @@ label{
 .row_number_class {
     display: none;
 }
-.row_number_class p{
-    /* width: 25px;
-    height: 25px;
-    border: solid; */
-}
-
 .form-account select{
     height: 45px;
     max-width: 390px;
@@ -214,7 +116,6 @@ label{
     width: 95%;
     height: 90%; 
     margin: 10px auto;
-    /* margin: 10px 10px; */
 }
 .time_contents{
     padding: 0px 1px;
@@ -223,7 +124,6 @@ label{
     margin: 5px 0px;
     height: 40px;
     font-size: 16px;
-    /* color: #75757588; */
 }
 .timerow{
     display: flex;
@@ -232,7 +132,6 @@ label{
     display: flex;
     width: 100%;
     height: 50px;
-    /* margin-top: 20px; */
 }
 .button-add{
     width: 100px;
@@ -240,7 +139,6 @@ label{
     margin: 30px 5px 5px 0px;
     padding: 0 1px 1px 1px;
     border-radius: 10px 10px 10px 10px;
-    /* background-color: #75b1a9; */
     background-color: #1db99a;
     color: #ffffff;
     border:none;
@@ -289,7 +187,6 @@ label{
     color: #ffffff;
     font-size: 40px;
     font-weight: 500;
-    /* margin: 0 5% 0 30%; */
 }
 
 .button-register:hover {
@@ -323,18 +220,6 @@ label{
     height: 30px;
 
 }
-/* @media (max-width: 1140px) {
-    .wapper {
-        display: grid;
-        grid-template-columns: 20% 20% 25% 15%;
-        grid-template-rows: 1fr 3fr;
-        grid-column-gap: 10px;
-        grid-template-rows: auto auto 1fr auto;
-        margin:auto;
-        text-align: center;
-        /* grid-template-columns: 33% 33% 33%; */
-    /* }
-} */ 
 .hisory-record-contents{
     height: 40%;
     width: 40%;
@@ -350,9 +235,6 @@ label{
     flex-grow:3;
     
 }
-/* .hisory-item2{
-    
-} */
 .hisory-record-contents-main{
     display: grid;
     padding:5px 0 0 0;
@@ -365,7 +247,6 @@ label{
     display: flex;
     justify-content: space-around;
 }
-
 .modal-container{
 	position: fixed;
 	top: 0;
@@ -475,47 +356,22 @@ label{
         grid-column: 1/5;
         text-align: left;
     }
-    /* .rows_contens{ */
-        /* display: grid; */
-        /* grid-template-rows: 10% 90%; */
-        /* grid-template-columns: 12% 12% 15% 20% 10% 10% 9% 6.4%; */
-        /* grid-column-gap: 10px; */
-        /* border: 0; */
-    /* } */
-    /* .row_number_class { */
-        /* grid-row: 1 / 2; */
-        /* text-align: left; */
-        /* display: none; */
-    
-    /* grid-row: 2 / 5; */
 
-    /* .row_item:nth-child(0){
-        grid-row: 2;
-        grid-column: 1/5;
-
-    } */
-
-    
-
-    /* 日付 */
     .row_item:nth-child(2){
         grid-row: 2;
         grid-column: 1;
 
     }
-    /* 工番 */
     .row_item:nth-child(3){
         grid-row: 2;
         grid-column: 2;
 
     }
-    /* 作業区分 */
     .row_item:nth-child(4){
         grid-row: 3;
         grid-column: 1;
 
     }
-    /* 作業内容 */
     .row_item:nth-child(5){
         grid-row: 3;
         grid-column: 2;
@@ -536,14 +392,8 @@ label{
         grid-column: 1;
 
     }
-    /* 休憩 */
     .row_item:last-child{
         grid-row: 5;
         grid-column: 2;
     }
 }
-/* @media (max-width: 870px) {
-        
-    }
-    
-    } */

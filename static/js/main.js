@@ -1,7 +1,7 @@
 var obj = new Object();
 var obj = {};
-var date_obj = new Date();
-var today_data = TodayDate()
+// var date_obj = new Date();
+var today_data = TodayDate().replace(/-/g,"/");
 var break_13_00 = new Date(today_data + " " + 13 + ":" + 00 + ":00")
 var time_22_00 = new Date(today_data + " " + 22 + ":" + 00 + ":00")
 var time_0_00 = new Date(today_data + " " + 00 + ":" + 00 + ":00")
@@ -195,8 +195,6 @@ function row_add(){
         IDName = RowInfoChild[l].id.substring(0, RowInfoChild[l].id.length-1)+Row_Count
         LabelText = RowInfoChild[l].children[0].innerText
         ChildrenElement = RowInfoChild[l].children[1]
-
-            
         
         // 親クラス作成
         $("#"+Row_ID).append(
@@ -204,7 +202,6 @@ function row_add(){
                 id:IDName,
                 class:ClassName,
             }))
-
 
         if (! ChildrenElement){
             ChildrenElement = RowInfoChild[l].children[0]
@@ -216,11 +213,7 @@ function row_add(){
                     class:"iphone_class"
                 }))
         }
-
         element = ChildrenElement.nodeName
-        
-        
-        
         if (element == "INPUT"){
             ChildrenType = ChildrenElement.type
             ChildrenID = ChildrenElement.id.substring(0, ChildrenElement.id.length-1) + Row_Count
@@ -374,15 +367,7 @@ function oneClickbutton(){
     // 
     Time_calculation("id_rowend_time_m_0")
 };
-function selectChangeColor(val){
-    val.style.color = 'black';
-    if( val.value == 0 ){
-        val.style.color = '#75757588';
-        return
-    }else{
-        val.style.color = 'black';
-    }
-};
+
 function get_text() {
     var tagElement = $(".hisory-record-p");
     var tagLen = tagElement.length;

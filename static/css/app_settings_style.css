@@ -1,7 +1,7 @@
 body{
     background-color: #C3D1FF;
 }
-header{
+/* header{
     display: flex;
     height: 68px;
     width: 100%;
@@ -9,9 +9,9 @@ header{
     align-items: center;
     background-color: #1577BD;
     color: #FFFFFF;
-}
+} */
 
-p{margin: 0;}
+/* p{margin: 0;} */
 
 h1 {
     margin: 0 0 20px;
@@ -20,16 +20,16 @@ h1 {
     font-size: 40px;
     color: var(--body-quiet-color);
 }
-h3 h4{margin: 0;}
+/* h3 h4{margin: 0;} */
 
-ul {
+/* ul {
     display: flex;
     list-style: none;
-}
-a {
+} */
+/* a {
     color: #FFFFFF;
     text-decoration: none;
-}
+} */
 .wrapper{
     width: 90%;
     height: 90%;
@@ -136,19 +136,17 @@ a {
     font-weight: 400;
 }
 .form-inner {
-    width: 98%;
+    width: 96%;
     margin: 0 auto;
     margin-bottom: 20px;
-    /* padding: 10px;
-    width: 940px; */
 }
 .card_item_section_inner_button{
     text-align: right;
     width: 100%;
-    
 }
 .form-group{
     width: 940px;
+    margin-top: 10px;
     margin-left: 10px;
     margin-bottom: 10px;
 }
@@ -170,12 +168,12 @@ a {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    height: 70px;
+    height: 40px;
 }
 .form-group-content-item{
     display: flex;
     align-items: center;
-    height: 70px;
+    height: 100%;
     width: 350px;
     
 }
@@ -203,6 +201,7 @@ a {
     flex-direction: column;
     align-items: flex-end;
     width: 100%;
+    padding-top: 10px;
 }
 .form-group-content-select-add{
     width: 80px;

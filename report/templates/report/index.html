@@ -7,62 +7,69 @@
 <head>
   <meta charset="UTF-8">
   <!-- Bootstrap CSS -->
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"rel="stylesheet"integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"crossorigin="anonymous"/>
   <link href="{% static 'css/report_style.css' %}"rel="stylesheet"type="text/css"/>
+  <link href="{% static 'css/header.css' %}"rel="stylesheet"type="text/css"/>
   <title>日報登録</title>
 </head>
 <body onload="loadFunc();TodayDate();userArea_timeChange()">
-    <header>
-      <div class="user-name">
-          <p class="user-dept">
-            {{ user.dept.dept }}
-          </p>
-        <p>
-          {{ user.last_name }} {{ user.fast_name }} 様
-        </p>
-      </div>
-      <nav class="nav-bar">
-        <button id="button-nav-var-jp" class="open js-btn butonbi"></button>
-        <ul class="menu-nav-bar">
-          <li><a class="nav-bar-tag" href="{% url "user_setting" %}">ユーザー設定</a></li>
-          <li><a class="nav-bar-tag" href="{% url "account" %}">ユーザー登録</a></li>
-          <li><a class="nav-bar-tag" href="{% url 'logout' %}">ログアウト</a></li>
-        </ul>
-      </nav>
-    </header>
+    {% include 'include.html' %}
     {{ erorr }}
     <div class="wrapper">
       <div class="top-item">
-        <input type="date"class="top-item-date"name="Reportdate_0"id="today"form='form1'/>
+        <input type="date"class="top-item-date"name="Reportdate_0"id="today"form='report-form'/>
         <div class="top-item-box">
           <input type="button"value="1日"class="top-item-button top-item-button0" onclick="oneClickbutton()"/>
-          {% comment %} <input type="button"value="ボタン1"class="top-item-button top-item-button1"/> {% endcomment %}
           <input type="button"value="休憩"id="change_breakMode"class="top-item-button top-item-button2"/>
           <input type="button"value="日付"id="change_dateMode"class="top-item-button top-item-button3"/>
+          <input type="button"value="修正"id=""class="top-item-button top-item-button3"/>
         </div>
       </div>
-      <form method="post"id="form1"class="form-report border border-3 rounded-3 bg-white">
+      <form method="post"id="report-form"class="form-report border border-3 rounded-3 bg-white">
       {% csrf_token %}
         <div id="constr-add_row"class="get_class">
-          <input type="hidden" id="id_start_time_0" name="start_time_0"class="select_get_class"/>
-          <input type="hidden" id="id_end_time_0" name="end_time_0"class="select_get_class"/>
+          
           <input type="hidden" id="id_night_time_0" name="end_night_0"class="select_get_class"/>
           <input type="hidden" id="id_rows" name="rows"value="1"/>
           <input type="hidden" id="break_status"name="break_status" value="0"/>
           <input type="hidden" id="date_status"name="date_status" value="0"/>
           <input type="hidden" id="area" value={{ user.area.number }} />
+          <input type="hidden" id="Row_date" value={{ record_date.Report_Row_date }} />
         </div>
+        <!-- モーダールウィンドウ　編集画面 -->
+        <div class="modal-container">
+          <div class="modal-body">
+            <!-- 閉じるボタン -->
+            <div class="modal-close">×</div>
+            <!-- モーダル内のコンテンツ -->
+            <div class="modal-content">
+              <input type="hidden" id="submit-stock" value />
+              <h4>確認</h4>
+              <p></p>
+              <div class="modal1">
+                <button type="button" id="edit-submit">登録</button>
+              </div>
+            </div>
+          </div>
+        </div>
+          
           <div class="form_contents">
             <div class="wapper">
               <div id="rows_wrapper">
                 <div id="rows_0" class="rows_contens">
-                  <div id="id_date" class="get_class">
+                  <input type="hidden" id="id_start_time_0" name="start_time_0"class="select_get_class"/>
+                  <input type="hidden" id="id_end_time_0" name="end_time_0"class="select_get_class"/>
+                  <div id="id_row_number_class_0" class="row_number_class">
+                    <p id="row_number_0">1</p>
+                  </div>
+                  <div id="row_date_0" class="get_class row_item1">
                     <label>日付</label>
                     <input id="id_Reportdate_0" name="Reportdate_0" type="date" class="form_item rounded-pill form-control select_get_class date_select"disabled/>
                   </div>
-                  <div id="choice-constr-constr_number" class="get_class">
+                  <div id="row_matter_0" class="get_class row_item2">
                     <label>工事番号</label>
-                    <select name="constr_number_0" id="id_constr_number_0" onclick="selectChangeColor(this);" class="form_item rounded-pill form-control select_get_class"style="color: black;">
+                    <select name="constr_number_0" id="id_constr_number_0"  class="form_item rounded-pill form-control select_get_class"style="color: black;"onclick="selectChangeColor(this);" >
                       <option value="">工番</option>
                       {% for Value in matter.matteOutValue %}
                         <option value={{ Value }}>
@@ -71,8 +78,7 @@
                       {% endfor %}
                     </select>
                   </div>
-
-                  <div id="choice-constr-work_class"class="get_class">
+                  <div id="row_work_class_0" class="get_class row_item3">
                     <label>作業区分</label>
                     <select name="work_class_0"id="id_work_class_0" onclick="selectChangeColor(this);" class="form_item rounded-pill form-control select_get_class" required>
                       <option value="">作業区分</option>
@@ -83,8 +89,7 @@
                       {% endfor %}
                     </select>
                   </div>
-
-                  <div id="choice-constr-work_contents"class="get_class">
+                  <div id="row_work_contents_0" class="get_class row_item4">
                     <label>作業内容</label>
                     <select name="work_contents_0"id="id_work_contents_0" onclick="selectChangeColor(this);" class="form_item rounded-pill form-control select_get_class" required>
                       <option value="">作業内容</option>
@@ -95,49 +100,38 @@
                       {% endfor %}
                     </select>
                   </div>
-
-                  <div id="start_time_item_0"class="form_time">
+                  <div id="row_start_time_0" class="form_time row_item5">
                     <label>開始時間</label>
                     <div id="start_time_itemchild_0" class="timerow">
                       <div id="start_time_itemGrandchild_h_0" class="col-md-6 time_contents">
-                        <div id="choice-constr-farst_time_h"class="get_class">
-                          {{ form.rowfarst_time_h_0|add_class:'form_item rounded-pill form-control select_get_class' }}
-                        </div>
+                          {{ form.rowstart_time_h_0|add_class:'form_item rounded-pill form-control select_get_class' }}
                       </div>
                       <div id="start_time_itemGrandchild_m_0" class="col-md-6 time_contents">
-                        <div id="choice-constr-farst_time_m"class="get_class">
-                          {{ form.rowfarst_time_m_0|add_class:'form_item rounded-pill form-control select_get_class' }}
-                        </div>
+                          {{ form.rowstart_time_m_0|add_class:'form_item rounded-pill form-control select_get_class' }}
                       </div>
                     </div>
                   </div>
-
-                  <div id="end_time_item_0"class="form_time">
+                  <div id="row_end_time_0" class="form_time row_item6">
                     <label>終了時間</label>
                     <div id="end_time_itemchild_0" class="timerow">
                       <div id="end_time_itemGrandchild_h_0" class="col-md-6 time_contents">
-                        <div id="choice-constr-end_time_h"class="get_class">
                           {{ form.rowend_time_h_0|add_class:'form_item rounded-pill form-control select_get_class' }}
-                        </div>
                       </div>
                       <div id="end_time_itemGrandchild_m_0" class="col-md-6 time_contents">
-                        <div id="choice-constr-end_time_m"class="get_class">
                           {{ form.rowend_time_m_0|add_class:'form_item rounded-pill form-control select_get_class' }}
-                        </div>
                       </div>
                     </div>
                   </div>
-
-                  <div id ="choice-constr-total_time"class="get_class">
-                  <label>所要時間</label>
-                  <INPUT type="text"
-                      id="id_total_time_0"
-                      name="total_time_0"
-                      value=""
-                      class="form_item rounded-pill form-control id_class select_get_class"
-                      readonly/>
+                  <div id="row_total_time_0" class="get_class row_item7">
+                    <label>所要時間</label>
+                    <INPUT type="text"
+                        id="id_total_time_0"
+                        name="total_time_0"
+                        value=""
+                        class="form_item rounded-pill form-control id_class select_get_class"
+                        readonly/>
                   </div>
-                  <div id="choice-constr-break_time"class="get_class">
+                  <div id="row_break_time_0" class="get_class row_item8">
                     <label>休憩</label>
                     <select id="id_break_time_0"name="break_time_0"onclick="func('break_time_0')"class="form_item rounded-pill form-control id_class select_get_class break_select" disabled>
                       <option value="">休憩</option>
@@ -162,10 +156,10 @@
 
               <div class="form-bottom">
                 <button onclick="row_add()" type="button" class="button-add button-action-add ">
-                  <label>行追加</label>
+                  行追加
                 </button>
                 <button onclick="del()" type="button" class="button-add button-action-del">
-                  <label>行削除</label>
+                  行削除
                 </button>
               </div>
 
@@ -174,21 +168,27 @@
                   <div class="all_total_contens border border-3 bg-white">
                     <div class="all-total-content">
                       合計時間:
-                      <input type="text"id="id-all-total-time"class="total-content"value=0 />
-                      分
+                      <div>
+                        <input type="text"id="id-all-total-time"class="total-content"value=0 />
+                        分
+                      </div>
                     </div>
                     <div class="all-total-content">
                       残業時間:
-                      <input type="text" id="id-all-over-time"class="total-content all-over-time" value=0 />
-                      分
+                      <div>
+                        <input type="text" id="id-all-over-time"class="total-content all-over-time" value=0 />
+                        分
+                      </div>
                     </div>
                     <div class="all-total-content">
                       夜勤時間:
-                      <input type="text" id="id-all-night-time"class="total-content all-night-time" value=0 />
-                      分
+                      <div>
+                        <input type="text" id="id-all-night-time"class="total-content all-night-time" value=0 />
+                        分
+                      </div>
                     </div>
                   </div>
-                  <button type="submit" class="button-register">登録</button>
+                  <button type="submit" id="form-submit" class="button-register">登録</button>
                 </div>
               </div>
             </div>
@@ -196,7 +196,7 @@
       </form>
       <div class="hisory-record-contents border border-info rounded">
         <div class="hisory-record-contents-top">
-          <p class="hisory-item1">Last Record:{{ record_date.Report_Row_date }}</p>
+          <p  class="hisory-item1">Last Record:{{ record_date.Report_Row_date }}</p>
           <button type="button"onclick="get_text()"id="copy-btn"class="hisory-item2 btn btn-outline-info copy-btn">コピー</button>
         </div>
         <div id="past-report" class="hisory-record-contents-main">
@@ -219,8 +219,9 @@
         </div>
       </div>
     </div>
-    <input type="button" id ="button1"/>
     <script src="{% static 'js/jQuery-3.6.0.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/header.js' %}"></script>
+
   </body>
 </html>

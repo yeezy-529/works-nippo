@@ -2,37 +2,17 @@ from .forms import *
 from .models import *
 from account.models import *
 from django.shortcuts import render,redirect
+from django.contrib.auth.decorators import login_required
 import datetime
 import re
 import pykintone
 from django.http import JsonResponse
-
-# 参考サイト
-# https://freeheroblog.com/django-update/
-# def kintone_settingViews(request):
-#     """kintone設定ビュー"""
-#     obj = kintone_setting_model.objects.get(id=1)
-#     if request.method == "GET":
-#         item = {
-#             "kintone_input_API":obj.kintone_input_API,
-#             "kintone_output_API":obj.kintone_output_API,
-#             "kintone_input_domain":obj.kintone_domain,
-#             "kintone_input_appID":obj.kintone_input_appID,
-#             "kintone_output_appID":obj.kintone_output_appID,
-#         }
-#         form = kintone_setting_form(initial=item)
-# 参考サイト（レコード更新）
-# https://ymgsapo.com/2018/09/21/update_record/
-    # elif request.method == 'POST':
-    #     if 'matter_get' in request.POST:
-    #         form = kintone_setting_form(request.POST, instance=obj)
-    #     if form.is_valid():
-    #         form.save()
-    # return render(request, "setting/kintone_setting.html",{'form':form})
-
 # 工場設定画面
 # https://yura2.hateblo.jp/entry/2015/04/04/Django%E3%81%A7%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E5%86%85%E3%81%A7%E3%82%AF%E3%83%AA%E3%83%83%E3%82%AF%E3%81%95%E3%82%8C%E3%81%9F%E3%83%9C%E3%82%BF%E3%83%B3%E3%81%AB%E3%82%88%E3%81%A3%E3%81%A6%E7%95%B0
+@login_required
 def app_settingsViews(request):
+    if not request.user.is_staff:
+        return redirect('login-home')
     if request.method == 'POST':
         # 0の時表示
         if 'matter_in' in request.POST:
@@ -150,7 +130,6 @@ def app_settingsViews(request):
         
         """作業区分 設定"""
         Dept = User_Dept.objects.all()
-        # workcontent = obj.contents
         
         return render(request, 'setting/app_settings.html',{
             "form":form,
@@ -158,7 +137,6 @@ def app_settingsViews(request):
             "params":params,
             "Dept":Dept,
             })
-
 
     elif request.method == 'GET':
         dept = User_Dept.objects.all()
@@ -198,15 +176,10 @@ def ajax_addDefaulWorkContent(request):
         obj_list = [i.contents for i in add_obj]
         obj_list_number = [int(i.number) for i in add_obj]
 
-        return JsonResponse({
-            "obj_list":obj_list,
-            "dept_number":obj_list_number
-            })
-    else:
-        return JsonResponse({
-            "obj_list":obj_list,
-            "dept_number":obj_list_number
-            })
+    return JsonResponse({
+        "obj_list":obj_list,
+        "dept_number":obj_list_number
+        })
 
 def ajax_delDefaulWorkContent(request):
     js_value = request.POST.get("value")
@@ -219,34 +192,44 @@ def ajax_delDefaulWorkContent(request):
     add_obj = DefaulWorkContent.objects.filter(dept__dept = js_dept)
     obj_list = [i.contents for i in add_obj]
     obj_list_number = [i.number for i in add_obj]
-    return JsonResponse({"obj_list":obj_list,"dept_number":obj_list_number})
+    return JsonResponse({
+        "obj_list":obj_list,
+        "dept_number":obj_list_number
+        })
 
 def ajax_addDefaulWorkClass(request):
     js_dept = request.POST.get("value_dept")
-    # js_number = request.POST.get("value_number")
-    # js_value = request.POST.get("value_content")
+    js_class = request.POST.get("value_class")
     add_obj = DefaultWorkclass.objects.filter(dept__dept = js_dept)
     obj_list = [i.contents for i in add_obj]
-    # obj_list_number = [int(i.number) for i in add_obj]
-    
-    # if (not js_value == "" and 
-    #     not js_number =="" and 
-    #     not js_value == None and
-    #     not js_number == None and 
-    #     not js_value in obj_list and
-    #     not int(js_number) in obj_list_number 
-    #     ):
-
-    # obj = User_Dept.objects.get(dept = js_dept)
-    # obj = DefaultWorkclass(dept = obj, contents = js_value, number = js_number)
-    # obj.save()
-    # add_obj = DefaultWorkclass.objects.filter(dept__dept = js_dept)
-    obj_list = [i.contents for i in add_obj]
-    # obj_list_number = [int(i.number) for i in add_obj]
+    if (not js_dept == "" and 
+        not js_class =="" and 
+        not js_dept == None and
+        not js_class == None and 
+        not js_class in obj_list):
+        obj = User_Dept.objects.get(dept = js_dept)
+        obj = DefaultWorkclass(
+            dept = obj,
+            contents = js_class
+        )
+        obj.save()
+        add_obj = DefaultWorkclass.objects.filter(dept__dept = js_dept)
+        obj_list = [i.contents for i in add_obj]
 
     return JsonResponse({"obj_list":obj_list})
-# else:
-#     return JsonResponse({"obj_list":obj_list,"dept_number":obj_list_number})
+
+def ajax_delDefaulWorkclass(request):
+    js_value = request.POST.get("value")
+    js_dept = request.POST.get("dept")
+    obj = DefaultWorkclass.objects.filter(
+        dept__dept = js_dept, 
+        contents = js_value
+        )
+    obj.delete()
+    add_obj = DefaultWorkclass.objects.filter(dept__dept = js_dept)
+    obj_list = [i.contents for i in add_obj]
+    return JsonResponse({"obj_list":obj_list,})
+
 # ---------------関数定義---------------
 def return_fun(requ):
     return render(requ, 'setting/app_settings.html',{"matter":matter_code("-")})
@@ -273,30 +256,22 @@ def db_save(code,number):
         pass
 
 def matter_code(kye = ""):
-    in_value = [{"Value":i.matter_code,"Label":i.matter_code + " " + str(i.matter_name),"Deadline":i.matter_deadline} for i in Matter_code.objects.filter(matter_displayinfo = 0).order_by(kye +'matter_code')]
-    out_value =[{"Value":i.matter_code,"Label":i.matter_code + " " + str(i.matter_name),"Deadline":i.matter_deadline} for i in Matter_code.objects.filter(matter_displayinfo = 1).order_by(kye +'matter_code')]
-    params = {"in_data":in_value,"out_data":out_value}
+    in_value = [{
+        "Value":i.matter_code,
+        "Label":i.matter_code + " " + str(i.matter_name),
+        "Deadline":i.matter_deadline} for i in Matter_code.objects.filter(matter_displayinfo = 0).order_by(kye +'matter_code')]
+
+    out_value =[{
+        "Value":i.matter_code,
+        "Label":i.matter_code + " " + str(i.matter_name),
+        "Deadline":i.matter_deadline} for i in Matter_code.objects.filter(matter_displayinfo = 1).order_by(kye +'matter_code')]
+
+    params = {
+        "in_data":in_value,
+        "out_data":out_value
+        }
     return params
 
-# 参考サイト
-# https://python.hotexamples.com/jp/examples/pykintone/-/app/python-app-function-examples.html
-# def input_kintone(date1, dept, name,number,cla,warks,sta_t,end_t,total_time_all,overtime,naittime):
-#     app = kintone_info_GET()
-#     record = register()
-#     record.日付=str(date1)
-#     record.部署=dept
-#     record.名前=str(name)
-#     record.工番=str(number)
-#     record.作業区分=str(cla)
-#     record.作業内容=str(warks)
-#     record.開始時間=str(sta_t)
-#     record.終了時間=str(end_t)
-#     record.所要時間=str(total_time_all)
-#     record.残業時間=overtime
-#     record.夜勤時間=naittime
-#     app.create(record)
-
-# kintoneInputAPI取得
 def kintone_info_GET(info = 1):
     if info == 1:
         obj = kintone_setting_model.objects.get(id=1)

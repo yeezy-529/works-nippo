@@ -1,6 +1,5 @@
 from django.db import models
 from app_setting.models import User_Area, User_Dept
-import app_setting.models
 from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):

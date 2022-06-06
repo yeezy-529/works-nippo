@@ -30,10 +30,6 @@ class kintone_setting_form(forms.ModelForm):
         max_length=30,
         required=True,
         )
-    # kintone_output_domain = forms.CharField(
-    #     max_length=30,
-    #     required=True,
-    #     )
     kintone_input_appID = forms.CharField(
         max_length=2,
         required=True,
@@ -49,7 +45,6 @@ class kintone_setting_form(forms.ModelForm):
             "kintone_input_API",
             "kintone_output_API",
             "kintone_domain",
-            # "kintone_domain",
             "kintone_input_appID",
             "kintone_output_appID",
         )

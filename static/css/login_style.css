@@ -1,0 +1,56 @@
+body{
+    padding: 80px 0;
+    background-color: #E7F9FF;
+}
+h1{
+    padding: 20px;
+}
+input{
+    height: 50px;
+}
+button{
+    height: 50px;
+}
+.form-accounts{
+    width: 50%;
+    margin:  auto;
+}
+.form-content{
+    width: 50%;
+    margin: 0 auto;
+}
+.login-error{
+    color: red;
+}
+.form-account{
+    width: 100%;
+    margin: 25px auto;
+}
+.form-item{
+    font-size: 16px;
+}
+@media screen and (max-width: 1000px){
+    .form-accounts{
+        height: 500px;
+        width: 95%;
+        margin: auto;
+    }
+    .form-content{
+        width: 90%;
+    }
+    .form-item{
+        font-size: 30px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+

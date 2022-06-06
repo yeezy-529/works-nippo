@@ -1,0 +1,67 @@
+body{
+    background-color: #C3D1FF;
+}
+h1{
+    font-size: 40px;
+    margin: 20px auto;
+    /* margin-bottom: 20px; */
+    
+}
+button{
+    width: 160px;
+    height: 40px;
+    margin: 0 auto;
+}
+.form-accounts{
+    width: 40%;
+    margin:  auto;
+    margin-top: 30px;
+}
+.form-content{
+    width: 270px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-account input{
+    max-width: 300px;
+    height: 50px;
+    margin: auto;
+    
+} 
+
+.form-account select{
+    max-width: 300px;
+    height: 45px;
+    margin: auto;
+} 
+
+.form-name input{
+    height: 45px;
+}
+.form-item{
+    width: 50%;
+    padding: 0 10px;
+}
+
+.settings_form{
+    width: 40%;
+    height: 90%;
+    margin: auto;
+    border: 1px 1px;
+}
+.staff_user{
+    display: flex;
+    align-items: center;
+}
+.staff_user p {
+    margin: 0 10px;
+
+}
+@media screen and (max-width: 1000px){
+    .form-accounts{
+        width: 95%;
+        margin: auto;
+    }
+}

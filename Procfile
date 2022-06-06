@@ -1,0 +1,1 @@
+web: gunicorn works_fukushin.wsgi --log-file -

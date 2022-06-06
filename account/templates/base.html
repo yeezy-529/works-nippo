@@ -1,0 +1,22 @@
+<!doctype html>
+{% load static %}
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8"/>
+        {% comment %} <meta name="viewport" content="width=640"> {% endcomment %}
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
+        <link href="{% block css %}{% endblock css %}"rel="stylesheet"type="text/css"/>
+        <link href="{% block css2 %}{% endblock css2 %}"rel="stylesheet"type="text/css"/>
+    <title>
+    {% block title %}{% endblock title %}
+    </title>
+    </head>
+    <body>
+        {% block content %}{% endblock content %}
+        <script src="{% static 'js/jQuery-3.6.0.min.js' %}"></script>
+        <script src="{% block js %}{% endblock js %}"></script>
+    </body>
+</html>
+        
+        

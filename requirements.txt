@@ -1,0 +1,11 @@
+Django
+dj-database-url
+dj-static
+python-decouple
+gunicorn
+psycopg2
+django-crispy-forms
+django-widget-tweaks
+django-allauth
+django-boost
+pykintone

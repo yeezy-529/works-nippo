@@ -45,47 +45,40 @@
             </div>
         </div>
     </div>
-        {% csrf_token %}
+    <form method="post">
+    {% csrf_token %}
         <div id="past_user" class="Notification_banner border border-3 rounded-3">
             <p> -＜通知＞- </p>
         </div>
         <div class="top">
-            
             <div class="search-data-form border border-3 rounded-3">
-                <div class="checkbox_content checkbox-item-0">
-                    <input class="calendar-contents date_contens " type="date"name="date_checkbox"id="today"/>
-                    <label><input type="checkbox" name="date_check" value="0"/>OFF</label>
+                <div class="search-form">
+                    <div class="search-data-form-item">
+                        <select id="area_select" name="area_select" class="rounded-pill form-control">
+                            {% for Value in area %}
+                                <option value={{ Value.area }}>{{ Value.area }}</option>
+                                {% endfor %}
+                            
+                        </select>
+                    </div>
+                    <div class="search-data-form-item">
+                        <select id="dept_select" name="dept_select" class="rounded-pill form-control">
+                            {% for Value in dept %}
+                                <option value={{ Value.dept }}>{{ Value.dept }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="search-data-form-item">
+                        <input class="calendar-contents date_contens " type="date"name="date_checkbox"id="today"/>
+                        <label><input type="checkbox" id="date_check" name="date_check" />すべて取得</label>
+                    </div>
+                    <div class="search-data-form-item">
+                        <label><input type="checkbox" id="not_check" name="not_check" value="0"/>未チェックのみ</label>
+                    </div>
+                    <div class="search-data-form-item">
+                        <input type="button"id="chengeinfo" name="button" value="検索"/>
+                    </div>
                 </div>
-                <div class="checkbox_content checkbox-item-1">
-                    <select id="area_select">
-                        <option value="本社工場">本社工場</option>
-                        <option value="関東工場">関東工場</option>
-                    </select>
-                    {% comment %} <label class="dept-checkbox"><input type="radio" name="plant_checkbox"{% if GETparams.return_data_0 == "本社工場" %}checked{% elif GETparams.radio_0 == None %}checked{% endif %} value="本社工場"/>本社工場</label>
-                    <label class="dept-checkbox"><input type="radio" name="plant_checkbox"{% if GETparams.return_data_0 == "関東工場" %}checked{% endif %} value="関東工場"/>関東工場</label> {% endcomment %}
-                </div>
-                <div class="checkbox_content checkbox-item-2">
-                    <select id="dept_select">
-                        <option value="製造部">製造部</option>
-                        <option value="営業部">営業部</option>
-                        <option value="総務部">総務部</option>
-                        <option value="調達部">調達部</option>
-                        <option value="設計部">設計部</option>
-                    </select>
-                        {% comment %} <label class="dept-checkbox"><input type="radio" name="dept_checkbox" {% if GETparams.return_data_2 == "製造部" %}checked{% elif GETparams.radio_2 == None %}checked{% endif %} value="製造部"/>製造部 </label>
-                    <label class="dept-checkbox"><input type="radio" name="dept_checkbox" {% if GETparams.return_data_2 == "営業部" %}checked{% endif %} value="営業部"/>営業部 </label>
-                    <label class="dept-checkbox"><input type="radio" name="dept_checkbox" {% if GETparams.return_data_2 == "総務部" %}checked{% endif %} value="総務部"/>総務部 </label>
-                    <label class="dept-checkbox"><input type="radio" name="dept_checkbox" {% if GETparams.return_data_2 == "調達部" %}checked{% endif %} value="調達部"/>調達部 </label>
-                    <label class="dept-checkbox"><input type="radio" name="dept_checkbox" {% if GETparams.return_data_2 == "設計部" %}checked{% endif %} value="設計部"/>設計部 </label> {% endcomment %}
-                </div>
-                <div class="checkbox_content checkbox-item-3">
-                    <label><input type="checkbox" name="not-check" value="0"/>未チェックのみ</label>
-                </div>
-                <div class="checkbox_content checkbox-item-4">
-                    <input type="submit"id="chengeinfo" name="button" value="検索"/>
-                </div>
-
-                
             </div>
             <div class="form-nocheck-user">
                 <table border="1" id="noreport_user_table">
@@ -102,8 +95,7 @@
             </div>
 
         </div>
-    <form method="post">
-    {% csrf_token %}
+    
         <div class="table-contents">
             <table border="1" id="id">
                 <tr>
@@ -119,12 +111,11 @@
                     {% comment %} <th>合計時間</th> {% endcomment %}
                     <th>チェック</th>
                 </tr>
-                {% for member in data %}
+                {% comment %} {% for member in data %}
                     <tr>
                         <td class="table-date">{{ member.Report_Row_date }}</td>
                         <td class="table-user">{{ member.Report_User_name }}</td>
                         <td class="table-dept">{{ member.Report_User_dept }}</td>
-                        
                         <td class="table-number">{{ member.Report_Matter_code }}</td>
                         <td class="table-workclass">{{ member.Report_Work_class }}</td>
                         <td class="table-workcontents">{{ member.Report_Work_contents }}</td>
@@ -132,27 +123,21 @@
                         <td class="table-end">{{ member.Report_Rowend_time }}</td>
                         <td class="table-required">{{ member.Report_Total_time }}</td>
                         
-                        {% if member.Report_Check_number == 1 %}
-                            <td class="table-check">×</td>
-                        {% elif member.Report_Check_number == 0 %}
-                            <td class="table-check">〇</td>
+                        {% if member.Report_Check_number == "1" %}
+                            <td class="table-check">あ</td>
+                        {% elif member.Report_Check_number == "0" %}
+                            <td class="table-check">え</td>
                         {% else %}
-                            <td class="table-check">×</td>
+                            <td class="table-check">else</td>
                         {% endif %}
                     </tr>
-                {% endfor %}
+                {% endfor %} {% endcomment %}
             </table>
         </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-input">登録</button>
     </form>    
-    <button onclick="()" type="submit" class="btn btn-primary btn-lg btn-input">登録</button>
 </div>
 {% endblock %}  
-        {% comment %} <script src="{% static 'js/jQuery-3.6.0.min.js' %}"></script>
-        <script src="{% static 'js/table.js' %}"></script>
-    </body>
-</html>    
-    
-     {% endcomment %}
     
     
 

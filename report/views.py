@@ -50,18 +50,15 @@ def ReportViews(request):
                 if re.match(r'end_time_*'      ,i[0]):end_timeList.append(i[1])
                 if re.match(r'total_time_*'    ,i[0]):total_timeList.append(i[1])
                 if re.match(r'date_status'     ,i[0]):date_status = int(i[1])
-                if re.match(r'rows'            ,i[0]):rows_count = int(i[1])
-            
+                # if re.match(r'rows'            ,i[0]):
+                if "rows" == i[0]:rows_count = int(i[1])
+
             user_name = request.user.last_name + request.user.fast_name
-            print(dateList)
-            print(Matter_numberList)
-            print(work_classList)
             for l in range(rows_count):
                 if date_status == 0:
                     Date = dateList[0]
                 else:
                     Date = dateList[l]
-
                 Reports = reports(
                     Report_User_name = user_name,
                     Report_User_dept = request.user.dept,
@@ -130,19 +127,22 @@ def ReportViews(request):
 # 日報テーブルビュー
 @login_required
 def Report_tableViews(request):
-    check_area = request.GET.get('plant_checkbox')
-    user_select_date = request.GET.get('date_checkbox')
-    user_select_dept = request.GET.get('dept_checkbox')
-    date_check = request.GET.get('date_check')
+    if not request.user.is_staff:return redirect('login-home')
 
-    GETparams = {
-                "return_data_0":check_area, 
-                "return_data_1":user_select_date,
-                "return_data_2":user_select_dept,
-                "return_data_3":date_check,
-                }
     if request.method == 'POST':
-        data = reports.objects.filter(check_number_0='1')
+        for i in request.POST.items():
+                print(i)
+        dept = request.POST.get('dept_select')
+        area = request.POST.get("area_select")
+        day =  request.POST.get('date_checkbox')
+
+        data = reports.objects.filter(
+            Report_Check_number='1',
+            Report_User_dept = dept,
+            Report_User_area = area,
+            Report_Row_date = day
+            )
+        print(data)
         for i in data:
             input_kintone(
                         i.Report_Row_date, 
@@ -159,15 +159,24 @@ def Report_tableViews(request):
                         )
             i.Report_Check_number = "0"
             i.save()
-            
-    else:
-        return render(request, 'report/report_table.html', )
+        return redirect("report_table")    
+    elif request.method == 'GET':
+        dept = User_Dept.objects.all()
+        area = User_Area.objects.all()
+        paramt = {
+            "dept":dept,
+            "area":area
+            }
+        return render(request, 'report/report_table.html', paramt)
 
 
 def Get_data(request):
     area = request.POST.get("erea_val")
     dept = request.POST.get('dept_val')
     day =  request.POST.get('day_val')
+    all_day =  request.POST.get('all_day_val')
+    not_check =  request.POST.get('notCheck_val')
+    # print(not_check)
     if dept == "製造部":
         dept_number = 1
     elif dept == "設計部":
@@ -183,22 +192,45 @@ def Get_data(request):
         area_number = 1
     elif area == "関東工場":
         area_number = 2
-    users_lis = [i.last_name + i.fast_name for i in CustomUser.objects.filter(area=area_number,dept=dept_number)]
+
+        
     GETparams = {
                 "return_data_0":area, 
                 "return_data_1":dept,
                 "return_data_2":day,
                 }
-    data = reports.objects.all().order_by('-Report_Row_date')
-    # 編集する
+    # 提出済みを取得
     if day != None and dept != None and area != None:
-        data = reports.objects.filter(
+        if all_day == "true" and not_check == "false":
+            data = reports.objects.filter(
+                Report_User_dept = dept,
+                Report_User_area = area,
+                ).order_by('-Report_Row_date')
+        elif all_day == "false" and not_check == "false":
+            data = reports.objects.filter(
+                Report_User_dept = dept,
+                Report_User_area = area,
+                Report_Row_date =  day
+                ).order_by('-Report_Row_date')
+
+        elif all_day == "false" and not_check == "true":
+            data = reports.objects.filter(
+                Report_User_dept = dept,
+                Report_User_area = area,
+                Report_Row_date =  day,
+                Report_Check_number = 1,
+                ).order_by('-Report_Row_date')
+        elif all_day == "true" and not_check == "true":
+            data = reports.objects.filter(
+                Report_User_dept = dept,
+                Report_User_area = area,
+                Report_Check_number = 1,
+                ).order_by('-Report_Row_date')
+        
+        # 1は確認未
+        past_data = reports.objects.filter(
             Report_User_dept = dept,
             Report_User_area = area,
-            Report_Row_date =  day
-            ).order_by('-Report_Row_date')
-        
-        past_data = reports.objects.filter(
             Report_Check_number = 1,
             ).order_by('-Report_Row_date')
         
@@ -206,12 +238,12 @@ def Get_data(request):
         
         PastUser = [{"date":i.Report_Row_date,"name":i.Report_User_name} for i in data1]
     json_data = list(data.values())
-
+    # 全てのユーザーを取得
+    users_lis = [i.last_name + i.fast_name for i in CustomUser.objects.filter(area=area_number,dept=dept_number)]
     # 未提出者抽出
     ReportUser = list(set([i.Report_User_name for i in data]))
     ReturnUser = [i for i in users_lis if not i in ReportUser]
-    
-
+    print(PastUser)
     return JsonResponse({
                         "data":json_data,
                         "GETparams":GETparams,

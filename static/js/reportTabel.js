@@ -1,4 +1,3 @@
-
 // 参考サイト
 // https://office54.net/python/django/django-ajax
 // Ajax
@@ -8,7 +7,6 @@ function getCookie(name) {
         var cookies = document.cookie.split(';');
         for (var i = 0; i < cookies.length; i++) {
             var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
             if (cookie.substring(0, name.length + 1) === (name + '=')) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                 break;
@@ -20,7 +18,6 @@ function getCookie(name) {
 
 var csrftoken = getCookie('csrftoken');
 function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
 $.ajaxSetup({
@@ -106,7 +103,6 @@ $("#id_button_work_content_del").click (function (e){
         'dataType': 'json'
     })
     .done(function(response){
-        console.log(200)
         $('#id_select_work_content').children().remove();
         obj = response.obj_list
         obj_number = response.dept_number
@@ -121,18 +117,12 @@ $("#id_button_work_content_del").click (function (e){
     })}
 });
 
-
-
-
-
-
-
 // セレクトで作業区分取得
 $("#id_select_wark_class_dept").change (function (e){
     e.preventDefault();
     if ($("#id_select_wark_class_dept").val() !== null){$('#id_select_work_content').children().remove();}
     $.ajax({
-        'url': "/ajax_delDefaulWorkClass/",
+        'url': "/ajax_addDefaulWorkClass/",
         'type': 'POST',
         'data': {
             'value_dept': $("#id_select_wark_class_dept").val(),
@@ -147,3 +137,64 @@ $("#id_select_wark_class_dept").change (function (e){
         }
     })
 })
+
+// 作業区追加
+$("#id_button_wark_class").click (function (e){
+    e.preventDefault();
+    if (
+        $("#id_input_work_class").val()!== "" &&
+        $("#id_input_work_class").val()!== " " &&
+        $("#id_input_work_class").val()!== null &&
+        $("#id_input_work_class").val() &&
+        $("#id_select_wark_class_dept").val() !== null
+        ){
+        $.ajax({
+            'url': "/ajax_addDefaulWorkClass/",
+            'type': 'POST',
+            'data': {
+                'value_class': $("#id_input_work_class").val(),
+                'value_dept': $("#id_select_wark_class_dept").val(),
+            },
+            'dataType': 'json'
+        })
+        .done(function(response){
+            $('#id_select_work_class').children().remove();
+            obj = response.obj_list
+            obj_number = response.dept_number
+            for (var i = 0; i < obj.length; i++) {
+                $("#id_select_work_class").append($('<option>').attr({ value:  obj[i] }).text(obj[i]));
+            }
+            $("#id_input_work_class").val("")
+        })
+        .fail(function(response){
+            console.log(401)
+    })};
+});
+
+$("#id_button_work_class_del").click (function (e){
+        e.preventDefault();
+    
+    if ($('#id_select_work_class').val() !== null ||
+        $('#id_select_wark_class_dept').val() !== null
+    ){
+    $.ajax({
+        'url': "/ajax_delDefaulWorkclass/",
+        'type': 'POST',
+        'data': {
+            'value': $('#id_select_work_class').val(),
+            'dept': $('#id_select_wark_class_dept').val()
+        },
+        'dataType': 'json'
+    })
+    .done(function(response){
+        $('#id_select_work_class').children().remove();
+        obj = response.obj_list
+        for (var i = 0; i < obj.length; i++) {
+            $("#id_select_work_class").append($('<option>').attr({ value:  obj[i] }).text(obj[i]));
+        }
+        $("#id_input_work_class").val("")
+    })
+    .fail(function(response){
+        console.log(400)
+    })}
+});

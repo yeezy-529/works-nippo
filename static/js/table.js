@@ -42,6 +42,12 @@ $.ajaxSetup({
     }
 });
 $("#chengeinfo").click (function (e){
+    if (date_check.checked){var data_judge = true
+    }else{var data_judge = false
+    };
+    if (not_check.checked){var check_judge = true
+    }else{var check_judge = false};
+
     $.ajax({
         'url': "/get_data/",
         'type': 'POST',
@@ -49,6 +55,8 @@ $("#chengeinfo").click (function (e){
             'erea_val': $("#area_select").val(),
             'dept_val': $("#dept_select").val(),
             'day_val':  $("#today").val(),
+            'all_day_val':  data_judge,
+            'notCheck_val':  check_judge,
         },
         'dataType': 'json'
     })
@@ -59,15 +67,19 @@ $("#chengeinfo").click (function (e){
         $("#today").val(response.GETparams.return_data_2)
         var PastUser = response.PastUser
         $("#p_id").remove();
-        $("#past_user").append($("<p id='p_id'>"+"過去に提出された日報があります: " + PastUser[0].date + "</p>"))
-        
-        
+        console.log(PastUser[0]);
+
+        if (PastUser[0]){
+            $("#past_user").append($("<p id='p_id'>"+"過去に提出された日報があります: " + PastUser[0].date + "</p>"))
+        }else{
+            $("#past_user").append($("<p id='p_id'>"+"通知なし" + "</p>"))
+        }
         var data = response.data
         var table = document.getElementById("id");
         while (table.rows.length > 1) table.deleteRow(1);
         if (data != ""){
             for (var i = 0; i < data.length; i++) {
-                    if(data[i].Report_Over_time == 0){var l = "×"}else{var l = "〇"}
+                    if(data[i].Report_Check_number == 0){var l = "〇"}else{var l = "×"}
                     $("#id").append(
                     $("<tr></tr>")
                     .append($("<td></td>").text(data[i].Report_Row_date))
@@ -91,7 +103,8 @@ $("#chengeinfo").click (function (e){
         data = response.Noreport_user
         table = document.getElementById("noreport_user_table");
         while (table.rows.length > 1) table.deleteRow(1);
-        if (data != ""){
+
+        if (data != []){
             for (i = 0; i < data.length; i++) {
                     $("#noreport_user_table").append(
                     $("<tr></tr>")
@@ -101,47 +114,12 @@ $("#chengeinfo").click (function (e){
         }else{$("#noreport_user_table").append($("<tr></tr>").append($("<td></td>").text("該当なし")))}
         })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     .fail(function(response){
         console.log(400)
     });
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    $(function(){
+$(function(){
         // 変数に要素を入れる
         var open = $('.modal-open'),
             close = $('.modal-close'),
@@ -234,86 +212,4 @@ $("#chengeinfo").click (function (e){
         .fail(function(response){
             console.log(400)
         });
-
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // var ymd = yyyy + "-" + mm + "-" + dd
-        // document.getElementById("today").value = today_data =  yyyy + "-" + mm + "-" + dd;
-        //var row = id.rows.length;
-        //var tableElem = document.getElementById('id');
-        //var rowElems = tableElem.rows;
-        //var rowElems = tableElem.rows;
-        //var spanText = rowElems[1].getElementsByClassName('table-user'); 
-
-        //if (window.name != "any"){
-        //    document.getElementById('chengeinfo').click();
-        //    window.name = "any";
-
-        //    }
-        

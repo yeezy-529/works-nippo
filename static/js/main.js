@@ -1,6 +1,5 @@
 var obj = new Object();
 var obj = {};
-// var date_obj = new Date();
 var today_data = TodayDate().replace(/-/g,"/");
 var break_13_00 = new Date(today_data + " " + 13 + ":" + 00 + ":00")
 var time_22_00 = new Date(today_data + " " + 22 + ":" + 00 + ":00")
@@ -9,11 +8,14 @@ var time_23_59 = new Date(today_data + " " + 23 + ":" + 59 + ":00")
 var time_5_00 = new Date(today_data + " " + 5 + ":" + 00 + ":00")
 var totalManageElement = document.querySelector("#id_rows");
 var Row_Count = parseInt(totalManageElement.value);
-$("body").on("click", "select[id^=id_rowend_time],select[id^=id_rowstart_time],select[id^=id_break_time]", function () {
-        var id = $(this).attr('id');
-        Time_calculation(id)
-    })
-    
+$("body").on(("click","change"), "select[id^=id_rowend_time],select[id^=id_rowstart_time],select[id^=id_break_time]", function () {
+    var id = $(this).attr('id');
+    Time_calculation(id)
+})
+// $("body").on("change", "select[id^=id_rowend_time],select[id^=id_rowstart_time],select[id^=id_break_time]", function () {
+//     var id = $(this).attr('id');
+//     Time_calculation(id)
+// })
 function Time_calculation(This_ID){
     var data = $(This_ID).val()
     var area_number = $("#area").val()
@@ -63,8 +65,6 @@ function Time_calculation(This_ID){
         end_time = time_23_59
         var t = 1
     }
-    // 8:10-13:00 220
-    // 13:00-17:30 270 - 10
     var total = end_time - start_time
     total = ((total/60)/1000)
     if ($("#break_status").val() == 0){
@@ -76,9 +76,6 @@ function Time_calculation(This_ID){
             }else if (morning_break <= end_time){
                 total -= work_break4_10or15
             }
-            // 1010-1200
-            // 1510< -70
-            // 13<  >1510-0
         }else if (break_13_00 > start_time){
             if (afternoon_break <= end_time){
                 total -= work_break2_70or75
@@ -177,12 +174,11 @@ function TodayDate() {
     var dd = toTwoDigits(day, 2)
     var ymd = todaydata = yyyy + "-" + mm + "-" + dd
     $("#today").val(ymd)
-
     return todaydata
 };
 
 function row_add(){
-    if (Row_Count == 100) { return; }
+    if (Row_Count == 20) { return; }
     var ChildrenClass
     var ChildrenID
     var ChildrenName
@@ -194,157 +190,175 @@ function row_add(){
     var element
     var Row =  $("#rows_0")[0]
     var Row_ID = "rows_" + Row_Count
-
     $("#rows_wrapper").append(
         $("<div>",{
             id:Row_ID,
             class:Row.classList,
-        }))
-
+        })
+    )
     var RowInfoChild = $("#rows_0").children()
+
     for(var l = 0; l < RowInfoChild.length; l++){
-        ClassName = RowInfoChild[l].className
         IDName = RowInfoChild[l].id.substring(0, RowInfoChild[l].id.length-1)+Row_Count
-        LabelText = RowInfoChild[l].children[0].innerText
-        ChildrenElement = RowInfoChild[l].children[1]
-        
-        // 親クラス作成
-        $("#"+Row_ID).append(
-            $("<div>",{
-                id:IDName,
-                class:ClassName,
-            }))
-
-        if (! ChildrenElement){
-            ChildrenElement = RowInfoChild[l].children[0]
-        }else{
-            //ラベル追加 
-            $("#"+IDName).append(
-                $("<label>",{
-                    text:LabelText,
-                    class:"iphone_class"
-                }))
-        }
-        element = ChildrenElement.nodeName
-        if (element == "INPUT"){
-            ChildrenType = ChildrenElement.type
-            ChildrenID = ChildrenElement.id.substring(0, ChildrenElement.id.length-1) + Row_Count
-            ChildrenName = ChildrenElement.name.substring(0, ChildrenElement.name.length-1) + Row_Count
-            ChildrenClass = ChildrenElement.classList
-            
-
-            $("#"+IDName).append(
+        if (RowInfoChild[l].nodeName == "INPUT" && RowInfoChild[l].type == "hidden"){
+            Name = RowInfoChild[l].name.substring(0, RowInfoChild[l].name.length-1)+Row_Count
+            $("#"+Row_ID).append(
                 $("<input>",{
-                    type:ChildrenType,
-                    id:ChildrenID,
-                    name:ChildrenName,
-                    class:ChildrenClass,
+                    type:RowInfoChild[l].type,
+                    id:IDName,
+                    name:Name,
+                })
+            )
+        }else{
+            ClassName = RowInfoChild[l].className
+            ChildrenElement = RowInfoChild[l].children[1]
+
+            // 親クラス作成
+            $("#"+Row_ID).append(
+                $("<div>",{
+                    id:IDName,
+                    class:ClassName,
                 }))
-            if ($('#'+ChildrenElement.id).prop('disabled')){$("#"+ChildrenID).prop('disabled', true);}
-            if ($('#'+ChildrenElement.id).prop('readonly')){$("#"+ChildrenID).prop('readonly', true);}
 
-        }else if (element == "SELECT"){
-
-            ChildrenClass = ChildrenElement.classList
-            ChildrenID = ChildrenElement.id.substring(0, ChildrenElement.id.length-1) + Row_Count
-            ChildrenName = ChildrenElement.name.substring(0, ChildrenElement.name.length-1) + Row_Count
-            ChildrenType = ChildrenElement.type
-
-            var childrenOption = ChildrenElement.children
-
-            $("#"+IDName).append(
-                $("<select>",{
-                    type:ChildrenType,
-                    id:ChildrenID,
-                    name:ChildrenName,
-                    class:ChildrenClass,
-                }))
-                // オプション追加
-            for (var t = 0; t < childrenOption.length; t++ ){
-            $("#"+ChildrenID).append(
-                $("<option>").val(childrenOption[t].value).text(childrenOption[t].label)
+            if (! ChildrenElement){
+                ChildrenElement = RowInfoChild[l].children[0]
+            }else{
+                LabelText = RowInfoChild[l].children[0].innerText
+                //ラベル追加 
+                $("#"+IDName).append(
+                    $("<label>",{
+                        text:LabelText,
+                        class:"iphone_class"
+                    })
                 )
             }
-            if ($('#'+ChildrenElement.id).prop('disabled')){$("#"+ChildrenID).prop('disabled', true);}
-            if ($('#'+ChildrenElement.id).prop('readonly')){$("#"+ChildrenID).prop('readonly', true);}
+            element = ChildrenElement.nodeName
+            if (element == "INPUT"){
+                ChildrenType = ChildrenElement.type
+                ChildrenID = ChildrenElement.id.substring(0, ChildrenElement.id.length-1) + Row_Count
+                ChildrenName = ChildrenElement.name.substring(0, ChildrenElement.name.length-1) + Row_Count
+                ChildrenClass = ChildrenElement.classList
 
-        }else if (element == "DIV"){
-            ChildrenClass = ChildrenElement.classList
-            ChildrenID = ChildrenElement.id.substring(0, ChildrenElement.id.length-1) + Row_Count
-            // 親クラス追加
-            $("#"+IDName).append(
-                $("<div>",{
-                    id:ChildrenID,
-                    class:ChildrenClass,
-                }))
-            // 子クラス追加
-            var time_row_h = $("#"+ChildrenElement.id).children()[0]
-            var time_ChildrenID = time_row_h.id.substring(0, time_row_h.id.length-1) + Row_Count
-            var time_ChildrenClass = time_row_h.classList
-            $("#"+ChildrenID).append(
-                $("<div>",{
-                    id:time_ChildrenID,
-                    class:time_ChildrenClass,
-                }))
-            // 孫セレクト追加
-            var time_select = $("#"+time_row_h.id).children()[0]
-            var time_Select_id = time_select.id.substring(0, time_select.id.length-1) + Row_Count
-            var time_SelectClass = time_select.classList
-            $("#"+time_ChildrenID).append(
-                $("<select>",{
-                    id:time_Select_id,
-                    class:time_SelectClass,
-                }))
-            // オプション追加
-            for (var t = 0; t < $("#"+time_row_h.id).children()[0].length; t++ ){
-                $("#"+time_Select_id).append(
-                    $("<option>").val(time_select[t].value).text(time_select[t].label)
+                $("#"+IDName).append(
+                    $("<input>",{
+                        type:ChildrenType,
+                        id:ChildrenID,
+                        name:ChildrenName,
+                        class:ChildrenClass,
+                    })
+                )
+                if ($('#'+ChildrenElement.id).prop('disabled')){$("#"+ChildrenID).prop('disabled', true);}
+                if ($('#'+ChildrenElement.id).prop('readonly')){$("#"+ChildrenID).prop('readonly', true);}
+
+            }else if (element == "SELECT"){
+                ChildrenClass = ChildrenElement.classList
+                ChildrenID = ChildrenElement.id.substring(0, ChildrenElement.id.length-1) + Row_Count
+                ChildrenName = ChildrenElement.name.substring(0, ChildrenElement.name.length-1) + Row_Count
+                ChildrenType = ChildrenElement.type
+
+                var childrenOption = ChildrenElement.children
+
+                $("#"+IDName).append(
+                    $("<select>",{
+                        type:ChildrenType,
+                        id:ChildrenID,
+                        name:ChildrenName,
+                        class:ChildrenClass,
+                    })
+                )
+                    // オプション追加
+                for (var t = 0; t < childrenOption.length; t++ ){
+                $("#"+ChildrenID).append(
+                    $("<option>").val(childrenOption[t].value).text(childrenOption[t].label)
                     )
                 }
-            // 子クラス追加
-            var time_row_m = $("#"+ChildrenElement.id).children()[1]
-            time_ChildrenID = time_row_m.id.substring(0, time_row_m.id.length-1) + Row_Count
-            time_ChildrenClass = time_row_m.classList
-            $("#"+ChildrenID).append(
-                $("<div>",{
-                    id:time_ChildrenID,
-                    class:time_ChildrenClass,
-                }))
-            // 孫セレクト追加
-            var time_select = $("#"+time_row_m.id).children()[0]
-            var time_Select_id = time_select.id.substring(0, time_select.id.length-1) + Row_Count
-            var time_SelectClass = time_select.classList
-            $("#"+time_ChildrenID).append(
-                $("<select>",{
-                    id:time_Select_id,
-                    class:time_SelectClass,
-                }))
-            // オプション追加
-            for (var t = 0; t < $("#"+time_row_m.id).children()[0].length; t++ ){
-                $("#"+time_Select_id).append(
-                    $("<option>").val(time_select[t].value).text(time_select[t].label)
+                if ($('#'+ChildrenElement.id).prop('disabled')){$("#"+ChildrenID).prop('disabled', true);}
+                if ($('#'+ChildrenElement.id).prop('readonly')){$("#"+ChildrenID).prop('readonly', true);}
+
+            }else if (element == "DIV"){
+                ChildrenClass = ChildrenElement.classList
+                ChildrenID = ChildrenElement.id.substring(0, ChildrenElement.id.length-1) + Row_Count
+                // 親クラス追加
+                $("#"+IDName).append(
+                    $("<div>",{
+                        id:ChildrenID,
+                        class:ChildrenClass,
+                    })
+                )
+                // 子クラス追加
+                var time_row_h = $("#"+ChildrenElement.id).children()[0]
+                var time_ChildrenID = time_row_h.id.substring(0, time_row_h.id.length-1) + Row_Count
+                var time_ChildrenClass = time_row_h.classList
+                $("#"+ChildrenID).append(
+                    $("<div>",{
+                        id:time_ChildrenID,
+                        class:time_ChildrenClass,
+                    })
+                )
+                // 孫セレクト追加
+                var time_select = $("#"+time_row_h.id).children()[0]
+                var time_Select_id = time_select.id.substring(0, time_select.id.length-1) + Row_Count
+                var time_SelectClass = time_select.classList
+                $("#"+time_ChildrenID).append(
+                    $("<select>",{
+                        id:time_Select_id,
+                        class:time_SelectClass,
+                    })
+                )
+                // オプション追加
+                for (var t = 0; t < $("#"+time_row_h.id).children()[0].length; t++ ){
+                    $("#"+time_Select_id).append(
+                        $("<option>").val(time_select[t].value).text(time_select[t].label)
+                        )
+                    }
+                // 子クラス追加
+                var time_row_m = $("#"+ChildrenElement.id).children()[1]
+                time_ChildrenID = time_row_m.id.substring(0, time_row_m.id.length-1) + Row_Count
+                time_ChildrenClass = time_row_m.classList
+                $("#"+ChildrenID).append(
+                    $("<div>",{
+                        id:time_ChildrenID,
+                        class:time_ChildrenClass,
+                    })
+                )
+                // 孫セレクト追加
+                var time_select = $("#"+time_row_m.id).children()[0]
+                var time_Select_id = time_select.id.substring(0, time_select.id.length-1) + Row_Count
+                var time_SelectClass = time_select.classList
+                $("#"+time_ChildrenID).append(
+                    $("<select>",{
+                        id:time_Select_id,
+                        class:time_SelectClass,
+                    })
+                )
+                // オプション追加
+                for (var t = 0; t < $("#"+time_row_m.id).children()[0].length; t++ ){
+                    $("#"+time_Select_id).append(
+                        $("<option>").val(time_select[t].value).text(time_select[t].label)
+                    )
+                }
+            }else if (element == "P"){
+                ChildrenType = ChildrenElement.type
+                ChildrenID = ChildrenElement.id.substring(0, ChildrenElement.id.length-1) + Row_Count
+                ChildrenClass = ChildrenElement.classList
+
+                $("#"+IDName).append(
+                    $("<p>",{
+                        type:ChildrenType,
+                        id:ChildrenID,
+                        class:ChildrenClass,
+                        text:Row_Count+1
+                    })
                 )
             }
-        }else if (element == "P"){
-            ChildrenType = ChildrenElement.type
-            ChildrenID = ChildrenElement.id.substring(0, ChildrenElement.id.length-1) + Row_Count
-            ChildrenClass = ChildrenElement.classList
-
-            $("#"+IDName).append(
-                $("<p>",{
-                    type:ChildrenType,
-                    id:ChildrenID,
-                    class:ChildrenClass,
-                    text:Row_Count+1
-                }))
         }
     }
-
     Row_Count += 1;
     totalManageElement.setAttribute('value', Row_Count);
     sessionStorage.setItem("rows",Row_Count);
 };
 
+// 行削除
 function del(){
     if ( Row_Count == 1 ) { return; }
     $("#rows_"+ (Row_Count-1)).empty()
@@ -355,6 +369,8 @@ function del(){
     totalManageElement.setAttribute('value', Row_Count);
     sessionStorage.setItem("rows",Row_Count);
 };
+
+// ページオープン時に行追加
 function loadFunc(){
     var row = sessionStorage.getItem('rows');
     for(var i = 1; i < row; i++) {
@@ -367,19 +383,15 @@ function sum(nums) {
 	return tol;
 };
 function oneClickbutton(){
-    // var select_h = $("#id_rowend_time_h_0").val()
-    // var select_m = $("#id_rowend_time_m_0").val()
     var select_h = document.getElementById("id_rowend_time_h_0");
     var select_m = document.getElementById("id_rowend_time_m_0");
 // ユーザー設定モードで変更
     select_h.options[10].selected = true;
     select_m.options[4].selected = true;
-    select_h.style.color = select_m.style.color = 'black';
-    // select_m.style.color = 'black';
-    // 
+    // select_h.style.color = select_m.style.color = 'black';
     Time_calculation("id_rowend_time_m_0")
 };
-
+// 前回のデータをコピー
 function get_text() {
     var tagElement = $(".hisory-record-p");
     var tagLen = tagElement.length;
@@ -403,28 +415,29 @@ function name1(selectID,selectItem) {
         select_1.options[selectOptions].selected = true;
     }
 }
-function getRowCol(){
-    // var tabelElement = $("#past-report");
-    var tabelElement = table = document.getElementById('past-report');
-    var copyRows = tabelElement.childElementCount -1
-    while (copyRows > Row_Count) {
-        row_add()
-    }
-    var tag = document.getElementsByClassName('hisory-record-p');
 
-    for(var i = 0; i < copyRows; i++){
-        var table_0 = table.rows[i+1].cells[0].innerText;
-        name1("id_constr_number_" + i,table_0)
+
+// function getRowCol(){
+//     var tabelElement = table = document.getElementById('past-report');
+//     var copyRows = tabelElement.childElementCount -1
+//     while (copyRows > Row_Count) {
+//         row_add()
+//     }
+//     // var tag = document.getElementsByClassName('hisory-record-p');
+
+//     for(var i = 0; i < copyRows; i++){
+//         var table_0 = table.rows[i+1].cells[0].innerText;
+//         name1("id_constr_number_" + i,table_0)
         
-        var table_1 = table.rows[i+1].cells[1].innerText;
-        name1("id_work_class_" + i,table_1)
+//         var table_1 = table.rows[i+1].cells[1].innerText;
+//         name1("id_work_class_" + i,table_1)
         
-        var table_2 = table.rows[i+1].cells[2].innerText;
-        name1("id_work_contents_" + i,table_2)
-    }
-};
-$('#copy-btn').on('click', function() {
-});
+//         var table_2 = table.rows[i+1].cells[2].innerText;
+//         name1("id_work_contents_" + i,table_2)
+//     }
+// };
+// $('#copy-btn').on('click', function() {
+// });
 $("#change_breakMode").click(function(){
     if($("#break_status").val() == 0){
         $(".break_select").prop("disabled", false);
@@ -434,7 +447,6 @@ $("#change_breakMode").click(function(){
         $("#break_status").val(0)
         }
     }
-    
     Time_calculation("id_rowend_time_m_0")
 })
 $("#change_dateMode").click(function(){
@@ -451,26 +463,16 @@ $("#change_dateMode").click(function(){
     // 
     Time_calculation("id_rowend_time_m_0")
 })
-
+// エリアによって時間を変える
 function  userArea_timeChange(){
     if ($("#area").val() == "1"){
         $('#id_rowstart_time_h_0').val("8").change();
         $('#id_rowstart_time_m_0').val("10").change();
-
     }else if ($("#area").val() == "2"){
         $('#id_rowstart_time_h_0').val("8").change();
         $('#id_rowstart_time_m_0').val("00").change();
-        // $("#id_rowfarst_time_m_0").val(00)
-    
     }
 }
-
-
-
-
-
-
-
 
 // 参考サイト
 // https://office54.net/python/django/django-ajax
@@ -481,7 +483,6 @@ function getCookie(name) {
         var cookies = document.cookie.split(';');
         for (var i = 0; i < cookies.length; i++) {
             var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
             if (cookie.substring(0, name.length + 1) === (name + '=')) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                 break;
@@ -493,7 +494,6 @@ function getCookie(name) {
 
 var csrftoken = getCookie('csrftoken');
 function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
 $.ajaxSetup({
@@ -519,7 +519,6 @@ $('#ajax_addworkclass').on('#work_class_add_button', function(e) {
         },
         'dataType': 'json'
     })
-    // console.log($('#work_class_add').val())
     .done(function(response){
         $("#123").val(response.workclass)
     })
@@ -548,9 +547,6 @@ $('#edit-submit').on('click',function(){
     $('#report-form').submit();
 });
 
-
-
-
 var open = $('.modal-open'),
     close = $('.modal-close'),
     container = $('.modal-container');
@@ -560,4 +556,3 @@ function modal_open(){
 close.on('click',function(){	
     container.removeClass('active');
 });
-// return false

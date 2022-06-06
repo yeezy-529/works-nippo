@@ -138,7 +138,6 @@ def app_settingsViews(request):
             "Dept":Dept,
             })
 
-
     elif request.method == 'GET':
         dept = User_Dept.objects.all()
         area = User_Area.objects.all()
@@ -177,15 +176,10 @@ def ajax_addDefaulWorkContent(request):
         obj_list = [i.contents for i in add_obj]
         obj_list_number = [int(i.number) for i in add_obj]
 
-        return JsonResponse({
-            "obj_list":obj_list,
-            "dept_number":obj_list_number
-            })
-    else:
-        return JsonResponse({
-            "obj_list":obj_list,
-            "dept_number":obj_list_number
-            })
+    return JsonResponse({
+        "obj_list":obj_list,
+        "dept_number":obj_list_number
+        })
 
 def ajax_delDefaulWorkContent(request):
     js_value = request.POST.get("value")
@@ -198,16 +192,43 @@ def ajax_delDefaulWorkContent(request):
     add_obj = DefaulWorkContent.objects.filter(dept__dept = js_dept)
     obj_list = [i.contents for i in add_obj]
     obj_list_number = [i.number for i in add_obj]
-    return JsonResponse({"obj_list":obj_list,"dept_number":obj_list_number})
+    return JsonResponse({
+        "obj_list":obj_list,
+        "dept_number":obj_list_number
+        })
 
 def ajax_addDefaulWorkClass(request):
     js_dept = request.POST.get("value_dept")
+    js_class = request.POST.get("value_class")
     add_obj = DefaultWorkclass.objects.filter(dept__dept = js_dept)
     obj_list = [i.contents for i in add_obj]
-    
-    obj_list = [i.contents for i in add_obj]
+    if (not js_dept == "" and 
+        not js_class =="" and 
+        not js_dept == None and
+        not js_class == None and 
+        not js_class in obj_list):
+        obj = User_Dept.objects.get(dept = js_dept)
+        obj = DefaultWorkclass(
+            dept = obj,
+            contents = js_class
+        )
+        obj.save()
+        add_obj = DefaultWorkclass.objects.filter(dept__dept = js_dept)
+        obj_list = [i.contents for i in add_obj]
 
     return JsonResponse({"obj_list":obj_list})
+
+def ajax_delDefaulWorkclass(request):
+    js_value = request.POST.get("value")
+    js_dept = request.POST.get("dept")
+    obj = DefaultWorkclass.objects.filter(
+        dept__dept = js_dept, 
+        contents = js_value
+        )
+    obj.delete()
+    add_obj = DefaultWorkclass.objects.filter(dept__dept = js_dept)
+    obj_list = [i.contents for i in add_obj]
+    return JsonResponse({"obj_list":obj_list,})
 
 # ---------------関数定義---------------
 def return_fun(requ):

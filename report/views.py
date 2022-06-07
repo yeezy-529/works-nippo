@@ -41,7 +41,7 @@ def ReportViews(request):
         form = report_form(request.POST)
         if form.is_valid():
             for i in request.POST.items():
-                print(i)
+                
                 if re.match(r'Reportdate_*'    ,i[0]):dateList.append(i[1])
                 if re.match(r'constr_number_*' ,i[0]):Matter_numberList.append(i[1])
                 if re.match(r'work_class_*'    ,i[0]):work_classList.append(i[1])
@@ -130,8 +130,6 @@ def Report_tableViews(request):
     if not request.user.is_staff:return redirect('login-home')
 
     if request.method == 'POST':
-        for i in request.POST.items():
-                print(i)
         dept = request.POST.get('dept_select')
         area = request.POST.get("area_select")
         day =  request.POST.get('date_checkbox')
@@ -142,8 +140,9 @@ def Report_tableViews(request):
             Report_User_area = area,
             Report_Row_date = day
             )
-        print(data)
+        
         for i in data:
+            
             input_kintone(
                         i.Report_Row_date, 
                         i.Report_User_dept, 
@@ -176,7 +175,7 @@ def Get_data(request):
     day =  request.POST.get('day_val')
     all_day =  request.POST.get('all_day_val')
     not_check =  request.POST.get('notCheck_val')
-    # print(not_check)
+    # 
     if dept == "製造部":
         dept_number = 1
     elif dept == "設計部":
@@ -243,7 +242,7 @@ def Get_data(request):
     # 未提出者抽出
     ReportUser = list(set([i.Report_User_name for i in data]))
     ReturnUser = [i for i in users_lis if not i in ReportUser]
-    print(PastUser)
+    
     return JsonResponse({
                         "data":json_data,
                         "GETparams":GETparams,

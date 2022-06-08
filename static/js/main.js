@@ -536,12 +536,10 @@ $('form').submit(function() {
         }
         modal_open("合計時間が480分未満です.")
         return false
-    }else{    
-        return true
     }
 });
-
 $('#edit-submit').on('click',function(){
+    $("#submit-stock").val(1)
     $("form").submit();
 });
 

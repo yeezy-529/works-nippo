@@ -52,34 +52,6 @@ label{
     background-color: #21a6a2;
 }
 
-/* .top-item-button0:hover{
-    transition: 0.3s ease-in-out;
-    background: #008fee;
-    filter: drop-shadow(6px 5px 12px rgba(82,203,246,0.6));
-    border-radius: 3px;
-    border-radius: 15px;
-}
-.top-item-button1:hover{
-    transition: 0.3s ease-in-out;
-    background: #eb5e00;
-    filter: drop-shadow(6px 5px 12px rgba(82,203,246,0.6));
-    border-radius: 3px;
-    border-radius: 15px;
-}
-.top-item-button2:hover{
-    transition: 0.3s ease-in-out;
-    background: #eb6877;
-    filter: drop-shadow(6px 5px 12px rgba(82,203,246,0.6));
-    border-radius: 3px;
-    border-radius: 15px;
-}
-.top-item-button3:hover{
-    transition: 0.3s ease-in-out;
-    background: #2ca559;
-    filter: drop-shadow(6px 5px 12px rgba(82,203,246,0.6));
-    border-radius: 3px;
-    border-radius: 15px;
-} */
 .icon-item{
     padding: 5px 5px;
     font-weight: bold;
@@ -259,9 +231,9 @@ label{
 	overflow: auto;
 	opacity: 0;
 	visibility: hidden;
-    /* z-index: 9999; */
 	transition: .3s;
     box-sizing: border-box;
+    z-index: 9999;
 }
 /*モーダル本体の擬似要素の指定*/
 .modal-container:before{

@@ -1,12 +1,16 @@
 {% extends "base.html" %}
-{% load widget_tweaks %}
+
 {% load static %}
+{% load widget_tweaks %}
+
 {% block css %}{% static 'css/signup.css' %}{% endblock %}
 {% block css2 %}{% static 'css/header.css' %}{% endblock %}
+{% block js2 %}{% static 'js/header.js' %}{% endblock %}
 {% block title %}サインアップ{% endblock %}
 
 {% block content %}
 {% include 'include.html' %}
+
   <form method="post" class="border rounded bg-white form-accounts ">
     {% csrf_token %}
     <div class="form-content">
@@ -42,7 +46,7 @@
           <p>上長ユーザー</p>
         </label>
       </div>
-      {{form.errors}}
+      {{ form.errors }}
       <button type="submit" class="btn btn-primary rounded-pill px-5 my-4">登録</button>
     </div>
   </form>

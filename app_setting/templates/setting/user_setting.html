@@ -1,14 +1,17 @@
 {% extends "base.html" %}
+
 {% load static %}
 {% load widget_tweaks %}
-{% block title %}ユーザー設定{% endblock %}
-{% block js %}{% static 'js/user_setting.js' %}{% endblock %}
+
 {% block css %}{% static 'css/user_setting_style.css' %}{% endblock %}
 {% block css2 %}{% static 'css/header.css' %}{% endblock %}
+{% block js %}{% static 'js/user_setting.js' %}{% endblock %}
+{% block js2 %}{% static 'js/header.js' %}{% endblock %}
+{% block title %}ユーザー設定{% endblock %}
 
-{% comment %} <link href="{% static 'css/header.css' %}"rel="stylesheet"type="text/css"/> {% endcomment %}
 {% block content %}
 {% include 'include.html' %}
+
 <div class="wrapper">
     <div class="title">
         <h2>ユーザー設定</h2>

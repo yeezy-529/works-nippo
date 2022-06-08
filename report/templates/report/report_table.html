@@ -1,12 +1,18 @@
 {% extends "base.html" %}
+
 {% load static %}
 {% load widget_tweaks %}
-{% block js %}{% static 'js/table.js' %}{% endblock %}
+
 {% block css %}{% static 'css/report_table_style.css' %}{% endblock %}
 {% block css2 %}{% static 'css/header.css' %}{% endblock %}
+{% block js %}{% static 'js/table.js' %}{% endblock %}
+{% block js2 %}{% static 'js/header.js' %}{% endblock %}
+{% block title %}日報承認{% endblock %}
+
 
 {% block content %}
 {% include 'include.html' %}
+
 <div class="wrapper">
     <div class="title">
         <h2 class="title_h2">日報承認</h2>
@@ -20,16 +26,47 @@
             <div class="modal-content">
                 <h4>日報編集</h4>
                 <div class="modal1">
-                    <input type="text" id="edit_date" value="" />
-                    <input type="text" id="edit_name" value="" />
-                    <input type="text" id="edit_dept" value="" />
-                    <input type="text" id="edit_matter" value="" />
-                    <input type="text" id="edit_class" value="" />
-                    <input type="text" id="edit_content" value="" />
-                    <input type="text" id="edit_start" value="" />
-                    <input type="text" id="edit_end" value="" />
-                    <input type="text" id="edit_total" value="" />
-
+                    <div class="modal-input">
+                        <label>日付</label>
+                        <input type="date" id="edit_date" value="" />
+                    </div>
+                    <div class="modal-input">
+                        <label>名前</label>
+                        <input type="text" id="edit_name" value="" />
+                    </div>
+                    <div class="modal-input">
+                        <label>エリア</label>
+                        <input type="text" id="edit_area" value="" />
+                    </div>
+                    <div class="modal-input">
+                        <label>部署</label>
+                        <input type="text" id="edit_dept" value="" />
+                    </div>
+                    <div class="modal-input">
+                        <label>工番</label>
+                        <input type="text" id="edit_matter" value="" />
+                    </div>
+                    <div class="modal-input">
+                        <label>作業区分</label>
+                        <input type="text" id="edit_class" value="" />
+                    </div>
+                    <div class="modal-input">
+                        <label>作業内容</label>
+                        <input type="text" id="edit_content" value="" />
+                    </div>
+                    <div class="modal-input">
+                        <label>開始時間</label>
+                        <input type="text" id="edit_start" value="" />
+                    </div>
+                    <div class="modal-input">
+                        <label>終了時間</label>
+                        <input type="text" id="edit_end" value="" />
+                    </div>
+                    <div class="modal-input">
+                        <label>所要時間</label>
+                        <input type="text" id="edit_total" value="" />
+                    </div>
+                        
                     <input type="hidden" id="backup_date" value="" />
                     <input type="hidden" id="backup_name" value="" />
                     <input type="hidden" id="backup_dept" value="" />

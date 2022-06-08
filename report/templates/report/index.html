@@ -1,18 +1,16 @@
-<!doctype html>
+{% extends "base.html" %}
+
 {% load static %}
-{% load crispy_forms_tags %}
 {% load widget_tweaks %}
 
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <!-- Bootstrap CSS -->
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"rel="stylesheet"integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"crossorigin="anonymous"/>
-  <link href="{% static 'css/report_style.css' %}"rel="stylesheet"type="text/css"/>
-  <link href="{% static 'css/header.css' %}"rel="stylesheet"type="text/css"/>
-  <title>日報登録</title>
-</head>
+{% block css %}{% static 'css/report_style.css' %}{% endblock %}
+{% block css2 %}{% static 'css/header.css' %}{% endblock %}
+{% block js %}{% static 'js/main.js' %}{% endblock %}
+{% block js2 %}{% static 'js/header.js' %}{% endblock %}
+{% block title %}日報登録{% endblock %}
+
+{% block content %}
+
 <body onload="loadFunc();TodayDate();userArea_timeChange()">
     {% include 'include.html' %}
     {{ erorr }}
@@ -221,9 +219,4 @@
         </div>
       </div>
     </div>
-    <script src="{% static 'js/jQuery-3.6.0.min.js' %}"></script>
-    <script src="{% static 'js/main.js' %}"></script>
-    <script src="{% static 'js/header.js' %}"></script>
-
-  </body>
-</html>
+{% endblock %}

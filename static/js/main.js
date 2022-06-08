@@ -528,7 +528,7 @@ $('form').submit(function() {
         if($("#submit-stock").val() == 1){
             return true
         }
-        modal_open("登録内容が重複している可能性があります.")
+        modal_open("登録日付が重複している可能性があります.")
         return false
     }else if ($("#id-all-total-time").val() < 480){
         if($("#submit-stock").val() == 1){

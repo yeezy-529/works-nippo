@@ -259,6 +259,7 @@ label{
 	overflow: auto;
 	opacity: 0;
 	visibility: hidden;
+    /* z-index: 9999; */
 	transition: .3s;
     box-sizing: border-box;
 }
@@ -281,6 +282,7 @@ label{
 	vertical-align: middle;
 	max-width: 500px;
 	width: 90%;
+
 }
 /*モーダルを閉じるボタンの指定*/
 .modal-close{
@@ -296,9 +298,17 @@ label{
 	color: #fff;
 	cursor: pointer;
 }
-.modal1{
-    width: 500px;
-    height: 300px;
+.modal-content{
+    display: flex;
+    justify-content: space-around;
+    background-color: #ffe4e4;
+    height: 200px;
+    padding: 10px;
+
+}
+
+.modal-sbmint-button{
+    width: 100%;
 }
 @media screen and (max-width: 1180px) {
     .rows_contens{

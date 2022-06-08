@@ -29,7 +29,6 @@
       <form method="post"id="report-form"class="form-report border border-3 rounded-3 bg-white">
       {% csrf_token %}
         <div id="constr-add_row"class="get_class">
-          
           <input type="hidden" id="id_night_time_0" name="end_night_0"class="select_get_class"/>
           <input type="hidden" id="id_rows" name="rows"value="1"/>
           <input type="hidden" id="break_status"name="break_status" value="0"/>
@@ -46,9 +45,12 @@
             <div class="modal-content">
               <input type="hidden" id="submit-stock" value />
               <h4>確認</h4>
-              <p></p>
-              <div class="modal1">
-                <button type="button" id="edit-submit">登録</button>
+              <div class="modal-text">
+                <p id="modal-text"></p>
+                <p>登録しますか？</p>
+              </div>
+              <div class="modal-sbmint-button">
+                <button type="button" id="edit-submit" class="btn btn-primary btn-lg">登録</button>
               </div>
             </div>
           </div>

@@ -1,18 +1,6 @@
 body{
     background-color: #C3D1FF;
 }
-/* header{
-    display: flex;
-    height: 68px;
-    width: 100%;
-    font-size: 30px;
-    align-items: center;
-    background-color: #1577BD;
-    color: #FFFFFF;
-} */
-
-/* p{margin: 0;} */
-
 h1 {
     margin: 0 0 20px;
     padding: 10px 0 0 10px;
@@ -20,16 +8,6 @@ h1 {
     font-size: 40px;
     color: var(--body-quiet-color);
 }
-/* h3 h4{margin: 0;} */
-
-/* ul {
-    display: flex;
-    list-style: none;
-} */
-/* a {
-    color: #FFFFFF;
-    text-decoration: none;
-} */
 .wrapper{
     width: 90%;
     height: 90%;
@@ -45,7 +23,6 @@ h1 {
     font-size: 14px;
 }
 .title{
-    /* background-color: #eee; */
     width: 100vw;
     margin: 0 calc(50% - 50vw);
 }
@@ -90,7 +67,6 @@ h1 {
 .matter-button-items{
     width: 100px;
     height: 100px;
-    /* background-color: #1577BD; */
 }
 .select-item-1{
     width: 100%;
@@ -175,7 +151,6 @@ h1 {
     align-items: center;
     height: 100%;
     width: 350px;
-    
 }
 .form-group-content-item input{
     width: 100%;
@@ -190,12 +165,6 @@ h1 {
 #id_input_work_content{
     margin-left: 10px;
 }
-/* .card_item_section_inner_text h4{
-    font-size: 20px;
-    font-weight: 300;
-
-} */
-
 .form-group-content-select{
     display: flex;
     flex-direction: column;
@@ -221,16 +190,11 @@ h1 {
 }
 .card_item_section_select{
     width: 100%;
-    /* height: 170px; */
 }
-
-
-
 .input-span{
     width:120px;
     background-color: rgb(157, 244, 255);
 }
-
 .option_class{
     background-color: aqua;
 }

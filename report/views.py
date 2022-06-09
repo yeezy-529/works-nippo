@@ -124,6 +124,13 @@ def ReportViews(request):
 
     return render(request,'report/index.html',params)
 
+def Search_matter(request):
+    value = request.POST.get("value")
+    data = Matter_code.objects.filter(matter_displayinfo = 0)
+    code = [i.matter_code + " " + i.matter_name for i in data 
+                if i.matter_code.find(value) > 0 or i.matter_name.find(value) > 0]
+    return JsonResponse({"code":code})
+
 # 日報テーブルビュー
 @login_required
 def Report_tableViews(request):

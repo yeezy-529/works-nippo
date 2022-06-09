@@ -470,59 +470,6 @@ function  userArea_timeChange(){
     }
 }
 
-// 参考サイト
-// https://office54.net/python/django/django-ajax
-// Ajax
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-var csrftoken = getCookie('csrftoken');
-function csrfSafeMethod(method) {
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-$.ajaxSetup({
-    beforeSend: function (xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-    }
-});
-// ここから
-$('#ajax_addworkclass').on('#work_class_add_button', function(e) {
-    // form送信を防止する
-    e.preventDefault();
-    //$.ajax：サーバに送信するデータの設定
-    //.done：通信成功時の処理
-    //.fail：通信失敗時の処理
-    var text_value = $('#work_class_add').val()
-    $.ajax({
-        'url': '{% url "ajax_addworkclass" %}',
-        'type': 'POST',
-        'data': {
-            'work_class': "text_value",
-        },
-        'dataType': 'json'
-    })
-    .done(function(response){
-        $("#123").val(response.workclass)
-    })
-    .fail(function(response){
-        console.log(400)
-    });
-});
-
 $('form').submit(function() {
     if ($('input[name="Reportdate_0"]').val() == $("#Row_date").val()){
         if($("#submit-stock").val() == 1){
@@ -554,4 +501,62 @@ function modal_open(text){
 close.on('click',function(){	
     container.removeClass('active');
 });
-// 登録内容が重複している可能性があります.
+
+// 参考サイト
+// https://office54.net/python/django/django-ajax
+// Ajax
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+var csrftoken = getCookie('csrftoken');
+function csrfSafeMethod(method) {
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function (xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+// ここから
+$('#matter_search_button').click (function (e){
+    var value = $('#matter_search_input').val()
+    // form送信を防止する
+    e.preventDefault();
+    $.ajax({
+        'url': '/search_matter/',
+        'type': 'POST',
+        'data': {"value":value
+        },
+        'dataType': 'json'
+    })
+    //.done：通信成功時の処理
+    .done(function(response){
+        var code = response.code
+        $('#matter_search_select').children().remove();
+        $("#matter_search_select")
+        for (var i = 0; i < code.length; i++ ){
+            $("#matter_search_select").append(
+                $("<option>").val(code[i]).text(code[i])
+            )
+        }
+
+    })
+    //.fail：通信失敗時の処理
+    .fail(function(response){
+        console.log(400)
+    });
+});

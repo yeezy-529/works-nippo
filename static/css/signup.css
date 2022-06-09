@@ -62,6 +62,6 @@ button{
 @media screen and (max-width: 1000px){
     .form-accounts{
         width: 95%;
-        margin: auto;
+        margin: 10px;
     }
 }

@@ -1,7 +1,7 @@
 body{
     background-color: #E7F9FF;
 }
-select{-webkit-appearance: none;}
+select,button{-webkit-appearance: none;}
 input{
     font-size: 16px;
     -webkit-appearance: none;

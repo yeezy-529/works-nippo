@@ -7,7 +7,6 @@ function getCookie(name) {
         var cookies = document.cookie.split(';');
         for (var i = 0; i < cookies.length; i++) {
             var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
             if (cookie.substring(0, name.length + 1) === (name + '=')) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                 break;
@@ -16,10 +15,8 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-
 var csrftoken = getCookie('csrftoken');
 function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
 $.ajaxSetup({
@@ -34,9 +31,6 @@ $.ajaxSetup({
 $("#work_class_add_button").click (function (e){
     // form送信を防止する
     e.preventDefault();
-    //$.ajax：サーバに送信するデータの設定
-    //.done：通信成功時の処理
-    //.fail：通信失敗時の処理
     
     var url = $('#url_class_add').val()
     if (
@@ -65,10 +59,8 @@ $("#work_class_add_button").click (function (e){
     })
     .fail(function(response){
         console.log(400)
-        // $("#erorr_message").append($('<p>').text("通信エラーが発生しました"));
     })}
 });
-
 
 // -------------------削除--------------------
 $("#work_class_del_button").click (function (e){

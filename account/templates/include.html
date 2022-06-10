@@ -1,3 +1,4 @@
+{% comment %} {% block js2 %}{% static 'js/header.js' %}{% endblock %} {% endcomment %}
 <header>
     <div class="user-name">
         <p class="user-dept">{{ user.dept.dept }}</p>
@@ -5,7 +6,7 @@
     </div>
     <nav class="nav-bar">
         <ul class="menu-nav-bar">
-            <button id="button-nav-var-jp" class="open butonbi"></button>
+            <div id="button-nav-var-js" class="openbtn1 open butonbi"class="open butonbi"><span></span><span></span><span></span></div>
             {% if  request.path != "/report/" %}
                 <li><a class="nav-bar-tag" href="{% url "report" %}">日報登録</a></li>
             {% endif %} 

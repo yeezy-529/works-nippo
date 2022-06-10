@@ -108,15 +108,11 @@ function Time_calculation(This_ID){
     $("#id_end_time_" + id_number).val(e_h + ":" + e_m + ":00")
     if (end_time_k <= time_5_00){}
     var i=0
-    if (end_time > time_22_00){
-        if (t==1){var i=1}
-        var nightshift_time = end_time - time_22_00
-        $("#id_night_time_" + id_number).val(nightshift_time/60/1000 + i)
-    }else if (end_time_k <= time_5_00 && start_time <= time_5_00){
-        var nightshift_time = end_time - start_time
-        $("#id_night_time_" + id_number).val(nightshift_time/60/1000 + i)
-    }else if (end_time_k > time_5_00 && start_time < time_5_00){
-        var nightshift_time = time_5_00 - start_time
+    if (end_time > time_22_00){if (t==1)                            {var i=1}var nightshift_time = end_time - time_22_00$("#id_night_time_" + id_number).val(nightshift_time/60/1000 + i)
+    }else if (end_time_k <= time_5_00 && start_time <= time_5_00)   {var nightshift_time = end_time - start_time$("#id_night_time_" + id_number).val(nightshift_time/60/1000 + i)
+    }else if (end_time_k > time_5_00 && start_time < time_5_00)     {var nightshift_time = time_5_00 - start_time$("#id_night_time_" + id_number).val(nightshift_time/60/1000 + i)
+    }else if (end_time_k < time_5_00 && start_time >= time_0_00 && start_time <= time_5_00){
+        var nightshift_time = total 
         $("#id_night_time_" + id_number).val(nightshift_time/60/1000 + i)
     }else{$("#id_night_time_" + id_number).val(0)}
     }
@@ -474,6 +470,38 @@ function  userArea_timeChange(){
     }
 }
 
+$('form').submit(function() {
+    if ($('input[name="Reportdate_0"]').val() == $("#Row_date").val()){
+        if($("#submit-stock").val() == 1){
+            return true
+        }
+        modal_open("登録日付が重複している可能性があります.")
+        return false
+    }else if ($("#id-all-total-time").val() < 480){
+        if($("#submit-stock").val() == 1){
+            return true
+        }
+        modal_open("合計時間が480分未満です.")
+        return false
+    }
+});
+$('#edit-submit').on('click',function(){
+    $("#submit-stock").val(1)
+    $("form").submit();
+});
+
+var open = $('.modal-open'),
+    close = $('.modal-close'),
+    container = $('.modal-container');
+function modal_open(text){
+    $("#modal-text").text(text)
+    container.addClass('active');
+
+}
+close.on('click',function(){	
+    container.removeClass('active');
+});
+
 // 参考サイト
 // https://office54.net/python/django/django-ajax
 // Ajax
@@ -504,55 +532,31 @@ $.ajaxSetup({
     }
 });
 // ここから
-$('#ajax_addworkclass').on('#work_class_add_button', function(e) {
+$('#matter_search_button').click (function (e){
+    var value = $('#matter_search_input').val()
     // form送信を防止する
     e.preventDefault();
-    //$.ajax：サーバに送信するデータの設定
-    //.done：通信成功時の処理
-    //.fail：通信失敗時の処理
-    var text_value = $('#work_class_add').val()
     $.ajax({
-        'url': '{% url "ajax_addworkclass" %}',
+        'url': '/search_matter/',
         'type': 'POST',
-        'data': {
-            'work_class': "text_value",
+        'data': {"value":value
         },
         'dataType': 'json'
     })
+    //.done：通信成功時の処理
     .done(function(response){
-        $("#123").val(response.workclass)
+        var code = response.code
+        $('#matter_search_select').children().remove();
+        $("#matter_search_select")
+        for (var i = 0; i < code.length; i++ ){
+            $("#matter_search_select").append(
+                $("<option>").val(code[i]).text(code[i])
+            )
+        }
+
     })
+    //.fail：通信失敗時の処理
     .fail(function(response){
         console.log(400)
     });
-});
-
-$('form').submit(function() {
-    console.log($('input[name="Reportdate_0"]').val())
-    console.log($("#Row_date").val())
-    if ($('input[name="Reportdate_0"]').val() == $("#Row_date").val()){
-        if($("#submit-stock").val() == 1){
-            return true
-        }
-        modal_open()
-        return false
-    }else{
-        return true
-    }
-});
-
-$('#edit-submit').on('click',function(){
-    $("#submit-stock").val(1)
-    console.log(400)
-    $('#report-form').submit();
-});
-
-var open = $('.modal-open'),
-    close = $('.modal-close'),
-    container = $('.modal-container');
-function modal_open(){
-    container.addClass('active');
-}
-close.on('click',function(){	
-    container.removeClass('active');
 });

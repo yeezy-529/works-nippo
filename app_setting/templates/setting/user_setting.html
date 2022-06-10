@@ -1,14 +1,17 @@
 {% extends "base.html" %}
+
 {% load static %}
 {% load widget_tweaks %}
-{% block title %}ユーザー設定{% endblock %}
-{% block js %}{% static 'js/user_setting.js' %}{% endblock %}
+
 {% block css %}{% static 'css/user_setting_style.css' %}{% endblock %}
 {% block css2 %}{% static 'css/header.css' %}{% endblock %}
+{% block js %}{% static 'js/user_setting.js' %}{% endblock %}
+{% block js2 %}{% static 'js/header.js' %}{% endblock %}
+{% block title %}ユーザー設定{% endblock %}
 
-{% comment %} <link href="{% static 'css/header.css' %}"rel="stylesheet"type="text/css"/> {% endcomment %}
 {% block content %}
 {% include 'include.html' %}
+
 <div class="wrapper">
     <div class="title">
         <h2>ユーザー設定</h2>
@@ -26,9 +29,9 @@
                         <div class="form-group-content-block">
                             <div class="form-group-content-item">
                                 <p>部署変更：</p>
-                                <p>現在の部署-{{ user.dept }}</p>
+                                {% comment %} <p>現在の部署-{{ user.dept }}</p> {% endcomment %}
                                 <div class="card_list">
-                                    <select name="user_dept" class="form-control">
+                                    <select name="user_dept" class="form-control form-select">
                                         {% for Value in dept %}
                                         <option value={{ Value.number }} {% if Value.dept == user.dept.dept %}selected{% endif %}>{{ Value.dept }}</option>
                                         {% endfor %}
@@ -39,9 +42,9 @@
                         <div class="form-group-content-block">
                             <div class="form-group-content-item">    
                                 <p>エリア変更：</p>
-                                <p>現在の部署-{{ user.area }}</p>
+                                {% comment %} <p>現在の部署-{{ user.area }}</p> {% endcomment %}
                                 <div class="card_list">
-                                    <select id="work_add_class" name="user_area" class="form-control">
+                                    <select id="work_add_class" name="user_area" class="form-control form-select">
                                         {% for Value in area %}
                                         <option value={{ Value.number }} {% if Value.area == user.area.area %}selected{% endif %}>{{ Value.area }}</option>
                                         {% endfor %}
@@ -50,7 +53,7 @@
                             </div>
                         </div>
                     <div class="form-group-button">
-                        <button type="submit" class="btn btn-primary" name="user_save_button">保存</button>
+                        <button type="submit" class="btn btn-primary save-button" name="user_save_button">保存</button>
                     </div>    
                 </div>
             </div>
@@ -70,10 +73,12 @@
                         <div class="form-group-content-item">
                             <p>作業区分 追加内容</p>
                             <div id="erorr_message"></div>
-                            <input type="text" class="add_text"id="work_class_add"/>
                             <input type="hidden" value={% url "ajax_addworkclass" %} id="url_class_add" />
                             <input type="hidden" value={% url "ajax_delworkclass" %} id="url_class_del" />
-                            <button type="button" id="work_class_add_button"class="select_add_button">追加</button>
+                            <div>
+                                <input type="text" class="add_text"id="work_class_add"/>
+                                <button type="button" id="work_class_add_button"class="select_add_button">追加</button>
+                            </div>    
                         </div>    
                     </div>    
                     <div class="form-group-content-select">

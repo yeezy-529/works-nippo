@@ -4,6 +4,8 @@ body{
 label{
     font-size: 22px;
 }
+ul {padding: 0;}
+
 .iphone_class{
     display: none;
 }
@@ -52,34 +54,6 @@ label{
     background-color: #21a6a2;
 }
 
-/* .top-item-button0:hover{
-    transition: 0.3s ease-in-out;
-    background: #008fee;
-    filter: drop-shadow(6px 5px 12px rgba(82,203,246,0.6));
-    border-radius: 3px;
-    border-radius: 15px;
-}
-.top-item-button1:hover{
-    transition: 0.3s ease-in-out;
-    background: #eb5e00;
-    filter: drop-shadow(6px 5px 12px rgba(82,203,246,0.6));
-    border-radius: 3px;
-    border-radius: 15px;
-}
-.top-item-button2:hover{
-    transition: 0.3s ease-in-out;
-    background: #eb6877;
-    filter: drop-shadow(6px 5px 12px rgba(82,203,246,0.6));
-    border-radius: 3px;
-    border-radius: 15px;
-}
-.top-item-button3:hover{
-    transition: 0.3s ease-in-out;
-    background: #2ca559;
-    filter: drop-shadow(6px 5px 12px rgba(82,203,246,0.6));
-    border-radius: 3px;
-    border-radius: 15px;
-} */
 .icon-item{
     padding: 5px 5px;
     font-weight: bold;
@@ -237,15 +211,12 @@ label{
 }
 .hisory-record-contents-main{
     display: grid;
-    padding:5px 0 0 0;
 }
 .hisory-record-p{
-    grid-template-columns: 30% 30% 30%;
-    
-}
-.hisory-record-p{
-    display: flex;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: 5% 15% 40% 40%;
+    grid-template-rows: 100%;
+    justify-items: center
 }
 .modal-container{
 	position: fixed;
@@ -261,6 +232,7 @@ label{
 	visibility: hidden;
 	transition: .3s;
     box-sizing: border-box;
+    z-index: 9999;
 }
 /*モーダル本体の擬似要素の指定*/
 .modal-container:before{
@@ -281,6 +253,7 @@ label{
 	vertical-align: middle;
 	max-width: 500px;
 	width: 90%;
+
 }
 /*モーダルを閉じるボタンの指定*/
 .modal-close{
@@ -296,9 +269,17 @@ label{
 	color: #fff;
 	cursor: pointer;
 }
-.modal1{
-    width: 500px;
-    height: 300px;
+.modal-content{
+    display: flex;
+    justify-content: space-around;
+    background-color: #ffe4e4;
+    height: 200px;
+    padding: 10px;
+
+}
+
+.modal-sbmint-button{
+    width: 100%;
 }
 @media screen and (max-width: 1180px) {
     .rows_contens{

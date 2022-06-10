@@ -1,13 +1,17 @@
 {% extends "base.html" %}
+
 {% load static %}
 {% load widget_tweaks %}
-{% block title %}アプリ設定{% endblock %}
-{% block js %}{% static 'js/reportTabel.js' %}{% endblock %}
+
 {% block css %}{% static 'css/app_settings_style.css' %}{% endblock %}
 {% block css2 %}{% static 'css/header.css' %}{% endblock %}
+{% block js %}{% static 'js/reportTabel.js' %}{% endblock %}
+{% block js2 %}{% static 'js/header.js' %}{% endblock %}
+{% block title %}アプリ設定{% endblock %}
 
 {% block content %}
 {% include 'include.html' %}
+
 <div class="wrapper">
     <form method="post">
     {% csrf_token %}

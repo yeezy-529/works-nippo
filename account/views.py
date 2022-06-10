@@ -10,7 +10,6 @@ def signup(request):
     """サインアップビュー"""
     if not request.user.is_staff:
         return redirect('login-home')
-        # return redirect('login-home/?next=%s' % request.path)
 
     if request.method == 'POST':
         form = SignUpForm(request.POST)

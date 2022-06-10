@@ -29,12 +29,14 @@ def app_settingsViews(request):
             deadline = kintone_input("納期",0)
             today = datetime.datetime.today()
             infoList = [[number[i] ,re.sub("\u3000","",name[i]) ,deadline[i]] for i in range(len(number)) if datetime.datetime.strptime(deadline[0], '%Y-%m-%d') <= today]
+            print(infoList)
             all_code = [i.matter_code for i in Matter_code.objects.all()]
             for i in range(len(infoList)):
                 if not infoList[i][0] in all_code:
                     l = Matter_code(
                         matter_code=infoList[i][0],
                         matter_name=infoList[i][1],
+                        matter_deadline=infoList[i][2],
                         matter_displayinfo=0,
                         )
                     l.save()
@@ -62,61 +64,62 @@ def app_settingsViews(request):
         setting_obj = kintone_setting_model.objects.get(pk=1)
         update_mode = int(setting_obj.matter_update_number)
         auto_number = int(setting_obj.automation_update_mode)
-        today = datetime.date.today()
         
         params = {
             "auto_number":auto_number,
             "update_mode":update_mode
             }
 
+        today = datetime.date.today()
         for i in obj:
             deadline = i.matter_deadline
-            para = i.matter_code
-                # 当日
-            if update_mode == 0:
-                days = 0
-                del_deadline = today + datetime.timedelta(days)
-                try:
-                    if del_deadline > deadline:
-                        db_save(para,1)
-                except IndentationError and TypeError:
-                    pass
-            # 1週間
-            elif update_mode == 1:
-                days = 7
-                del_deadline = today + datetime.timedelta(days)
-                try:
-                    if del_deadline > deadline:
-                        db_save(para,1)
-                except IndentationError and TypeError:
-                    pass
-            # 1か月
-            elif update_mode == 2:
-                days = 30
-                del_deadline = today + datetime.timedelta(days)
-                try:
-                    if del_deadline > deadline:
-                        db_save(para,1)
-                except IndentationError and TypeError:
-                    pass
-            # 3か月
-            elif update_mode == 3:
-                days = 90
-                del_deadline = today + datetime.timedelta(days)
-                try:
-                    if del_deadline > deadline:
-                        db_save(para,1)
-                except IndentationError and TypeError:
-                    pass
-            # 半年
-            elif update_mode == 4:
-                days = 180
-                del_deadline = today + datetime.timedelta(days)
-                try:
-                    if del_deadline > deadline:
-                        db_save(para,1)
-                except IndentationError and TypeError:
-                    pass
+            if deadline != None:
+                para = i.matter_code
+                    # 当日
+                if update_mode == 0:
+                    days = 0
+                    del_deadline = deadline + datetime.timedelta(days)
+                    try:
+                        if del_deadline <= today:
+                            db_save(para,1)
+                    except IndentationError and TypeError:
+                        pass
+                # 1週間
+                elif update_mode == 1:
+                    days = 7
+                    del_deadline = deadline + datetime.timedelta(days)
+                    try:
+                        if del_deadline < today:
+                            db_save(para,1)
+                    except IndentationError and TypeError:
+                        pass
+                # 1か月
+                elif update_mode == 2:
+                    days = 30
+                    del_deadline = deadline + datetime.timedelta(days)
+                    try:
+                        if del_deadline < today:
+                            db_save(para,1)
+                    except IndentationError and TypeError:
+                        pass
+                # 3か月
+                elif update_mode == 3:
+                    days = 90
+                    del_deadline = deadline + datetime.timedelta(days)
+                    try:
+                        if del_deadline < today:
+                            db_save(para,1)
+                    except IndentationError and TypeError:
+                        pass
+                # 半年
+                elif update_mode == 4:
+                    days = 180
+                    del_deadline = deadline + datetime.timedelta(days)
+                    try:
+                        if del_deadline < today:
+                            db_save(para,1)
+                    except IndentationError and TypeError:
+                        pass
         """kintoneAPI取得"""
         obj = kintone_setting_model.objects.get(pk=1)
         item = {
@@ -259,7 +262,8 @@ def matter_code(kye = ""):
     in_value = [{
         "Value":i.matter_code,
         "Label":i.matter_code + " " + str(i.matter_name),
-        "Deadline":i.matter_deadline} for i in Matter_code.objects.filter(matter_displayinfo = 0).order_by(kye +'matter_code')]
+        "Deadline":i.matter_deadline}
+            for i in Matter_code.objects.filter(matter_displayinfo = 0).order_by(kye +'matter_code')]
 
     out_value =[{
         "Value":i.matter_code,

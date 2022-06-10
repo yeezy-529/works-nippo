@@ -53,7 +53,7 @@ def ReportViews(request):
                 # if re.match(r'rows'            ,i[0]):
                 if "rows" == i[0]:rows_count = int(i[1])
 
-            user_name = request.user.last_name + request.user.fast_name
+            user_name = request.user.last_name + request.user.first_name
             for l in range(rows_count):
                 if date_status == 0:
                     Date = dateList[0]
@@ -86,7 +86,7 @@ def ReportViews(request):
     
     elif request.method == 'GET':
         
-        myuser = (str(request.user.last_name) +  str(request.user.fast_name))
+        myuser = (str(request.user.last_name) +  str(request.user.first_name))
         user_record = reports.objects.filter(Report_User_name = myuser).order_by('-Report_Row_date').first()
         try:
             user_record_date = user_record.Report_Row_date
@@ -245,7 +245,7 @@ def Get_data(request):
         PastUser = [{"date":i.Report_Row_date,"name":i.Report_User_name} for i in data1]
     json_data = list(data.values())
     # 全てのユーザーを取得
-    users_lis = [i.last_name + i.fast_name for i in CustomUser.objects.filter(area=area_number,dept=dept_number)]
+    users_lis = [i.last_name + i.first_name for i in CustomUser.objects.filter(area=area_number,dept=dept_number)]
     # 未提出者抽出
     ReportUser = list(set([i.Report_User_name for i in data]))
     ReturnUser = [i for i in users_lis if not i in ReportUser]

@@ -154,7 +154,8 @@ SITE_ID = 1
 # ログイン・ログアウト時のリダイレクト先
 LOGIN_URL = '/login-home/'
 LOGIN_REDIRECT_URL = 'report'
-ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
+# LOGOUT_REDIRECT_URL = '/accounts/login/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/login-home/'
 
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
 

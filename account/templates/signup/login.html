@@ -6,6 +6,7 @@
 
 {% block content %}   
 <form method="POST" class="border rounded bg-white form-accounts text-center">
+  {% csrf_token %}
   <div class="login">
     <div class="new-login">
       <div class="form-content">  
@@ -13,7 +14,6 @@
         {% if form.errors  %}
         <p class="login-error">ユーザーID, パスワードが一致しません．</p>
         {% endif %}
-        {% csrf_token %}
         <div class="form-account my-3">
           {{ form.username|add_class:'form-control pt-1 form-item  my-4' }}
         </div>
@@ -23,7 +23,6 @@
         <div class="form-account my-4">
           <button type="submit" class="btn btn-primary form-control pt-1">ログイン</button>
         </div>
-        {% comment %} <button type="submit" class="btn btn-primary rounded-pill px-5 my-4">ログイン</button> {% endcomment %}
       </div>
     </div>
   </div>

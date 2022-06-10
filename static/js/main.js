@@ -301,6 +301,10 @@ function row_add(){
                         class:time_SelectClass,
                     })
                 )
+                
+                var select = $('#'+time_select.id)
+                if (select.prop("required")){$("#" + time_Select_id).attr('required', true);}
+
                 // オプション追加
                 for (var t = 0; t < $("#"+time_row_h.id).children()[0].length; t++ ){
                     $("#"+time_Select_id).append(
@@ -327,6 +331,8 @@ function row_add(){
                         class:time_SelectClass,
                     })
                 )
+                var select = $('#'+time_select.id)
+                if (select.prop("required")){$("#" + time_Select_id).attr('required', true);}
                 // オプション追加
                 for (var t = 0; t < $("#"+time_row_m.id).children()[0].length; t++ ){
                     $("#"+time_Select_id).append(
@@ -373,6 +379,7 @@ function loadFunc(){
         row_add()
     }
 };
+// 合計時間計算
 function sum(nums) {
 	var tol = 0;
 	for (var i = 0, len = nums.length; i < len; i++) tol += nums[i];
@@ -384,7 +391,6 @@ function oneClickbutton(){
 // ユーザー設定モードで変更
     select_h.options[10].selected = true;
     select_m.options[4].selected = true;
-    // select_h.style.color = select_m.style.color = 'black';
     Time_calculation("id_rowend_time_m_0")
 };
 // 前回のデータをコピー
@@ -553,7 +559,6 @@ $('#matter_search_button').click (function (e){
                 $("<option>").val(code[i]).text(code[i])
             )
         }
-
     })
     //.fail：通信失敗時の処理
     .fail(function(response){

@@ -4,8 +4,6 @@ from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
     """カスタムユーザーモデル"""
-    fast_name = models.CharField(max_length=30, blank=True, null=True)
-    last_name = models.CharField(max_length=30, blank=True, null=True)
     area = models.ForeignKey(User_Area,on_delete=models.SET_NULL, null=True)
     dept = models.ForeignKey(User_Dept,on_delete=models.SET_NULL, null=True)
     class meta:

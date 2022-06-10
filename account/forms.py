@@ -13,7 +13,7 @@ class SignUpForm(UserCreationForm):
         required=True,
         widget=forms.TextInput(attrs={'placeholder':'  姓'})
     )
-    fast_name = forms.CharField(
+    first_name = forms.CharField(
         max_length=30,
         required=True,
         widget=forms.TextInput(attrs={'placeholder':'  名'})
@@ -44,7 +44,7 @@ class SignUpForm(UserCreationForm):
         fields = (
             'username', 
             'last_name', 
-            'fast_name', 
+            'first_name', 
             'dept',
             'area', 
             'password1', 

@@ -9,3 +9,4 @@ django-widget-tweaks
 django-allauth
 django-boost
 pykintone
+apscheduler

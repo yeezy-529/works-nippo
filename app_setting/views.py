@@ -24,22 +24,7 @@ def app_settingsViews(request):
             return redirect('app_settings')
         
         elif 'kintone_input' in request.POST:
-            number = kintone_input("工番",0)
-            name = kintone_input("品名",0)
-            deadline = kintone_input("納期",0)
-            today = datetime.datetime.today()
-            infoList = [[number[i] ,re.sub("\u3000","",name[i]) ,deadline[i]] for i in range(len(number)) if datetime.datetime.strptime(deadline[i], '%Y-%m-%d') >= today and number[i][0:2] == "FS"]
-            all_code = [i.matter_code for i in Matter_code.objects.all()]
-            for i in range(len(infoList)):
-                if not infoList[i][0] in all_code:
-                    l = Matter_code(
-                        matter_code=infoList[i][0],
-                        matter_name=infoList[i][1],
-                        matter_deadline=infoList[i][2],
-                        matter_displayinfo=0,
-                        )
-                    l.save()
-            return redirect('app_settings')
+            return matter_code_input()
         
         elif 'matter_para_save' in request.POST:
             i = kintone_setting_model.objects.get(id=1)
@@ -296,3 +281,22 @@ def kintone_input(fieldname,info):
         records = result.records
         value_list = [(record[fieldname]["value"]) for record in records]
         return value_list
+
+def matter_code_input():
+    number = kintone_input("工番",0)
+    name = kintone_input("品名",0)
+    deadline = kintone_input("納期",0)
+    today = datetime.datetime.today()
+    infoList = [[number[i] ,re.sub("\u3000","",name[i]) ,deadline[i]] for i in range(len(number)) if datetime.datetime.strptime(deadline[i], '%Y-%m-%d') >= today and number[i][0:2] == "FS"]
+    print(infoList)
+    all_code = [i.matter_code for i in Matter_code.objects.all()]
+    for i in range(len(infoList)):
+        if not infoList[i][0] in all_code:
+            l = Matter_code(
+                matter_code=infoList[i][0],
+                matter_name=infoList[i][1],
+                matter_deadline=infoList[i][2],
+                matter_displayinfo=0,
+                )
+            l.save()
+    return redirect('app_settings')

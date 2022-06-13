@@ -29,7 +29,7 @@ ul {padding: 0;}
 .top-item-date{
     padding: 5px 10px;
     height: 45px;
-    width: 160px;
+    width: 140px;
     border-radius: 15px;
     border: 3px dotted #000;
     vertical-align: top;
@@ -40,7 +40,10 @@ ul {padding: 0;}
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
-    width: 60%;
+    /* width: 100%; */
+    width: fit-content;
+    /* display: inline-block;
+	min-width: 100%; */
 }
 .top-item-button{
     width: 140px;
@@ -292,6 +295,12 @@ ul {padding: 0;}
         border-bottom: 3px dashed #000;
         margin: 0 auto;
     }
+    .top-item-box{
+        width: 250px;
+    }
+    .top-item-button{
+        width: 110px;
+    }
     .wrapper{
         width: 98%;
         }
@@ -299,11 +308,8 @@ ul {padding: 0;}
         display: inline-block;
     }
     .form_item{
-    font-size: 20px;
-    height: 50px;
-    }
-    .top-item-button{
-        width: 100px;
+        font-size: 20px;
+        height: 50px;
     }
     .button-register{
         width: 100%;

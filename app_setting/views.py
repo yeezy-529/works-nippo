@@ -28,8 +28,7 @@ def app_settingsViews(request):
             name = kintone_input("品名",0)
             deadline = kintone_input("納期",0)
             today = datetime.datetime.today()
-            infoList = [[number[i] ,re.sub("\u3000","",name[i]) ,deadline[i]] for i in range(len(number)) if datetime.datetime.strptime(deadline[0], '%Y-%m-%d') <= today]
-            print(infoList)
+            infoList = [[number[i] ,re.sub("\u3000","",name[i]) ,deadline[i]] for i in range(len(number)) if datetime.datetime.strptime(deadline[i], '%Y-%m-%d') >= today and number[i][0:2] == "FS"]
             all_code = [i.matter_code for i in Matter_code.objects.all()]
             for i in range(len(infoList)):
                 if not infoList[i][0] in all_code:

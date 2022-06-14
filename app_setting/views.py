@@ -42,17 +42,21 @@ def app_settingsViews(request):
             if objnum != number:
                 i.matter_update_number = number
                 i.save()
-            return return_fun(request)
+            return render('setting/app_settings.html',{"matter":matter_code("-")})
     elif request.method == 'GET':
         obj = Matter_code.objects.filter(matter_displayinfo = 0)
-        setting_obj = kintone_setting_model.objects.get(pk=1)
-        update_mode = int(setting_obj.matter_update_number)
-        auto_number = int(setting_obj.automation_update_mode)
-        
-        params = {
-            "auto_number":auto_number,
-            "update_mode":update_mode
-            }
+        try:
+            setting_obj = kintone_setting_model.objects.get(pk=1)
+            update_mode = int(setting_obj.matter_update_number)
+            auto_number = int(setting_obj.automation_update_mode)
+            
+            params = {
+                "auto_number":auto_number,
+                "update_mode":update_mode
+                }
+        except kintone_setting_model.DoesNotExist  or ValueError:
+            params = {}
+    
 
         today = datetime.date.today()
         for i in obj:
@@ -105,14 +109,19 @@ def app_settingsViews(request):
                     except IndentationError and TypeError:
                         pass
         """kintoneAPI取得"""
-        obj = kintone_setting_model.objects.get(pk=1)
-        item = {
-            "kintone_input_API":   obj.kintone_input_API,
-            "kintone_output_API":  obj.kintone_output_API,
-            "kintone_domain":      obj.kintone_domain,
-            "kintone_input_appID": obj.kintone_input_appID,
-            "kintone_output_appID":obj.kintone_output_appID,
-        }
+        try:
+            obj = kintone_setting_model.objects.get(pk=1)
+            item = {
+                "kintone_input_API":   obj.kintone_input_API,
+                "kintone_output_API":  obj.kintone_output_API,
+                "kintone_domain":      obj.kintone_domain,
+                "kintone_input_appID": obj.kintone_input_appID,
+                "kintone_output_appID":obj.kintone_output_appID,
+            }
+        except kintone_setting_model.DoesNotExist  or ValueError:
+            item = {}
+            pass
+
         form = kintone_setting_form(initial=item)            
         
         """作業区分 設定"""
@@ -222,7 +231,8 @@ def return_fun(requ):
     return render(requ, 'setting/app_settings.html',{"matter":matter_code("-")})
 
 def code_input(para,number,request):
-    code = request.POST.get(para)
+    code = request.POST.get(para)[0:7]
+    print(code)
     try:
         i = Matter_code.objects.get(matter_code = code)
         i.matter_displayinfo = number
@@ -247,16 +257,18 @@ def matter_code(kye = ""):
         "Value":i.matter_code,
         "Label":i.matter_code + " " + str(i.matter_name),
         "Deadline":i.matter_deadline}
-            for i in Matter_code.objects.filter(matter_displayinfo = 0).order_by(kye +'matter_code')]
+            for i in Matter_code.objects.filter(matter_displayinfo = 0).order_by(kye +'matter_code'
+            )]
 
     out_value =[{
         "Value":i.matter_code,
         "Label":i.matter_code + " " + str(i.matter_name),
-        "Deadline":i.matter_deadline} for i in Matter_code.objects.filter(matter_displayinfo = 1).order_by(kye +'matter_code')]
+        "Deadline":i.matter_deadline} for i in Matter_code.objects.filter(matter_displayinfo = 1).order_by(kye +'matter_code'
+        )]
 
     params = {
         "in_data":in_value,
-        "out_data":out_value
+        "out_data":out_value,
         }
     return params
 

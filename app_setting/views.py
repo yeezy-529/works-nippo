@@ -1,12 +1,12 @@
-from .forms import *
-from .models import *
-from account.models import *
-from django.shortcuts import render,redirect
-from django.contrib.auth.decorators import login_required
 import datetime
 import re
 import pykintone
+from django.shortcuts import render,redirect
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from account.models import *
+from .forms import *
+from .models import *
 # 工場設定画面
 # https://yura2.hateblo.jp/entry/2015/04/04/Django%E3%81%A7%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A0%E5%86%85%E3%81%A7%E3%82%AF%E3%83%AA%E3%83%83%E3%82%AF%E3%81%95%E3%82%8C%E3%81%9F%E3%83%9C%E3%82%BF%E3%83%B3%E3%81%AB%E3%82%88%E3%81%A3%E3%81%A6%E7%95%B0
 @login_required
@@ -24,23 +24,7 @@ def app_settingsViews(request):
             return redirect('app_settings')
         
         elif 'kintone_input' in request.POST:
-            number = kintone_input("工番",0)
-            name = kintone_input("品名",0)
-            deadline = kintone_input("納期",0)
-            today = datetime.datetime.today()
-            infoList = [[number[i] ,re.sub("\u3000","",name[i]) ,deadline[i]] for i in range(len(number)) if datetime.datetime.strptime(deadline[0], '%Y-%m-%d') <= today]
-            print(infoList)
-            all_code = [i.matter_code for i in Matter_code.objects.all()]
-            for i in range(len(infoList)):
-                if not infoList[i][0] in all_code:
-                    l = Matter_code(
-                        matter_code=infoList[i][0],
-                        matter_name=infoList[i][1],
-                        matter_deadline=infoList[i][2],
-                        matter_displayinfo=0,
-                        )
-                    l.save()
-            return redirect('app_settings')
+            return matter_code_input()
         
         elif 'matter_para_save' in request.POST:
             i = kintone_setting_model.objects.get(id=1)
@@ -58,17 +42,21 @@ def app_settingsViews(request):
             if objnum != number:
                 i.matter_update_number = number
                 i.save()
-            return return_fun(request)
+            return render('setting/app_settings.html',{"matter":matter_code("-")})
     elif request.method == 'GET':
         obj = Matter_code.objects.filter(matter_displayinfo = 0)
-        setting_obj = kintone_setting_model.objects.get(pk=1)
-        update_mode = int(setting_obj.matter_update_number)
-        auto_number = int(setting_obj.automation_update_mode)
-        
-        params = {
-            "auto_number":auto_number,
-            "update_mode":update_mode
-            }
+        try:
+            setting_obj = kintone_setting_model.objects.get(pk=1)
+            update_mode = int(setting_obj.matter_update_number)
+            auto_number = int(setting_obj.automation_update_mode)
+            
+            params = {
+                "auto_number":auto_number,
+                "update_mode":update_mode
+                }
+        except kintone_setting_model.DoesNotExist  or ValueError:
+            params = {}
+    
 
         today = datetime.date.today()
         for i in obj:
@@ -121,14 +109,19 @@ def app_settingsViews(request):
                     except IndentationError and TypeError:
                         pass
         """kintoneAPI取得"""
-        obj = kintone_setting_model.objects.get(pk=1)
-        item = {
-            "kintone_input_API":   obj.kintone_input_API,
-            "kintone_output_API":  obj.kintone_output_API,
-            "kintone_domain":      obj.kintone_domain,
-            "kintone_input_appID": obj.kintone_input_appID,
-            "kintone_output_appID":obj.kintone_output_appID,
-        }
+        try:
+            obj = kintone_setting_model.objects.get(pk=1)
+            item = {
+                "kintone_input_API":   obj.kintone_input_API,
+                "kintone_output_API":  obj.kintone_output_API,
+                "kintone_domain":      obj.kintone_domain,
+                "kintone_input_appID": obj.kintone_input_appID,
+                "kintone_output_appID":obj.kintone_output_appID,
+            }
+        except kintone_setting_model.DoesNotExist  or ValueError:
+            item = {}
+            pass
+
         form = kintone_setting_form(initial=item)            
         
         """作業区分 設定"""
@@ -238,7 +231,8 @@ def return_fun(requ):
     return render(requ, 'setting/app_settings.html',{"matter":matter_code("-")})
 
 def code_input(para,number,request):
-    code = request.POST.get(para)
+    code = request.POST.get(para)[0:7]
+    print(code)
     try:
         i = Matter_code.objects.get(matter_code = code)
         i.matter_displayinfo = number
@@ -263,16 +257,18 @@ def matter_code(kye = ""):
         "Value":i.matter_code,
         "Label":i.matter_code + " " + str(i.matter_name),
         "Deadline":i.matter_deadline}
-            for i in Matter_code.objects.filter(matter_displayinfo = 0).order_by(kye +'matter_code')]
+            for i in Matter_code.objects.filter(matter_displayinfo = 0).order_by(kye +'matter_code'
+            )]
 
     out_value =[{
         "Value":i.matter_code,
         "Label":i.matter_code + " " + str(i.matter_name),
-        "Deadline":i.matter_deadline} for i in Matter_code.objects.filter(matter_displayinfo = 1).order_by(kye +'matter_code')]
+        "Deadline":i.matter_deadline} for i in Matter_code.objects.filter(matter_displayinfo = 1).order_by(kye +'matter_code'
+        )]
 
     params = {
         "in_data":in_value,
-        "out_data":out_value
+        "out_data":out_value,
         }
     return params
 
@@ -297,3 +293,22 @@ def kintone_input(fieldname,info):
         records = result.records
         value_list = [(record[fieldname]["value"]) for record in records]
         return value_list
+
+def matter_code_input():
+    number = kintone_input("工番",0)
+    name = kintone_input("品名",0)
+    deadline = kintone_input("納期",0)
+    today = datetime.datetime.today()
+    infoList = [[number[i] ,re.sub("\u3000","",name[i]) ,deadline[i]] for i in range(len(number)) if datetime.datetime.strptime(deadline[i], '%Y-%m-%d') >= today and number[i][0:2] == "FS"]
+    print(infoList)
+    all_code = [i.matter_code for i in Matter_code.objects.all()]
+    for i in range(len(infoList)):
+        if not infoList[i][0] in all_code:
+            l = Matter_code(
+                matter_code=infoList[i][0],
+                matter_name=infoList[i][1],
+                matter_deadline=infoList[i][2],
+                matter_displayinfo=0,
+                )
+            l.save()
+    return redirect('app_settings')

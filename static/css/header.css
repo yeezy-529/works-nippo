@@ -35,8 +35,10 @@ p {
 }
 .user-name{
     padding: 0px 0 0 45px;
-    width: 40%;
+    /* width: 40%; */
     z-index: 1;
+    width: fit-content;
+
 }
 .user-dept{
     margin: 0 0 0 0;
@@ -44,7 +46,8 @@ p {
 }
 .nav-bar{
     height: 100%;
-    width: 60%;
+    width: fit-content;
+
 }
 .menu-nav-bar{
     /* メニューを縦に */
@@ -165,7 +168,6 @@ p {
         font-size: 25px;
     }
     .user-name{
-        width: 80%;
         padding-left: 10px;
     }
 }

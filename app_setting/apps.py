@@ -7,3 +7,12 @@ class AppSettingConfig(AppConfig):
 
     def ready(self):
         from . import signals
+        from .ap_scheduler import start
+        from .models import kintone_setting_model
+        try:
+            i = kintone_setting_model.objects.get(id=1)
+            if i.automation_update_mode == 1:
+                start()
+        except kintone_setting_model.DoesNotExist or ValueError:
+            pass
+        

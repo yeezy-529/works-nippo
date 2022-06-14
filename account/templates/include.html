@@ -1,8 +1,7 @@
-{% comment %} {% block js2 %}{% static 'js/header.js' %}{% endblock %} {% endcomment %}
 <header>
     <div class="user-name">
-        <p class="user-dept">{{ user.dept.dept }}</p>
-        <p>{{ user.last_name }} {{ user.fast_name }} 様</p>
+        <p class="user-dept">{{ user.area.area }} - {{ user.dept.dept }}</p>
+        <p>{{ user.last_name }} {{ user.first_name }} 様</p>
     </div>
     <nav class="nav-bar">
         <ul class="menu-nav-bar">

@@ -81,17 +81,35 @@ WSGI_APPLICATION = 'works_fukushin.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'works_nippo_database',
+        'USER': 'root',
+        'PASSWORD': 'a828036828036',
+        'HOST': '',
+        'POST': '3306',
+    }
+}
+# import dj_database_url
+# from dotenv import (
+#     find_dotenv,
+#     load_dotenv,
+# )
+# load_dotenv(find_dotenv())
+# DATABASES = {
+#     'default': dj_database_url.config(conn_max_age=600),
+# }
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-default_dburl = "sqlite:///" + str(BASE_DIR / "db.sqlite3")
-DATABASES = {
-    'default': config("DATABASE_URL", default=default_dburl, cast=dburl) 
-}
+# default_dburl = "sqlite:///" + str(BASE_DIR / "db.sqlite3")
+# DATABASES = {
+#     'default': config("DATABASE_URL", default=default_dburl, cast=dburl) 
+# }
 #         'ENGINE': 'django.db.backends.sqlite3',
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
@@ -154,7 +172,8 @@ SITE_ID = 1
 # ログイン・ログアウト時のリダイレクト先
 LOGIN_URL = '/login-home/'
 LOGIN_REDIRECT_URL = 'report'
-ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
+# LOGOUT_REDIRECT_URL = '/accounts/login/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/login-home/'
 
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
 

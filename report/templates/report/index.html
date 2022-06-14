@@ -39,7 +39,7 @@
       <form method="post"id="report-form"class="form-report border border-3 rounded-3 bg-white">
       {% csrf_token %}
         <div id="constr-add_row"class="get_class">
-          <input type="hidden" id="id_night_time_0" name="end_night_0"class="select_get_class"/>
+          <input type="hidden" id="id_night_time_0" name="end_night_0"class=""/>
           <input type="hidden" id="id_rows" name="rows"value="1"/>
           <input type="hidden" id="break_status"name="break_status" value="0"/>
           <input type="hidden" id="date_status"name="date_status" value="0"/>
@@ -70,18 +70,18 @@
             <div class="wapper">
               <div id="rows_wrapper">
                 <div id="rows_0" class="rows_contens">
-                  <input type="hidden" id="id_start_time_0" name="start_time_0"class="select_get_class"/>
-                  <input type="hidden" id="id_end_time_0" name="end_time_0"class="select_get_class"/>
+                  <input type="hidden" id="id_start_time_0" name="start_time_0"class=""/>
+                  <input type="hidden" id="id_end_time_0" name="end_time_0"class=""/>
                   <div id="id_row_number_class_0" class="row_number_class">
                     <p id="row_number_0">1</p>
                   </div>
                   <div id="row_date_0" class="get_class row_item1">
                     <label>日付</label>
-                    <input id="id_Reportdate_0" name="Reportdate_0" type="date" class="form_item rounded-pill form-control select_get_class date_select"disabled/>
+                    <input id="id_Reportdate_0" name="Reportdate_0" type="date" class="form_item rounded-pill form-control  date_select"disabled/>
                   </div>
                   <div id="row_matter_0" class="get_class row_item2">
                     <label>工事番号</label>
-                    <select name="constr_number_0" id="id_constr_number_0"  class="form_item rounded-pill form-control select_get_class"style="color: black;"onclick="selectChangeColor(this);" >
+                    <select name="constr_number_0" id="id_constr_number_0"  class="form_item rounded-pill form-control "style="color: black;"onclick="selectChangeColor(this);" >
                       <option value="">工番</option>
                       {% for Value in matter.matteOutValue %}
                         <option value={{ Value }}>
@@ -92,7 +92,7 @@
                   </div>
                   <div id="row_work_class_0" class="get_class row_item3">
                     <label>作業区分</label>
-                    <select name="work_class_0"id="id_work_class_0" onclick="selectChangeColor(this);" class="form_item rounded-pill form-control select_get_class" required>
+                    <select name="work_class_0"id="id_work_class_0" onclick="selectChangeColor(this);" class="form_item rounded-pill form-control " required>
                       <option value="">作業区分</option>
                       {% for Value in workclass %}
                       <option value={{ Value.contents }}>
@@ -103,7 +103,7 @@
                   </div>
                   <div id="row_work_contents_0" class="get_class row_item4">
                     <label>作業内容</label>
-                    <select name="work_contents_0"id="id_work_contents_0" onclick="selectChangeColor(this);" class="form_item rounded-pill form-control select_get_class" required>
+                    <select name="work_contents_0"id="id_work_contents_0" onclick="selectChangeColor(this);" class="form_item rounded-pill form-control " required>
                       <option value="">作業内容</option>
                       {% for Value in wark_content %}
                       <option value={{ Value.contents }}>
@@ -116,10 +116,10 @@
                     <label>開始時間</label>
                     <div id="start_time_itemchild_0" class="timerow">
                       <div id="start_time_itemGrandchild_h_0" class="col-md-6 time_contents">
-                          {{ form.rowstart_time_h_0|add_class:'form_item rounded-pill form-control select_get_class' }}
+                          {{ form.rowstart_time_h_0|add_class:'form_item rounded-pill form-control ' }}
                       </div>
                       <div id="start_time_itemGrandchild_m_0" class="col-md-6 time_contents">
-                          {{ form.rowstart_time_m_0|add_class:'form_item rounded-pill form-control select_get_class' }}
+                          {{ form.rowstart_time_m_0|add_class:'form_item rounded-pill form-control ' }}
                       </div>
                     </div>
                   </div>
@@ -127,10 +127,10 @@
                     <label>終了時間</label>
                     <div id="end_time_itemchild_0" class="timerow">
                       <div id="end_time_itemGrandchild_h_0" class="col-md-6 time_contents">
-                          {{ form.rowend_time_h_0|add_class:'form_item rounded-pill form-control select_get_class' }}
+                          {{ form.rowend_time_h_0|add_class:'form_item rounded-pill form-control ' }}
                       </div>
                       <div id="end_time_itemGrandchild_m_0" class="col-md-6 time_contents">
-                          {{ form.rowend_time_m_0|add_class:'form_item rounded-pill form-control select_get_class' }}
+                          {{ form.rowend_time_m_0|add_class:'form_item rounded-pill form-control ' }}
                       </div>
                     </div>
                   </div>
@@ -140,12 +140,12 @@
                         id="id_total_time_0"
                         name="total_time_0"
                         value=""
-                        class="form_item rounded-pill form-control id_class select_get_class"
+                        class="form_item rounded-pill form-control id_class "
                         readonly/>
                   </div>
                   <div id="row_break_time_0" class="get_class row_item8">
                     <label>休憩</label>
-                    <select id="id_break_time_0"name="break_time_0"onclick="func('break_time_0')"class="form_item rounded-pill form-control id_class select_get_class break_select" disabled>
+                    <select id="id_break_time_0"name="break_time_0"onclick="func('break_time_0')"class="form_item rounded-pill form-control id_class  break_select" disabled>
                       <option value="">休憩</option>
                       <option value="00">00</option>
                       <option value="10">10</option>

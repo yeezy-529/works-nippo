@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def signup(request):
     """サインアップビュー"""
+
     if not request.user.is_staff:
         return redirect('login-home')
 
@@ -22,6 +23,7 @@ def signup(request):
 @login_required
 def usersettingViews(request):
     """ユーザー設定画面"""
+    
     if request.method == 'POST':
         # 部署、エリア変更
         if 'user_save_button' in request.POST:
@@ -29,7 +31,9 @@ def usersettingViews(request):
             user_obj.area_id = request.POST.get("user_area")
             user_obj.dept_id = request.POST.get("user_dept")
             user_obj.save()
+        
         return redirect("user_setting")
+    
     elif request.method == 'GET':
         dept = User_Dept.objects.all()
         area = User_Area.objects.all()
@@ -52,21 +56,24 @@ def ajax_warkClass_add(request):
         obj.save()
         add_obj = UserWorkclass.objects.filter(user = request.user)
         obj_list = [i.contents for i in add_obj]
-        return JsonResponse({"obj_list":obj_list})
-    else:
-        return JsonResponse({"obj_list":obj_list})
+    
+    return JsonResponse({"obj_list":obj_list})
+    # else:
+    #     return JsonResponse({"obj_list":obj_list})
 
 def ajax_warkClass_del(request):
     """ユーザー作業区分 削除"""
     js_workclass = request.POST.get("work_class")
     add_obj = UserWorkclass.objects.filter(user = request.user)
     obj_list = [i.contents for i in add_obj]
+    
     if not js_workclass == "":
         js_workclass = request.POST.get("work_class")
         obj = UserWorkclass.objects.filter(user = request.user, contents = js_workclass)
         obj.delete()
         add_obj = UserWorkclass.objects.filter(user = request.user)
         obj_list = [i.contents for i in add_obj]
-        return JsonResponse({"obj_list":obj_list})
-    else:
-        return JsonResponse({"obj_list":obj_list})
+    
+    return JsonResponse({"obj_list":obj_list})
+    # else:
+    #     return JsonResponse({"obj_list":obj_list})
